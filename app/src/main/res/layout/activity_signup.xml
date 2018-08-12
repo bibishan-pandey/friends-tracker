@@ -4,37 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SigninActivity">
+    tools:context=".SignupActivity">
 
     <EditText
-        android:id="@+id/editText_email_signin"
+        android:id="@+id/editText_email_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="97dp"
         android:ems="10"
         android:hint="Enter email"
         android:inputType="textEmailAddress" />
 
-    <EditText
-        android:id="@+id/editText_password_signin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="139dp"
-        android:ems="10"
-        android:hint="Enter password"
-        android:inputType="textPassword" />
-
     <Button
-        android:id="@+id/button_signin"
+        android:id="@+id/button_next_email_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="211dp"
-        android:onClick="signIn"
-        android:text="SIGN IN" />
+        android:layout_weight="1"
+        android:onClick="goToPasswordActivity"
+        android:text="Next" />
 </RelativeLayout>

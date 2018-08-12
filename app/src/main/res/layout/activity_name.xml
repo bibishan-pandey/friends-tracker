@@ -4,37 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SigninActivity">
+    tools:context=".NameActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageView"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:onClick="selectImage"
+        android:src="@drawable/default_profile" />
 
     <EditText
-        android:id="@+id/editText_email_signin"
+        android:id="@+id/editText_name_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="169dp"
         android:ems="10"
-        android:hint="Enter email"
-        android:inputType="textEmailAddress" />
-
-    <EditText
-        android:id="@+id/editText_password_signin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="139dp"
-        android:ems="10"
-        android:hint="Enter password"
-        android:inputType="textPassword" />
+        android:hint="Enter name"
+        android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/button_signin"
+        android:id="@+id/button_next_name_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="211dp"
-        android:onClick="signIn"
-        android:text="SIGN IN" />
+        android:layout_marginTop="237dp"
+        android:onClick="generateCode"
+        android:text="Next" />
 </RelativeLayout>
