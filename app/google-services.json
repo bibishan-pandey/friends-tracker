@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "151705733879",
+    "firebase_url": "https://people-tracker-211514.firebaseio.com",
+    "project_id": "people-tracker-211514",
+    "storage_bucket": "people-tracker-211514.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151705733879:android:22a287b12801e05a",
+        "android_client_info": {
+          "package_name": "com.project.natsu_dragneel.people_tracker_android_java"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "151705733879-ck8js64t7gdtoqfib8l5127e7cgv02mp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.natsu_dragneel.people_tracker_android_java",
+            "certificate_hash": "ad99ab0dbf55c175be3e3bfc1d6ab76e41b1749d"
+          }
+        },
+        {
+          "client_id": "151705733879-33b914t9gcmcjvg8trkt92lfs0jbaa6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLCR8BqM1hxZRqxH9jVD0aKFzkYvKrAbc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "151705733879-33b914t9gcmcjvg8trkt92lfs0jbaa6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
