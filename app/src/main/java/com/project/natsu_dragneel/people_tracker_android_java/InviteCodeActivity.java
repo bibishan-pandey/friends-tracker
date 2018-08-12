@@ -68,7 +68,6 @@ public class InviteCodeActivity extends AppCompatActivity {
                                             if(task.isSuccessful()){
                                                 dialog.dismiss();
                                                 Toast.makeText(getApplicationContext(),"Registration successful",Toast.LENGTH_LONG).show();
-                                                finish();
                                                 Intent myIntent=new Intent(InviteCodeActivity.this,NavigationActivity.class);
                                                 startActivity(myIntent);
                                             }
@@ -78,6 +77,7 @@ public class InviteCodeActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
+                            finish();
                         }
                     }
                 });

@@ -13,10 +13,6 @@
     tools:context=".NavigationActivity"
     tools:showIn="@layout/app_bar_navigation">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:gravity="center"/>
+
 
 </RelativeLayout>

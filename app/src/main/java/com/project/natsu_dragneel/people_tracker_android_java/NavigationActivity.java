@@ -45,7 +45,22 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id=menuItem.getItemId();
-        if(id==R.id.nav_signOut){
+        if(id==R.id.nav_joinCircle){
+
+        }
+        else if(id==R.id.nav_myCircle){
+
+        }
+        else if(id==R.id.nav_joinedCircle){
+
+        }
+        else if(id==R.id.nav_inviteMembers){
+
+        }
+        else if(id==R.id.nav_shareLocation){
+
+        }
+        else if(id==R.id.nav_signOut){
             auth.signOut();
             Intent intent=new Intent(NavigationActivity.this,MainActivity.class);
             startActivity(intent);

@@ -4,18 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
     tools:context=".MainActivity">
-
-
-    <Button
-        android:id="@+id/button_signup_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="18dp"
-        android:onClick="goToSignUp"
-        android:text="SIGN UP" />
 
     <Button
         android:id="@+id/button_signin_nav"
@@ -23,7 +14,42 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="87dp"
+        android:layout_marginBottom="75dp"
+        android:background="@android:color/holo_green_light"
         android:onClick="goToSignIn"
-        android:text="SIGN IN" />
+        android:text="SIGN IN"
+        android:textColor="@android:color/background_light" />
+
+    <Button
+        android:id="@+id/button_signup_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="14dp"
+        android:background="@android:color/holo_blue_dark"
+        android:onClick="goToSignUp"
+        android:text="SIGN UP"
+        android:textColor="@android:color/background_light" />
+
+    <ImageView
+        android:id="@+id/imageView_main"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="140dp"
+        android:text="PEOPLE TRACKER"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
 </RelativeLayout>

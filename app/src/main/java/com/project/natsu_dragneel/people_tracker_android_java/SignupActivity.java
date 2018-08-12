@@ -27,33 +27,38 @@ public class SignupActivity extends Activity {
         setContentView(R.layout.activity_signup);
 
         e4=(EditText)findViewById(R.id.editText_email_signup);
-        auth=FirebaseAuth.getInstance();
-        dialog=new ProgressDialog(this);
+        auth = FirebaseAuth.getInstance();
+        dialog = new ProgressDialog(this);
     }
 
     public void goToPasswordActivity(View v){
-        dialog.setMessage("Please wait...");
-        dialog.show();
-        auth.fetchSignInMethodsForEmail(e4.getText().toString())
-                .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                        if(task.isSuccessful()){
-                            dialog.dismiss();
-                            boolean check_email_exists=!task.getResult().getSignInMethods().isEmpty();
-                            if(!check_email_exists){
-                                Intent myIntent=new Intent(SignupActivity.this,PasswordActivity.class);
-                                myIntent.putExtra("Email",e4.getText().toString());
-                                startActivity(myIntent);
-                                finish();
-                            }
-                            else{
+        if(e4.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(),"Email is required",Toast.LENGTH_LONG).show();
+        }
+        else{
+            dialog.setMessage("Please wait...");
+            dialog.show();
+            auth.fetchSignInMethodsForEmail(e4.getText().toString())
+                    .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                            if(task.isSuccessful()){
                                 dialog.dismiss();
-                                Toast.makeText(getApplicationContext(),"Email Exists",Toast.LENGTH_LONG).show();
+                                boolean check_email_exists=!task.getResult().getSignInMethods().isEmpty();
+                                if(!check_email_exists){
+                                    Intent myIntent=new Intent(SignupActivity.this,PasswordActivity.class);
+                                    myIntent.putExtra("Email",e4.getText().toString());
+                                    startActivity(myIntent);
+                                    finish();
+                                }
+                                else{
+                                    dialog.dismiss();
+                                    Toast.makeText(getApplicationContext(),"Email Exists",Toast.LENGTH_LONG).show();
+                                }
                             }
                         }
-                    }
-                });
+                    });
+        }
     }
 
 }

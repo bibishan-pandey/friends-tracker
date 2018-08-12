@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
     tools:context=".InviteCodeActivity">
 
     <TextView
@@ -13,27 +15,31 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="259dp"
-        android:text="XOXOXO"
+        android:text="XXXXXX"
+        android:textColor="@android:color/background_dark"
         android:textSize="30sp"
         android:textStyle="bold" />
 
     <TextView
-        android:layout_width="344dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="232dp"
-        android:text="TextView"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="77dp"
+        android:text="Save this code. You will need it to invite friends."
         android:textAlignment="center"
-        tools:text="Save this code. You will need it to invite friends." />
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/button_register"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="163dp"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:background="@android:color/holo_purple"
         android:onClick="registerUser"
-        android:text="Register" />
+        android:text="Register"
+        android:textColor="@android:color/background_light" />
 </RelativeLayout>
