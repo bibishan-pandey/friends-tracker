@@ -59,6 +59,7 @@ public class NameActivity extends Activity {
             myIntent.putExtra("Code",code);
             myIntent.putExtra("ImageURI",resultURI);
             startActivity(myIntent);
+            finish();
         }
         else{
             Toast.makeText(getApplicationContext(),"Please choose an image",Toast.LENGTH_LONG).show();

@@ -29,6 +29,7 @@ public class PasswordActivity extends Activity {
             myIntent.putExtra("Email",email);
             myIntent.putExtra("Password",e5_password.getText().toString());
             startActivity(myIntent);
+            finish();
         }
         else{
             Toast.makeText(getApplicationContext(),"Password must be more than 8 characters long",Toast.LENGTH_LONG).show();

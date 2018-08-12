@@ -47,6 +47,7 @@ public class SignupActivity extends Activity {
                                 Intent myIntent=new Intent(SignupActivity.this,PasswordActivity.class);
                                 myIntent.putExtra("Email",e4.getText().toString());
                                 startActivity(myIntent);
+                                finish();
                             }
                             else{
                                 dialog.dismiss();
