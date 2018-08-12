@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class PasswordActivity extends Activity {
-
     String email;
     EditText e5_password;
     @Override
@@ -24,7 +23,7 @@ public class PasswordActivity extends Activity {
     }
 
     public void goToNamePickActivity(View v){
-        if(e5_password.getText().toString().length()>8){
+        if(e5_password.getText().toString().length()>7){
             Intent myIntent=new Intent(PasswordActivity.this,NameActivity.class);
             myIntent.putExtra("Email",email);
             myIntent.putExtra("Password",e5_password.getText().toString());
@@ -32,7 +31,7 @@ public class PasswordActivity extends Activity {
             finish();
         }
         else{
-            Toast.makeText(getApplicationContext(),"Password must be more than 8 characters long",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Password must be at least 8 characters long",Toast.LENGTH_LONG).show();
         }
     }
 

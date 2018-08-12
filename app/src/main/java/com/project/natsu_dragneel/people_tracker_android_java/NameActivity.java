@@ -19,10 +19,8 @@ import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NameActivity extends Activity {
-
     String email;
     String password;
-
     Uri resultURI;
     EditText e6_name;
     CircleImageView circleImageView;
@@ -30,10 +28,8 @@ public class NameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_name);
-
         e6_name=(EditText)findViewById(R.id.editText_name_signup);
         circleImageView=(CircleImageView)findViewById(R.id.circleImageView);
-
         Intent myIntent=getIntent();
         if(myIntent!=null){
             email=myIntent.getStringExtra("Email");
@@ -49,7 +45,6 @@ public class NameActivity extends Activity {
         int n=100000+r.nextInt(900000);
         String code=String.valueOf(n);
         if(resultURI!=null){
-            //name,email,password,date,code,sharinglocation
             Intent myIntent=new Intent(NameActivity.this,InviteCodeActivity.class);
             myIntent.putExtra("Name",e6_name.getText().toString());
             myIntent.putExtra("Email",email);
@@ -62,7 +57,7 @@ public class NameActivity extends Activity {
             finish();
         }
         else{
-            Toast.makeText(getApplicationContext(),"Please choose an image",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Choose profile picture",Toast.LENGTH_LONG).show();
         }
     }
 

@@ -32,8 +32,7 @@ public class SignupActivity extends Activity {
     }
 
     public void goToPasswordActivity(View v){
-        //check if email is already registered
-        dialog.setMessage("Checking email address");
+        dialog.setMessage("Please wait...");
         dialog.show();
         auth.fetchSignInMethodsForEmail(e4.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
@@ -43,7 +42,6 @@ public class SignupActivity extends Activity {
                             dialog.dismiss();
                             boolean check_email_exists=!task.getResult().getSignInMethods().isEmpty();
                             if(!check_email_exists){
-                                //email doesnot exists
                                 Intent myIntent=new Intent(SignupActivity.this,PasswordActivity.class);
                                 myIntent.putExtra("Email",e4.getText().toString());
                                 startActivity(myIntent);
@@ -51,7 +49,7 @@ public class SignupActivity extends Activity {
                             }
                             else{
                                 dialog.dismiss();
-                                Toast.makeText(getApplicationContext(),"This Email is already regstered",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"Email Exists",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
