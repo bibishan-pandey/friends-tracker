@@ -15,37 +15,56 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SigninActivity extends Activity {
+
+    final String please_wait="Please wait...";
+    final String successful="Sign in successful";
+    final String invalid_input="Invalid input";
+    final String field_required="Fields are empty";
     FirebaseAuth auth;
-    EditText e1,e2;
+    EditText editText_email_signin;
+    EditText editText_password_signin;
     ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-        e1=(EditText)findViewById(R.id.editText_email_signin);
-        e2=(EditText)findViewById(R.id.editText_password_signin);
+        interface_builder();
+    }
+
+    public void interface_builder(){
+        editText_email_signin=(EditText)findViewById(R.id.editText_email_signin);
+        editText_password_signin=(EditText)findViewById(R.id.editText_password_signin);
         auth=FirebaseAuth.getInstance();
         dialog=new ProgressDialog(this);
     }
 
-    public void signIn(View v){
-        dialog.setMessage("Please wait...");
+    public void sign_in_method(View v){
+        if(editText_email_signin.getText().toString().isEmpty() || editText_password_signin.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(),field_required,Toast.LENGTH_LONG).show();
+        }
+        else{
+            validate_email_password();
+        }
+    }
+
+    public void validate_email_password(){
+        dialog.setMessage(please_wait);
         dialog.show();
-        auth.signInWithEmailAndPassword(e1.getText().toString(),e2.getText().toString())
+        auth.signInWithEmailAndPassword(editText_email_signin.getText().toString(),editText_password_signin.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             dialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Sign In Successful",Toast.LENGTH_LONG).show();
-                            Intent myIntent=new Intent(SigninActivity.this,NavigationActivity.class);
-                            startActivity(myIntent);
+                            Toast.makeText(getApplicationContext(),successful,Toast.LENGTH_LONG).show();
+                            Intent intent=new Intent(SigninActivity.this,NavigationActivity.class);
+                            startActivity(intent);
                             finish();
                         }
                         else{
                             dialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Invalid Input",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),invalid_input,Toast.LENGTH_LONG).show();
                         }
                     }
                 });

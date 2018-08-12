@@ -6,29 +6,33 @@
     android:layout_height="match_parent"
     android:layout_marginEnd="@dimen/activity_horizontal_margin"
     android:layout_marginStart="@dimen/activity_horizontal_margin"
-    tools:context=".NameActivity">
+    tools:context=".SignupNameActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleImageView"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:onClick="selectImage"
-        android:src="@drawable/default_profile" />
+        android:onClick="select_image"
+        android:src="@drawable/icon_profile" />
 
-    <EditText
-        android:id="@+id/editText_name_signup"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="160dp"
-        android:ems="10"
-        android:hint="Enter name"
-        android:imeOptions="actionDone"
-        android:inputType="textPersonName" />
+        android:layout_centerVertical="true">
+
+        <EditText
+            android:id="@+id/editText_name_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter name"
+            android:imeOptions="actionDone"
+            android:inputType="textPersonName" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/button_next_name_signup"
@@ -38,7 +42,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:background="@android:color/holo_purple"
-        android:onClick="generateCode"
+        android:onClick="generate_code"
         android:text="Next"
         android:textColor="@android:color/background_light" />
 </RelativeLayout>

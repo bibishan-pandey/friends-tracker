@@ -18,26 +18,34 @@ import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class NameActivity extends Activity {
+public class SignupNameActivity extends Activity {
+
     String email;
     String password;
+    final String choose_profile_pic="Choose profile picture";
     Uri resultURI;
-    EditText e6_name;
+    EditText editText_name_signup;
     CircleImageView circleImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_name);
-        e6_name=(EditText)findViewById(R.id.editText_name_signup);
+        setContentView(R.layout.activity_signup_name);
+        interface_builder();
+    }
+
+    public void interface_builder(){
+        editText_name_signup=(EditText)findViewById(R.id.editText_name_signup);
+
         circleImageView=(CircleImageView)findViewById(R.id.circleImageView);
-        Intent myIntent=getIntent();
-        if(myIntent!=null){
-            email=myIntent.getStringExtra("Email");
-            password=myIntent.getStringExtra("Password");
+        Intent intent=getIntent();
+        if(intent!=null){
+            email=intent.getStringExtra("Email");
+            password=intent.getStringExtra("Password");
         }
     }
 
-    public void generateCode(View v){
+    public void generate_code(View v){
         Date myDate=new Date();
         SimpleDateFormat format1=new SimpleDateFormat("yyyy-mm-dd hh:mm:ss a", Locale.getDefault());
         String date=format1.format(myDate);
@@ -45,8 +53,8 @@ public class NameActivity extends Activity {
         int n=100000+r.nextInt(900000);
         String code=String.valueOf(n);
         if(resultURI!=null){
-            Intent myIntent=new Intent(NameActivity.this,InviteCodeActivity.class);
-            myIntent.putExtra("Name",e6_name.getText().toString());
+            Intent myIntent=new Intent(SignupNameActivity.this,SignupInviteCodeActivity.class);
+            myIntent.putExtra("Name",editText_name_signup.getText().toString());
             myIntent.putExtra("Email",email);
             myIntent.putExtra("Password",password);
             myIntent.putExtra("Date",date);
@@ -57,11 +65,11 @@ public class NameActivity extends Activity {
             finish();
         }
         else{
-            Toast.makeText(getApplicationContext(),"Choose profile picture",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),choose_profile_pic,Toast.LENGTH_LONG).show();
         }
     }
 
-    public void selectImage(View v){
+    public void select_image(View v){
         Intent i=new Intent();
         i.setAction(Intent.ACTION_GET_CONTENT);
         i.setType("image/*");
@@ -70,20 +78,26 @@ public class NameActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==12&&resultCode==RESULT_OK&&data!=null){
+        if(requestCode==12 && resultCode==RESULT_OK && data!=null){
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1,1)
                     .start(this);
         }
+
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                resultURI = result.getUri();
-                circleImageView.setImageURI(resultURI);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
+            crop_image(requestCode,resultCode,data);
+        }
+    }
+
+    private void crop_image(int requestCode, int resultCode, Intent data) {
+        CropImage.ActivityResult result = CropImage.getActivityResult(data);
+        if (resultCode == RESULT_OK) {
+            resultURI = result.getUri();
+            circleImageView.setImageURI(resultURI);
+        }
+        else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            Exception error = result.getError();
         }
     }
 }
