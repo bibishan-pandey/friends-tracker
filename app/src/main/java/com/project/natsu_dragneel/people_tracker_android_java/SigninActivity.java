@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SigninActivity extends Activity {
 
@@ -20,7 +21,10 @@ public class SigninActivity extends Activity {
     final String successful="Sign in successful";
     final String invalid_input="Invalid input";
     final String field_required="Fields are empty";
+    final String email_error="Email is not verified";
+
     FirebaseAuth auth;
+    FirebaseUser user;
     EditText editText_email_signin;
     EditText editText_password_signin;
     ProgressDialog dialog;
@@ -57,10 +61,18 @@ public class SigninActivity extends Activity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             dialog.dismiss();
-                            Toast.makeText(getApplicationContext(),successful,Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(SigninActivity.this,UserLocationMainActivity.class);
-                            startActivity(intent);
-                            finish();
+
+                            user=auth.getCurrentUser();
+                            if(user.isEmailVerified()){
+                                Toast.makeText(getApplicationContext(),successful,Toast.LENGTH_LONG).show();
+                                Intent intent=new Intent(SigninActivity.this,UserLocationMainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),email_error,Toast.LENGTH_LONG).show();
+                            }
+
                         }
                         else{
                             dialog.dismiss();

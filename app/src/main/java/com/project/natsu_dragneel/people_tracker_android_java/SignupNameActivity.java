@@ -1,5 +1,6 @@
 package com.project.natsu_dragneel.people_tracker_android_java;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,9 +24,11 @@ public class SignupNameActivity extends Activity {
     String email;
     String password;
     final String choose_profile_pic="Choose profile picture";
+    final String please_wait="Please wait...";
     Uri resultURI;
     EditText editText_name_signup;
     CircleImageView circleImageView;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class SignupNameActivity extends Activity {
         editText_name_signup=(EditText)findViewById(R.id.editText_name_signup);
 
         circleImageView=(CircleImageView)findViewById(R.id.circleImageView);
+        dialog = new ProgressDialog(this);
         Intent intent=getIntent();
         if(intent!=null){
             email=intent.getStringExtra("Email");
@@ -46,6 +50,8 @@ public class SignupNameActivity extends Activity {
     }
 
     public void generate_code(View v){
+        dialog.setMessage(please_wait);
+        dialog.show();
         Date date_value=new Date();
         SimpleDateFormat date_format=new SimpleDateFormat("yyyy-mm-dd hh:mm:ss a", Locale.getDefault());
         String date=date_format.format(date_value);
@@ -61,6 +67,7 @@ public class SignupNameActivity extends Activity {
             intent.putExtra("isSharing","false");
             intent.putExtra("Code",code);
             intent.putExtra("ImageURI",resultURI);
+            dialog.dismiss();
             startActivity(intent);
             finish();
         }
