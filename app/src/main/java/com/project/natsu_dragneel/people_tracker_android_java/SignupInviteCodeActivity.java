@@ -93,11 +93,9 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
     }
 
     public void register_method(){
-        CreateUser createUser = new CreateUser(name,email,password,code,"false","n/a","n/a","n/a");
-        user = auth
-                .getCurrentUser();
-        userId = user
-                .getUid();
+        user = auth.getCurrentUser();
+        CreateUser createUser = new CreateUser(name,email,password,code,"false","n/a","n/a","n/a",user.getUid());
+        userId = user.getUid();
         reference
                 .child(userId)
                 .setValue(createUser)

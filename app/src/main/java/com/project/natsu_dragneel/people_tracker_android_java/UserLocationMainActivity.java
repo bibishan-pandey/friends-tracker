@@ -20,6 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -36,6 +38,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class UserLocationMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
@@ -47,6 +55,10 @@ public class UserLocationMainActivity extends AppCompatActivity
     final String no_location="Could not get location";
     final String current_location="Current location";
 
+    String current_user_name;
+    String current_user_email;
+    String current_user_imageURL;
+
     GoogleMap mMap;
     FirebaseAuth auth;
     FirebaseUser user;
@@ -54,7 +66,16 @@ public class UserLocationMainActivity extends AppCompatActivity
     GoogleApiClient client;
     LocationRequest request;
 
+    DatabaseReference databaseReference;
+
     LatLng latLng;
+
+    View header;
+
+    TextView textView_title_name;
+    TextView textView_title_email;
+
+    ImageView imageView_user_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +85,7 @@ public class UserLocationMainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         auth = FirebaseAuth.getInstance();
+        user=auth.getCurrentUser();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -77,6 +99,30 @@ public class UserLocationMainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        header=navigationView.getHeaderView(0);
+        textView_title_name=header.findViewById(R.id.textView_title_name);
+        textView_title_email=header.findViewById(R.id.textView_title_email);
+        imageView_user_image=header.findViewById(R.id.imageView_user_image);
+
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("Users");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                current_user_name=dataSnapshot.child(user.getUid()).child("name").getValue(String.class);
+                current_user_email=dataSnapshot.child(user.getUid()).child("email").getValue(String.class);
+                current_user_imageURL=dataSnapshot.child(user.getUid()).child("imageURL").getValue(String.class);
+
+                textView_title_name.setText(current_user_name);
+                textView_title_email.setText(current_user_email);
+                Picasso.get().load(current_user_imageURL).into(imageView_user_image);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -117,7 +163,8 @@ public class UserLocationMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_joinCircle) {
-
+            Intent intent=new Intent(UserLocationMainActivity.this,JoinCirlceActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_myCircle) {
 
         } else if (id == R.id.nav_joinedCircle) {
@@ -125,9 +172,25 @@ public class UserLocationMainActivity extends AppCompatActivity
         } else if (id == R.id.nav_inviteMembers) {
 
         } else if (id == R.id.nav_shareLocation) {
+            Intent i=new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_TEXT,"My location is :"+"https://www.google.com/maps/@"+latLng.latitude+","+latLng.longitude+",17z");
+            startActivity(Intent.createChooser(i,"Share using: "));
 
+            /*
+            Double latitude = latLng.latitude;
+            Double longitude = latLng.longitude;
+
+            String uri = "http://maps.google.com/maps?saddr=" +latitude+","+longitude;
+
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            String ShareSub = "Here is my location";
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, ShareSub);
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, uri);
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));*/
         } else if (id == R.id.nav_signOut) {
-            user = auth.getCurrentUser();
+            //user = auth.getCurrentUser();
             if (user != null) {
                 auth.signOut();
                 Intent intent = new Intent(UserLocationMainActivity.this, AccountMainActivity.class);
