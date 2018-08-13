@@ -58,7 +58,7 @@ public class SigninActivity extends Activity {
                         if(task.isSuccessful()){
                             dialog.dismiss();
                             Toast.makeText(getApplicationContext(),successful,Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(SigninActivity.this,NavigationActivity.class);
+                            Intent intent=new Intent(SigninActivity.this,UserLocationMainActivity.class);
                             startActivity(intent);
                             finish();
                         }

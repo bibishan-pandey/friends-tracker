@@ -86,7 +86,7 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             dialog.dismiss();
                             Toast.makeText(getApplicationContext(),registration_success,Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(SignupInviteCodeActivity.this,NavigationActivity.class);
+                            Intent intent=new Intent(SignupInviteCodeActivity.this,UserLocationMainActivity.class);
                             startActivity(intent);
                         }
                         else{
