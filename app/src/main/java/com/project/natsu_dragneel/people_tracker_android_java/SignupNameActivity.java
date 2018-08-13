@@ -46,22 +46,22 @@ public class SignupNameActivity extends Activity {
     }
 
     public void generate_code(View v){
-        Date myDate=new Date();
-        SimpleDateFormat format1=new SimpleDateFormat("yyyy-mm-dd hh:mm:ss a", Locale.getDefault());
-        String date=format1.format(myDate);
+        Date date_value=new Date();
+        SimpleDateFormat date_format=new SimpleDateFormat("yyyy-mm-dd hh:mm:ss a", Locale.getDefault());
+        String date=date_format.format(date_value);
         Random r=new Random();
         int n=100000+r.nextInt(900000);
         String code=String.valueOf(n);
         if(resultURI!=null){
-            Intent myIntent=new Intent(SignupNameActivity.this,SignupInviteCodeActivity.class);
-            myIntent.putExtra("Name",editText_name_signup.getText().toString());
-            myIntent.putExtra("Email",email);
-            myIntent.putExtra("Password",password);
-            myIntent.putExtra("Date",date);
-            myIntent.putExtra("isSharing","false");
-            myIntent.putExtra("Code",code);
-            myIntent.putExtra("ImageURI",resultURI);
-            startActivity(myIntent);
+            Intent intent=new Intent(SignupNameActivity.this,SignupInviteCodeActivity.class);
+            intent.putExtra("Name",editText_name_signup.getText().toString());
+            intent.putExtra("Email",email);
+            intent.putExtra("Password",password);
+            intent.putExtra("Date",date);
+            intent.putExtra("isSharing","false");
+            intent.putExtra("Code",code);
+            intent.putExtra("ImageURI",resultURI);
+            startActivity(intent);
             finish();
         }
         else{
@@ -79,18 +79,19 @@ public class SignupNameActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode==12 && resultCode==RESULT_OK && data!=null){
-            CropImage.activity()
+            CropImage
+                    .activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1,1)
                     .start(this);
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            crop_image(requestCode,resultCode,data);
+            crop_image(resultCode,data);
         }
     }
 
-    private void crop_image(int requestCode, int resultCode, Intent data) {
+    private void crop_image(int resultCode, Intent data) {
         CropImage.ActivityResult result = CropImage.getActivityResult(data);
         if (resultCode == RESULT_OK) {
             resultURI = result.getUri();

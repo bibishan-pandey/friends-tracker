@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_marginEnd="@dimen/activity_horizontal_margin"
     android:layout_marginStart="@dimen/activity_horizontal_margin"
     tools:context=".SignupNameActivity">
@@ -45,4 +47,14 @@
         android:onClick="generate_code"
         android:text="Next"
         android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="79dp"
+        android:text="Click on the icon to add profile picture."
+        android:textAlignment="center"
+        android:textColor="@android:color/darker_gray" />
 </RelativeLayout>
