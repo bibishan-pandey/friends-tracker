@@ -27,8 +27,17 @@ public class SignupEmailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //finish();
         setContentView(R.layout.activity_signup_email);
         interface_builder();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(SignupEmailActivity.this,AccountMainActivity.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 
     public void interface_builder(){

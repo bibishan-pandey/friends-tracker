@@ -32,8 +32,17 @@ public class SigninActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //finish();
         setContentView(R.layout.activity_signin);
         interface_builder();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(SigninActivity.this,AccountMainActivity.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 
     public void interface_builder(){

@@ -2,15 +2,12 @@ package com.project.natsu_dragneel.people_tracker_android_java;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.karan.churi.PermissionManager.PermissionManager;
@@ -74,10 +71,12 @@ public class AccountMainActivity extends AppCompatActivity {
     public void sign_in(View v){
         Intent myIntent=new Intent(AccountMainActivity.this,SigninActivity.class);
         startActivity(myIntent);
+        finish();
     }
 
     public void sign_up(View v){
         Intent myIntent=new Intent(AccountMainActivity.this,SignupEmailActivity.class);
         startActivity(myIntent);
+        finish();
     }
 }
