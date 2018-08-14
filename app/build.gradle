@@ -11,9 +11,19 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+    signingConfigs {
+        release {
+            storeFile file("people_tracker_key.jks")
+            storePassword "people_tracker_key"
+            keyAlias "people_tracker_key"
+            keyPassword "people_tracker_key"
+        }
+    }
     buildTypes {
         release {
+            zipAlignEnabled true
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

@@ -69,6 +69,7 @@ public class JoinCirlceActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             Toast.makeText(getApplicationContext(),"User joined circle successfully",Toast.LENGTH_LONG).show();
+                                            finish();
                                         }
                                     }
                                 });
@@ -81,7 +82,8 @@ public class JoinCirlceActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(getApplicationContext(),"Operation cancelled",Toast.LENGTH_LONG).show();
+                finish();
             }
         });
     }
