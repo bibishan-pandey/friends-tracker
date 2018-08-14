@@ -1,9 +1,9 @@
 package com.project.natsu_dragneel.people_tracker_android_java;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
@@ -29,13 +29,37 @@ public class SigninActivity extends Activity {
     EditText editText_password_signin;
     ProgressDialog dialog;
 
+    //private static final String TAG = "UserLocationMainActivity";
+    //private  static final int ERROR_DIALOG_REQUEST=9001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //finish();
         setContentView(R.layout.activity_signin);
         interface_builder();
     }
+
+    /*
+    @SuppressLint("LongLogTag")
+    public boolean isServicesOK() {
+        Log.d(TAG, "isServicesOK: checking google services version");
+        int available= GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(SigninActivity.this);
+        if(available== ConnectionResult.SUCCESS){
+            Log.d(TAG,"isServicesOK: Google Play Services is working");
+            return true;
+        }
+        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            Log.d(TAG, "isServicesOK: an error occured but we can fix it");
+            Dialog dialog=GoogleApiAvailability.getInstance().getErrorDialog(SigninActivity.this,available,ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"We cannot make map requests",Toast.LENGTH_LONG).show();
+        }
+        return false;
+    }
+    */
+
 
     @Override
     public void onBackPressed() {
@@ -57,7 +81,9 @@ public class SigninActivity extends Activity {
             Toast.makeText(getApplicationContext(),field_required,Toast.LENGTH_LONG).show();
         }
         else{
-            validate_email_password();
+            //if(isServicesOK()){
+                validate_email_password();
+            //}
         }
     }
 
@@ -81,7 +107,6 @@ public class SigninActivity extends Activity {
                             else{
                                 Toast.makeText(getApplicationContext(),email_error,Toast.LENGTH_LONG).show();
                             }
-
                         }
                         else{
                             dialog.dismiss();
