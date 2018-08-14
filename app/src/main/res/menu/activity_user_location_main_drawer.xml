@@ -4,21 +4,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_joinCircle"
+            android:icon="@drawable/icon_join_circle"
             android:title="Join Circle"/>
         <item
             android:id="@+id/nav_myCircle"
+            android:icon="@drawable/icon_my_circle"
             android:title="My Circle"/>
         <item
             android:id="@+id/nav_joinedCircle"
+            android:icon="@drawable/icon_joined_circle"
             android:title="Joined Circle"/>
         <item
             android:id="@+id/nav_inviteMembers"
+            android:icon="@drawable/icon_invite_drawer"
             android:title="Invite Members"/>
         <item
             android:id="@+id/nav_shareLocation"
+            android:icon="@drawable/icon_share"
             android:title="Share Location"/>
         <item
             android:id="@+id/nav_signOut"
+            android:icon="@drawable/icon_sign_out"
             android:title="Sign Out"/>
     </group>
 

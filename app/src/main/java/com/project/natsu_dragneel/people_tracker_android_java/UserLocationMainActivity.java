@@ -110,9 +110,9 @@ public class UserLocationMainActivity extends AppCompatActivity
                 current_user_email=dataSnapshot.child(user.getUid()).child("email").getValue(String.class);
                 current_user_imageURL=dataSnapshot.child(user.getUid()).child("imageURL").getValue(String.class);
 
+                Picasso.get().load(current_user_imageURL).into(imageView_user_image);
                 textView_title_name.setText(current_user_name);
                 textView_title_email.setText(current_user_email);
-                Picasso.get().load(current_user_imageURL).into(imageView_user_image);
             }
 
             @Override
