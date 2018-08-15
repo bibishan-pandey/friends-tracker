@@ -1,7 +1,6 @@
 package com.project.natsu_dragneel.people_tracker_android_java;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -12,7 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +25,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,9 +40,6 @@ public class UserLocationMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
         , OnMapReadyCallback {
 
-    final String no_location = "Could not get location";
-    final String current_location = "Current location";
-
     String current_user_name;
     String current_user_email;
     String current_user_imageURL;
@@ -58,13 +52,11 @@ public class UserLocationMainActivity extends AppCompatActivity
     TextView textView_title_name;
     TextView textView_title_email;
 
+    double latitude,longitude;
     ImageView imageView_user_image;
 
     private static final float DEFAULT_ZOOM = 15f;
     private static final String TAG = "UserLocationMainActivity";
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     @Override
@@ -106,46 +98,6 @@ public class UserLocationMainActivity extends AppCompatActivity
 
             }
         });
-        initMap();
-    }
-
-    @SuppressLint("LongLogTag")
-    private void getDeviceLocation() {
-        Log.d(TAG, "getDeviceLocation: getting the devices current location");
-
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        try {
-            final Task location = mFusedLocationProviderClient.getLastLocation();
-            location.addOnCompleteListener(new OnCompleteListener() {
-                @Override
-                public void onComplete(@NonNull Task task) {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "onComplete: found location!");
-                        Location currentLocation = (Location) task.getResult();
-
-                        moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                DEFAULT_ZOOM);
-
-                    } else {
-                        Log.d(TAG, "onComplete: current location is null");
-                        Toast.makeText(UserLocationMainActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        } catch (SecurityException e) {
-            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
-        }
-    }
-
-
-    private void moveCamera(LatLng latLng, float zoom) {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-    }
-
-    private void initMap() {
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -160,7 +112,6 @@ public class UserLocationMainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.user_location_main, menu);
         return true;
     }
@@ -187,20 +138,19 @@ public class UserLocationMainActivity extends AppCompatActivity
             startActivity(Intent.createChooser(i, "Share using: "));
             */
 
-            /*
-            Double latitude = latLng.latitude;
-            Double longitude = latLng.longitude;
 
-            String uri = "http://maps.google.com/maps?saddr=" +latitude+","+longitude;
+            //Double latitude = latLng.latitude;
+            //Double longitude = latLng.longitude;
+
+            String uri = "http://maps.google.com/maps?saddr="+latitude+","+longitude;
 
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
             String ShareSub = "Here is my location";
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, ShareSub);
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, uri);
-            startActivity(Intent.createChooser(sharingIntent, "Share via"));*/
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));
         } else if (id == R.id.nav_signOut) {
-            //user = auth.getCurrentUser();
             if (user != null) {
                 auth.signOut();
                 Intent intent = new Intent(UserLocationMainActivity.this, AccountMainActivity.class);
@@ -208,21 +158,42 @@ public class UserLocationMainActivity extends AppCompatActivity
                 finish();
             }
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
-        getDeviceLocation();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        final Task location = mFusedLocationProviderClient.getLastLocation();
+        location.addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (task.isSuccessful()) {
+                    Location currentLocation = (Location) task.getResult();
+                    moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                            DEFAULT_ZOOM);
+                    latitude=currentLocation.getLatitude();
+                    longitude=currentLocation.getLongitude();
+                } else {
+                    Toast.makeText(UserLocationMainActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void moveCamera(LatLng latLng, float zoom) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 }
