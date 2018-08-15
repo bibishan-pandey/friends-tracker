@@ -16,7 +16,8 @@
         android:layout_marginTop="203dp"
         android:text="Enter circle code to join"
         android:textAlignment="center"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:ignore="RtlCompat" />
 
     <com.goodiebag.pinview.Pinview
         android:id="@+id/pinview"
@@ -28,7 +29,8 @@
         app:cursorVisible="true"
         app:pinHeight="35dp"
         app:pinLength="6"
-        app:pinWidth="35dp" />
+        app:pinWidth="35dp"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:id="@+id/button_join_circle"
@@ -40,5 +42,6 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:onClick="button_join_circle"
         android:text="Add"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@android:color/background_light"
+        tools:ignore="RtlCompat" />
 </RelativeLayout>

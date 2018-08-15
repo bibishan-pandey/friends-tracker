@@ -1,9 +1,9 @@
 package com.project.natsu_dragneel.people_tracker_android_java;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;

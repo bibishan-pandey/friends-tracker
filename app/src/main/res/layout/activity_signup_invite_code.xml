@@ -29,7 +29,8 @@
         android:text="Save this code. You will need it to invite friends."
         android:textAlignment="center"
         android:textColor="@android:color/darker_gray"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:id="@+id/button_register"
@@ -48,5 +49,6 @@
         android:layout_height="240dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/icon_invite" />
+        app:srcCompat="@drawable/icon_invite"
+        tools:ignore="RtlCompat" />
 </RelativeLayout>
