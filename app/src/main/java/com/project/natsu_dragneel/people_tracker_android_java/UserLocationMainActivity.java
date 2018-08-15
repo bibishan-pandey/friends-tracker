@@ -42,6 +42,7 @@ public class UserLocationMainActivity extends AppCompatActivity
 
     String current_user_name;
     String current_user_email;
+    //Uri current_user_imageURL;
     String current_user_imageURL;
 
     GoogleMap mMap;
@@ -86,9 +87,13 @@ public class UserLocationMainActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 current_user_name = dataSnapshot.child(user.getUid()).child("name").getValue(String.class);
                 current_user_email = dataSnapshot.child(user.getUid()).child("email").getValue(String.class);
-                current_user_imageURL = dataSnapshot.child(user.getUid()).child("imageURL").getValue(String.class);
+                //current_user_imageURL=user.getPhotoUrl();
 
-                Picasso.get().load(current_user_imageURL).into(imageView_user_image);
+                current_user_imageURL = dataSnapshot.child(user.getUid()).child("imageURL").getValue(String.class);
+                String url= String.valueOf(current_user_imageURL);
+                Toast.makeText(getApplicationContext(),url,Toast.LENGTH_LONG).show();
+                Picasso.get().load(url).into(imageView_user_image);
+
                 textView_title_name.setText(current_user_name);
                 textView_title_email.setText(current_user_email);
             }
@@ -119,7 +124,6 @@ public class UserLocationMainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_joinCircle) {
             Intent intent = new Intent(UserLocationMainActivity.this, JoinCirlceActivity.class);
@@ -131,19 +135,7 @@ public class UserLocationMainActivity extends AppCompatActivity
         } else if (id == R.id.nav_inviteMembers) {
 
         } else if (id == R.id.nav_shareLocation) {
-            /*
-            Intent i = new Intent(Intent.ACTION_SEND);
-            i.setType("text/plain");
-            i.putExtra(Intent.EXTRA_TEXT, "My location is :" + "https://www.google.com/maps/@" + latLng.latitude + "," + latLng.longitude + ",17z");
-            startActivity(Intent.createChooser(i, "Share using: "));
-            */
-
-
-            //Double latitude = latLng.latitude;
-            //Double longitude = latLng.longitude;
-
             String uri = "http://maps.google.com/maps?saddr="+latitude+","+longitude;
-
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
             String ShareSub = "Here is my location";
@@ -163,7 +155,6 @@ public class UserLocationMainActivity extends AppCompatActivity
         return true;
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
@@ -172,12 +163,11 @@ public class UserLocationMainActivity extends AppCompatActivity
             return;
         }
 
-        mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
+        /*
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         final Task location = mFusedLocationProviderClient.getLastLocation();
         location.addOnCompleteListener(new OnCompleteListener() {
+            @SuppressLint("LongLogTag")
             @Override
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) {
@@ -186,9 +176,24 @@ public class UserLocationMainActivity extends AppCompatActivity
                             DEFAULT_ZOOM);
                     latitude=currentLocation.getLatitude();
                     longitude=currentLocation.getLongitude();
+                    Log.d(TAG, "onComplete: successful");
                 } else {
                     Toast.makeText(UserLocationMainActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });*/
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        mFusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(this);
+        final Task location=mFusedLocationProviderClient.getLastLocation();
+        location.addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                Location loc=(Location)task.getResult();
+                latitude=loc.getLatitude();
+                longitude=loc.getLongitude();
+                moveCamera(new LatLng(latitude, longitude), DEFAULT_ZOOM);
             }
         });
     }
