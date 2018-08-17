@@ -7,7 +7,7 @@
     android:focusableInTouchMode="true"
     android:layout_marginEnd="@dimen/activity_horizontal_margin"
     android:layout_marginStart="@dimen/activity_horizontal_margin"
-    tools:context=".SignupNameActivity">
+    tools:context=".activities.SignupNameActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleImageView"

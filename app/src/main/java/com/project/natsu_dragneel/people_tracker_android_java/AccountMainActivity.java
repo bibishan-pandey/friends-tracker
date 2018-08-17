@@ -11,6 +11,9 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.karan.churi.PermissionManager.PermissionManager;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.SigninActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.SignupEmailActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.UserLocationMainActivity;
 
 import java.util.ArrayList;
 

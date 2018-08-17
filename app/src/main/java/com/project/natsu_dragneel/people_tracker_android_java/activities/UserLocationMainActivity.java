@@ -1,4 +1,4 @@
-package com.project.natsu_dragneel.people_tracker_android_java;
+package com.project.natsu_dragneel.people_tracker_android_java.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -34,6 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.natsu_dragneel.people_tracker_android_java.AccountMainActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.squareup.picasso.Picasso;
 
 public class UserLocationMainActivity extends AppCompatActivity

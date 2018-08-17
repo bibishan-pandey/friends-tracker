@@ -1,4 +1,4 @@
-package com.project.natsu_dragneel.people_tracker_android_java;
+package com.project.natsu_dragneel.people_tracker_android_java.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,8 +14,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
-import com.project.natsu_dragneel.people_tracker_android_java.classes.MembersAdapter;
+import com.project.natsu_dragneel.people_tracker_android_java.adapters.MembersAdapter;
 
 import java.util.ArrayList;
 

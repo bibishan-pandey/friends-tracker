@@ -3,9 +3,6 @@
     package="com.project.natsu_dragneel.people_tracker_android_java">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -34,18 +31,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SigninActivity"
+            android:name=".activities.SigninActivity"
             android:label="@string/title_activity_signin" />
         <activity
-            android:name=".SignupEmailActivity"
+            android:name=".activities.SignupEmailActivity"
             android:label="@string/title_activity_signup" />
         <activity
-            android:name=".SignupPasswordActivity"
+            android:name=".activities.SignupPasswordActivity"
             android:label="@string/title_activity_password" />
         <activity
-            android:name=".SignupNameActivity"
+            android:name=".activities.SignupNameActivity"
             android:label="@string/title_activity_name" />
-        <activity android:name=".SignupInviteCodeActivity" />
+        <activity android:name=".activities.SignupInviteCodeActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -67,11 +64,11 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".UserLocationMainActivity"
+            android:name=".activities.UserLocationMainActivity"
             android:label="@string/title_activity_user_location_main"
             android:theme="@style/AppTheme" />
-        <activity android:name=".JoinCirlceActivity" />
-        <activity android:name=".MyCircleActivity"></activity>
+        <activity android:name=".activities.JoinCirlceActivity" />
+        <activity android:name=".activities.MyCircleActivity"></activity>
     </application>
 
 </manifest>

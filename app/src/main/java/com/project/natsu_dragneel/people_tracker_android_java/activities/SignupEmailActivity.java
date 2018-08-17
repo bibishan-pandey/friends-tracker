@@ -1,4 +1,4 @@
-package com.project.natsu_dragneel.people_tracker_android_java;
+package com.project.natsu_dragneel.people_tracker_android_java.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.project.natsu_dragneel.people_tracker_android_java.AccountMainActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.R;
 
 public class SignupEmailActivity extends Activity {
 
