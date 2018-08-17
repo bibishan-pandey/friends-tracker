@@ -83,6 +83,9 @@ public class SignupEmailActivity extends Activity {
         else{
             dialog.dismiss();
             Toast.makeText(getApplicationContext(),email_exists,Toast.LENGTH_LONG).show();
+            Intent intent=new Intent(SignupEmailActivity.this,SigninActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }

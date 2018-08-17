@@ -68,7 +68,7 @@
             android:label="@string/title_activity_user_location_main"
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.JoinCirlceActivity" />
-        <activity android:name=".activities.MyCircleActivity"></activity>
+        <activity android:name=".activities.MyCircleActivity"/>
     </application>
 
 </manifest>

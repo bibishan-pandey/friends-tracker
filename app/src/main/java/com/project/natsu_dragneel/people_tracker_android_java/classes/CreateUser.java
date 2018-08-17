@@ -2,11 +2,17 @@ package com.project.natsu_dragneel.people_tracker_android_java.classes;
 
 public class CreateUser {
 
-    public CreateUser(){
-
-    }
     public String name;
     public String email;
+    public String password;
+    public String code;
+    public String isSharing;
+    public String lat;
+    public String lng;
+    public String imageURL;
+    public String userID;
+
+    public CreateUser(){}
 
     public CreateUser(String name, String email, String password, String code, String isSharing, String lat, String lng, String imageURL, String userID) {
         this.name = name;
@@ -19,12 +25,4 @@ public class CreateUser {
         this.imageURL = imageURL;
         this.userID = userID;
     }
-
-    public String password;
-    public String code;
-    public String isSharing;
-    public String lat;
-    public String lng;
-    public String imageURL;
-    public String userID;
 }
