@@ -93,7 +93,9 @@ public class UserLocationMainActivity extends AppCompatActivity
 
                 current_user_imageURL = dataSnapshot.child(user.getUid()).child("imageURL").getValue(String.class);
                 String url= String.valueOf(current_user_imageURL);
+
                 Toast.makeText(getApplicationContext(),url,Toast.LENGTH_LONG).show();
+
                 Picasso.get().load(url).into(imageView_user_image);
 
                 textView_title_name.setText(current_user_name);

@@ -55,7 +55,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
     public void onBindViewHolder(@NonNull MembersViewHolder membersViewHolder, int i) {
         CreateUser current_user_obj=name_list.get(i);
         membersViewHolder.name_text.setText(current_user_obj.name);
-        Picasso.get().load(current_user_obj.imageURL).placeholder(R.drawable.icon_profile).into(membersViewHolder.circle_image_view);
+        Picasso.get().load(current_user_obj.profile_image).placeholder(R.drawable.icon_profile).into(membersViewHolder.circle_image_view);
         if(current_user_obj.isSharing.equals("false")){
             membersViewHolder.online_indicator.setImageResource(R.drawable.icon_location_off);
         }
@@ -110,9 +110,9 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
                 intent.putExtra("latitude",latitude_user);
                 intent.putExtra("longitude",longitude_user);
                 intent.putExtra("name", addCircle.name);
-                intent.putExtra("userid",addCircle.userID);
+                intent.putExtra("userid",addCircle.userid);
                 intent.putExtra("date",addCircle.date);
-                intent.putExtra("image",addCircle.imageURL);
+                intent.putExtra("image",addCircle.profile_image);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 c.startActivity(intent);
             }
@@ -122,12 +122,12 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
         public boolean onMenuItemClick(MenuItem menuItem) {
             int position=getAdapterPosition();
             final CreateUser addCircle=this.name_array_list.get(position);
-            mReference.child(addCircle.userID).removeValue()
+            mReference.child(addCircle.userid).removeValue()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                mJoinedRef.child(addCircle.userID).child("JoinedCircles").child(user.getUid()).removeValue()
+                                mJoinedRef.child(addCircle.userid).child("JoinedCircles").child(user.getUid()).removeValue()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

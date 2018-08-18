@@ -3,6 +3,7 @@ package com.project.natsu_dragneel.people_tracker_android_java.activities;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,13 +24,14 @@ import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser
 
 public class JoinCirlceActivity extends AppCompatActivity {
 
-    Pinview pinview;
+    Toolbar toolbar;
+    Pinview pinView;
     DatabaseReference reference;
     DatabaseReference current_reference;
     FirebaseUser user;
     FirebaseAuth auth;
 
-    DatabaseReference circle_reference;
+    DatabaseReference circle_reference, joined_reference;
 
     String current_user_id, join_user_id;
 

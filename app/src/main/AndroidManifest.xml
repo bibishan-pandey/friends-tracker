@@ -69,7 +69,8 @@
         <activity android:name=".activities.JoinCirlceActivity" />
         <activity android:name=".activities.MyCircleActivity" />
         <activity android:name=".activities.LiveMapActivity" />
-        <activity android:name=".activities.JoinedCirclesActivity"></activity>
+        <activity android:name=".activities.JoinedCirclesActivity" />
+        <activity android:name=".activities.AlertCenterActivity"></activity>
     </application>
 
 </manifest>
