@@ -76,7 +76,10 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
             code = intent.getStringExtra("Code");
             imageURI = intent.getParcelableExtra("ImageURI");
         }
+        //left
+        if(code==null){
 
+        }
         textView_circle_code.setText(code);
     }
 
@@ -96,7 +99,7 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
 
     public void register_method(){
         user = auth.getCurrentUser();
-        CreateUser createUser = new CreateUser(name,email,password,code,"false","n/a","n/a","n/a",user.getUid());
+        CreateUser createUser = new CreateUser(name,email,password,date,code,"false","n/a","n/a","n/a",user.getUid());
         userId = user.getUid();
         reference
                 .child(userId)

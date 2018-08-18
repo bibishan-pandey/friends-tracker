@@ -17,7 +17,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="75dp"
-        android:background="@android:color/holo_green_light"
+        android:background="@color/colorPrimary"
         android:onClick="sign_in"
         android:text="SIGN IN"
         android:textColor="@android:color/background_light"
@@ -30,7 +30,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="14dp"
-        android:background="@android:color/holo_blue_dark"
+        android:background="@android:color/holo_red_light"
         android:onClick="sign_up"
         android:text="SIGN UP"
         android:textColor="@android:color/background_light"
@@ -51,7 +51,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="140dp"
         android:text="PEOPLE TRACKER"
-        android:textColor="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/holo_blue_dark"
         android:textSize="18sp"
         android:textStyle="bold" />
 

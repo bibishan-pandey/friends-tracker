@@ -5,6 +5,7 @@ public class CreateUser {
     public String name;
     public String email;
     public String password;
+    public String date;
     public String code;
     public String isSharing;
     public String lat;
@@ -14,10 +15,11 @@ public class CreateUser {
 
     public CreateUser(){}
 
-    public CreateUser(String name, String email, String password, String code, String isSharing, String lat, String lng, String imageURL, String userID) {
+    public CreateUser(String name, String email, String password, String date, String code, String isSharing, String lat, String lng, String imageURL, String userID) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.date=date;
         this.code = code;
         this.isSharing = isSharing;
         this.lat = lat;

@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -58,7 +58,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAhhW_7jcR8LI74TP-4p4dDaAqiCLGq7qg" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -68,7 +67,9 @@
             android:label="@string/title_activity_user_location_main"
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.JoinCirlceActivity" />
-        <activity android:name=".activities.MyCircleActivity"/>
+        <activity android:name=".activities.MyCircleActivity" />
+        <activity android:name=".activities.LiveMapActivity" />
+        <activity android:name=".activities.JoinedCirclesActivity"></activity>
     </application>
 
 </manifest>
