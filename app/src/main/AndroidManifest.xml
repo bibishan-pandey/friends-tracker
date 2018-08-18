@@ -70,7 +70,9 @@
         <activity android:name=".activities.MyCircleActivity" />
         <activity android:name=".activities.LiveMapActivity" />
         <activity android:name=".activities.JoinedCirclesActivity" />
-        <activity android:name=".activities.AlertCenterActivity"></activity>
+        <activity android:name=".activities.AlertCenterActivity" />
+        <activity android:name=".activities.SigninEmailActivity" />
+        <activity android:name=".activities.SigninPasswordActivity"></activity>
     </application>
 
 </manifest>

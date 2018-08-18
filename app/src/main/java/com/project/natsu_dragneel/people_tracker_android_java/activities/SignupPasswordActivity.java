@@ -30,7 +30,7 @@ public class SignupPasswordActivity extends Activity {
         dialog = new ProgressDialog(this);
         Intent intent=getIntent();
         if(intent!=null){
-            email=intent.getStringExtra("Email");
+            email=intent.getStringExtra("email");
         }
     }
 
@@ -39,8 +39,8 @@ public class SignupPasswordActivity extends Activity {
             dialog.setMessage(please_wait);
             dialog.show();
             Intent intent=new Intent(SignupPasswordActivity.this,SignupNameActivity.class);
-            intent.putExtra("Email",email);
-            intent.putExtra("Password",editText_password_signup.getText().toString());
+            intent.putExtra("email",email);
+            intent.putExtra("password",editText_password_signup.getText().toString());
             dialog.dismiss();
             startActivity(intent);
             finish();

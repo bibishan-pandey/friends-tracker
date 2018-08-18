@@ -46,8 +46,8 @@ public class AccountMainActivity extends AppCompatActivity {
     private void sign_in_initializer() {
         if(user==null){
             setContentView(R.layout.activity_account_main);
-            manager=new PermissionManager() {};
-            manager.checkAndRequestPermissions(this);
+            //manager=new PermissionManager() {};
+            //manager.checkAndRequestPermissions(this);
         }
         else{
             p_helper.show_dialog(please_wait);

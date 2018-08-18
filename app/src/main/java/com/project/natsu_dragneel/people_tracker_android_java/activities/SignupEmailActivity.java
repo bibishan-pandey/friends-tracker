@@ -76,7 +76,7 @@ public class SignupEmailActivity extends Activity {
     public void check_email_exists(boolean check_email_exists){
         if(!check_email_exists){
             Intent intent=new Intent(SignupEmailActivity.this,SignupPasswordActivity.class);
-            intent.putExtra("Email",editText_email_signup.getText().toString());
+            intent.putExtra("email",editText_email_signup.getText().toString());
             startActivity(intent);
             finish();
         }
