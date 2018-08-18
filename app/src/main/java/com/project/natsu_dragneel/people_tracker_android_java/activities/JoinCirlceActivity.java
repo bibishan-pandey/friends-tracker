@@ -28,114 +28,139 @@ public class JoinCirlceActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     Pinview pinView;
-    DatabaseReference reference;
-    DatabaseReference current_reference;
-    FirebaseUser user;
+    DatabaseReference reference,currentReference;
     FirebaseAuth auth;
-
-    DatabaseReference circle_reference, joined_reference;
-
-    String current_user_id, join_user_id;
+    FirebaseUser user;
+    String currentUserId;
+    DatabaseReference circleReference,joinedReference;
+    String joinUserId;
+    String current_userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_circle);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("Join a Circle");
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
-        toolbar=(Toolbar)findViewById(R.id.joincircle_toolbar);
-        toolbar.setTitle("Join a circle");
 
-        auth=FirebaseAuth.getInstance();
-        user=auth.getCurrentUser();
+        pinView = (Pinview)findViewById(R.id.mypinview);
 
-        pinView=(Pinview)findViewById(R.id.pinview);
+        reference = FirebaseDatabase.getInstance().getReference().child("Users");
+        currentReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
 
-        reference= FirebaseDatabase.getInstance().getReference().child("Users");
-        current_reference=FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
 
         setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null){
+        if(getSupportActionBar()!=null)
+        {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        current_reference.addValueEventListener(new ValueEventListener() {
+
+
+        currentReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                current_user_id=dataSnapshot.child("userid").getValue().toString();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                current_userid = dataSnapshot.child("userid").getValue().toString();
+
+
+
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),databaseError.getCode(),Toast.LENGTH_LONG).show();
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-    public void button_join_circle(View v){
-        current_user_id=user.getUid();
-        Query query=reference.orderByChild("circlecode").equalTo(pinView.getValue());
+
+
+    }// end of onCreate
+
+    public void getCode(View v)
+    {
+
+        // find the circle code owner name and email through his uid
+        currentUserId = user.getUid();
+
+        Query query = reference.orderByChild("circlecode").equalTo(pinView.getValue());
+
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists())
+                {
+
                     CreateUser createUser = null;
-                    for (DataSnapshot childDss : dataSnapshot.getChildren()) {
+                    for(DataSnapshot childDss : dataSnapshot.getChildren())
+                    {
                         createUser = childDss.getValue(CreateUser.class);
                     }
-                    join_user_id = createUser.userid;
-                    circle_reference = FirebaseDatabase.getInstance().getReference().child("Users").child(join_user_id).child("CircleMembers");
-                    joined_reference=FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
+                    joinUserId = createUser.userid;
 
-                    CircleJoin circleJoinCurrentID = new CircleJoin(current_user_id);
-                    final CircleJoin circleJoinJoinID = new CircleJoin(join_user_id);
+                    circleReference = FirebaseDatabase.getInstance().getReference().child("Users").child(joinUserId).child("CircleMembers");
+                    joinedReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
 
-                    circle_reference.child(user.getUid()).setValue(circleJoinCurrentID)
+
+                    // get the correct values from the user
+
+
+
+                    CircleJoin circleJoin = new CircleJoin(current_userid);
+                    final CircleJoin circleJoin1 = new CircleJoin(joinUserId);
+
+                    circleReference.child(user.getUid()).setValue(circleJoin)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        joined_reference.child(join_user_id).setValue(circleJoinJoinID)
+                                    if(task.isSuccessful())
+                                    {
+                                        joinedReference.child(joinUserId).setValue(circleJoin1)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                        Toast.makeText(getApplicationContext(), "User joined circle successfully", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getApplicationContext(),"You have joined this circle successfully",Toast.LENGTH_SHORT).show();
                                                         finish();
-                                                        Intent intent= new Intent(JoinCirlceActivity.this,UserLocationMainActivity.class);
-                                                        startActivity(intent);
+                                                        Intent myIntent = new Intent(JoinCirlceActivity.this,UserLocationMainActivity.class);
+                                                        startActivity(myIntent);
                                                     }
                                                 });
 
+
+
+
                                     }
-                                    else{
-                                        Toast.makeText(getApplicationContext(),"Couldnot join the circle", Toast.LENGTH_LONG).show();
+                                    else
+                                    {
+                                        Toast.makeText(getApplicationContext(),"Could not join, try again",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
+
+
                 }
-                else{
-                    Toast.makeText(getApplicationContext(),"Circle code is invalid",Toast.LENGTH_LONG).show();
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Invalid circle code entered",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),"Operation cancelled",Toast.LENGTH_LONG).show();
-                finish();
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if(item.getItemId() == android.R.id.home)
             finish();
-        }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        super.onBackPressed();
     }
 }

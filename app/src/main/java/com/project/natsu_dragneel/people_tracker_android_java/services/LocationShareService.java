@@ -1,6 +1,5 @@
 package com.project.natsu_dragneel.people_tracker_android_java.services;
 
-import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -37,25 +36,28 @@ import java.util.Locale;
 
 
 public class LocationShareService extends Service implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
     public LocationShareService() {
     }
 
     GoogleApiClient client;
     LocationRequest request;
-    LatLng latlngCurrent;
+    LatLng latLngCurrent;
     DatabaseReference reference;
     FirebaseAuth auth;
     FirebaseUser user;
 
     NotificationCompat.Builder notification;
-
-    public final int uniqueId = 123456;
-
-    @Nullable
+    public final int uniqueId = 654321;
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        // TODO: Return the communication channel to the service.
+
+
+        throw new UnsupportedOperationException("Not yet implemented");
+
+
+
+
     }
 
     @Override
@@ -74,7 +76,10 @@ public class LocationShareService extends Service implements LocationListener, G
                 .addOnConnectionFailedListener(this)
                 .build();
         client.connect();
+
+
     }
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -82,7 +87,8 @@ public class LocationShareService extends Service implements LocationListener, G
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         request.setInterval(500);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(client, request, this);
@@ -90,18 +96,29 @@ public class LocationShareService extends Service implements LocationListener, G
         notification.setSmallIcon(R.drawable.icon_location);
         notification.setTicker("Notification.");
         notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle("People Tracker");
+        notification.setContentTitle("Family Tracker App");
         notification.setContentText("You are sharing your location.!");
         notification.setDefaults(Notification.DEFAULT_SOUND);
 
-        Intent intent=new Intent(getApplicationContext(), UserLocationMainActivity.class);
 
-        PendingIntent pendingIntent=PendingIntent.getActivity(getApplicationContext(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(getApplicationContext(),UserLocationMainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0,intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+
         notification.setContentIntent(pendingIntent);
 
-        NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        // Build the nofification
+
+        NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
         nm.notify(uniqueId,notification.build());
 
+
+
+
+        // display notification
     }
 
     @Override
@@ -116,34 +133,50 @@ public class LocationShareService extends Service implements LocationListener, G
 
     @Override
     public void onLocationChanged(Location location) {
-        latlngCurrent=new LatLng(location.getLatitude(),location.getLongitude());
+        latLngCurrent = new LatLng(location.getLatitude(), location.getLongitude());
+
         shareLocation();
+
+
     }
 
-    public void shareLocation(){
-        Date date=new Date();
-        SimpleDateFormat sdf1=new SimpleDateFormat("dd-mm-yyyy hh:mm a", Locale.getDefault());
-        String myDate=sdf1.format(date);
 
-        reference.child(user.getUid()).child("isSharing").setValue("true");
+
+
+    public void shareLocation()
+    {
+        Date date = new Date();
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault());
+        String myDate = sdf1.format(date);
+
+        reference.child(user.getUid()).child("issharing").setValue("true");
         reference.child(user.getUid()).child("date").setValue(myDate);
-        reference.child(user.getUid()).child("lat").setValue(String.valueOf(latlngCurrent.latitude));
-        reference.child(user.getUid()).child("lng").setValue(String.valueOf(latlngCurrent.longitude))
+        reference.child(user.getUid()).child("lat").setValue(String.valueOf(latLngCurrent.latitude));
+        reference.child(user.getUid()).child("lng").setValue(String.valueOf(latLngCurrent.longitude))
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(!task.isSuccessful()){
-                            Toast.makeText(LocationShareService.this, "Could not share the location", Toast.LENGTH_SHORT).show();
+                        if(!task.isSuccessful())
+                        {
+                            Toast.makeText(getApplicationContext(),"Could not share Location.",Toast.LENGTH_SHORT).show();
                         }
+
                     }
                 });
     }
+
 
     @Override
     public void onDestroy() {
         LocationServices.FusedLocationApi.removeLocationUpdates(client,this);
         client.disconnect();
-        NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        //  reference.child(user.getUid()).child("issharing").setValue("false");
+
+        NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         nm.cancel(uniqueId);
+
+
+
     }
 }

@@ -1,49 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:layout_marginStart="@dimen/activity_horizontal_margin"
-    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+
+
     tools:context=".activities.SignupEmailActivity">
 
-    <android.support.design.widget.TextInputLayout
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/editTextPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        tools:ignore="RtlCompat">
-        <EditText
-            android:id="@+id/editText_email_signup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Enter email"
-            android:imeOptions="actionDone"
-            android:inputType="textEmailAddress" />
-    </android.support.design.widget.TextInputLayout>
+        android:hint="Enter your email address"
+        android:gravity="center"
+        android:padding="17dp"
+        android:textSize="18sp"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="151dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true" />
 
     <Button
-        android:id="@+id/button_next_email_signup"
-        android:layout_width="match_parent"
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_weight="1"
-        android:background="@android:color/holo_purple"
-        android:onClick="email_to_password"
         android:text="Next"
-        android:textColor="@android:color/background_light"
-        tools:ignore="RtlCompat" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:onClick="checkIfEmailPresent"
+        android:background="@drawable/button_shape"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/icon_sign_up"
-        tools:ignore="RtlCompat" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="6dp"
+        android:text="By signing up you accept our Terms of Service and Privacy Policy."
+        android:layout_alignParentLeft="true" />
+
+
 </RelativeLayout>

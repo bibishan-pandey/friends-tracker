@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.karan.churi.PermissionManager.PermissionManager;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.SigninActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.SigninEmailActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.SignupEmailActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.UserLocationMainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.helpers.ProgressDialogHelper;
@@ -70,7 +70,7 @@ public class AccountMainActivity extends AppCompatActivity {
     }
 
     public void sign_in(View v){
-        Intent myIntent=new Intent(AccountMainActivity.this,SigninActivity.class);
+        Intent myIntent=new Intent(AccountMainActivity.this,SigninEmailActivity.class);
         startActivity(myIntent);
         finish();
     }

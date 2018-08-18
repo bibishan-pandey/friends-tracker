@@ -27,34 +27,42 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class JoinedMembersAdapter extends RecyclerView.Adapter<JoinedMembersAdapter.JoinedMembersViewHolder> {
 
-    ArrayList<CreateUser> nameList=new ArrayList<>();
+    ArrayList<CreateUser> nameList = new ArrayList<>();
     Context c;
-    public JoinedMembersAdapter(ArrayList<CreateUser> nameList,Context c){
-        this.nameList=nameList;
+    public JoinedMembersAdapter(ArrayList<CreateUser> nameList,Context c)
+    {
+        this.nameList = nameList;
         this.c=c;
     }
-
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return nameList.size();
     }
 
-    @NonNull
     @Override
-    public JoinedMembersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.joined_card_layout,viewGroup,false);
-        JoinedMembersAdapter.JoinedMembersViewHolder membersViewHolder=new JoinedMembersAdapter.JoinedMembersViewHolder(view,c,nameList);
-        return  membersViewHolder;
+    public JoinedMembersAdapter.JoinedMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.joined_card_layout,parent,false);
+        JoinedMembersAdapter.JoinedMembersViewHolder membersViewHolder = new JoinedMembersAdapter.JoinedMembersViewHolder(view,c,nameList);
+        return membersViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull JoinedMembersViewHolder joinedMembersViewHolder, int i) {
-        final CreateUser addCircle=nameList.get(i);
-        Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.icon_profile).into(joinedMembersViewHolder.i1);
+    public void onBindViewHolder(JoinedMembersAdapter.JoinedMembersViewHolder holder, int position) {
+
+        final CreateUser addCircle = nameList.get(position);
+        // String name = nameList.get(position);
+        Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.icon_profile).into(holder.i1);
+
+        holder.name_txt.setText(addCircle.name);
+
     }
 
-    public static class JoinedMembersViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener,
-            MenuItem.OnMenuItemClickListener{
+
+    public static class JoinedMembersViewHolder extends RecyclerView.ViewHolder
+            implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener
+    {
         TextView name_txt;
         View v;
         Context ctx;
@@ -63,7 +71,6 @@ public class JoinedMembersAdapter extends RecyclerView.Adapter<JoinedMembersAdap
         FirebaseUser user;
         ArrayList<CreateUser> nameArrayList;
         CircleImageView i1;
-
         public JoinedMembersViewHolder(View itemView,Context ctx,ArrayList<CreateUser> nameArrayList) {
             super(itemView);
             itemView.setOnCreateContextMenuListener(this);
@@ -80,32 +87,40 @@ public class JoinedMembersAdapter extends RecyclerView.Adapter<JoinedMembersAdap
         }
 
         @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            int position=getAdapterPosition();
-            final CreateUser addCircle=this.nameArrayList.get(position);
+        public boolean onMenuItemClick(MenuItem item) {
+
+            int position = getAdapterPosition();
+            final CreateUser addCircle = this.nameArrayList.get(position);
+
             reference.child(addCircle.userid).removeValue()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
+                            if(task.isSuccessful())
+                            {
                                 currentReference.child(addCircle.userid).child("CircleMembers").child(user.getUid()).removeValue()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    Toast.makeText(ctx, "Unjoined Successfully", Toast.LENGTH_SHORT).show();
+                                                if(task.isSuccessful())
+                                                {
+                                                    Toast.makeText(ctx,"Unjoined successfully",Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
+
+
+
                             }
                         }
                     });
+
             return true;
         }
 
         @Override
-        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            MenuItem myActionItem= contextMenu.add("UNJOIN");
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            MenuItem myActionItem = menu.add("UNJOIN");
             myActionItem.setOnMenuItemClickListener(this);
         }
     }

@@ -1,20 +1,19 @@
 package com.project.natsu_dragneel.people_tracker_android_java.classes;
 
-public class AddCircle {
-    public String name;
-    public String isSharing;
-    public String lat;
-    public String lng;
-
-    public AddCircle(String name, String isSharing, String lat, String lng, String imageURL) {
+public class AddCircle
+{
+    public AddCircle(String name, String issharing, String lat, String lng,String profileImage) {
         this.name = name;
-        this.isSharing = isSharing;
+        this.issharing = issharing;
         this.lat = lat;
         this.lng = lng;
-        this.imageURL = imageURL;
+        this.profileImage = profileImage;
     }
 
-    public AddCircle(){}
+    public String name,issharing,lat,lng,profileImage;
 
-    public String imageURL;
+    public AddCircle()
+    {}
+
+
 }

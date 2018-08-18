@@ -28,107 +28,131 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.HelpAlertViewHolder> {
-
-    ArrayList<CreateUser> name_list=new ArrayList<>();
+    ArrayList<CreateUser> nameList = new ArrayList<>();
     Context c;
 
-    public HelpAlertsAdapter(ArrayList<CreateUser> name_list,Context c){
-        this.name_list=name_list;
-        this.c=c;
+    public HelpAlertsAdapter(ArrayList<CreateUser> nameList, Context c) {
+        this.nameList = nameList;
+        this.c = c;
     }
 
     @Override
     public int getItemCount() {
-        return name_list.size();
+        return nameList.size();
     }
 
-    @NonNull
+
     @Override
-    public HelpAlertViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.alert_layout,viewGroup,false);
-        HelpAlertViewHolder alertViewHolder=new HelpAlertViewHolder(view,c,name_list);
+    public HelpAlertViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alert_layout,parent,false);
+        HelpAlertViewHolder alertViewHolder = new HelpAlertViewHolder(view,c,nameList);
         return alertViewHolder;
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HelpAlertViewHolder helpAlertViewHolder, int i) {
-        CreateUser addCircle=name_list.get(i);
-        helpAlertViewHolder.alertNameTxt.setText(addCircle.name);
-        helpAlertViewHolder.alertDateTxt.setText(addCircle.date);
-        Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.icon_profile).into(helpAlertViewHolder.alertImageView);
+    public void onBindViewHolder(HelpAlertViewHolder holder, int position) {
+        CreateUser addCircle = nameList.get(position);
+
+        holder.alertNameTxt.setText(addCircle.name);
+        holder.alertDateTxt.setText(addCircle.date);
+        Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.icon_profile).into(holder.alertImageView);
+
+
     }
 
-    public static class HelpAlertViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener,MenuItem.OnMenuItemClickListener{
+    public static class HelpAlertViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+            ,View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener
+    {
         View v;
         Context ctx;
-        ArrayList<CreateUser> name_array_list;
+        ArrayList<CreateUser> nameArrayList;
         CircleImageView alertImageView;
         TextView alertNameTxt,alertDateTxt;
         DatabaseReference myReference;
         FirebaseAuth auth;
         FirebaseUser user;
 
-        public HelpAlertViewHolder(@NonNull View itemView, Context ctx, ArrayList<CreateUser> name_array_list) {
+        public HelpAlertViewHolder(View itemView,Context ctx,ArrayList<CreateUser> nameArrayList)
+        {
             super(itemView);
             this.v = itemView;
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
+            this.nameArrayList = nameArrayList;
             this.ctx = ctx;
-            this.name_array_list = name_array_list;
+            auth = FirebaseAuth.getInstance();
+            user = auth.getCurrentUser();
+            myReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("HelpAlerts");
 
-            auth=FirebaseAuth.getInstance();
-            user=auth.getCurrentUser();
-            myReference= FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("HelpAlerts");
-            alertImageView=itemView.findViewById(R.id.alertImage);
-            alertNameTxt=itemView.findViewById(R.id.alertName);
-            alertDateTxt=itemView.findViewById(R.id.alertDate);
+            alertImageView = itemView.findViewById(R.id.alertImage);
+            alertNameTxt = itemView.findViewById(R.id.alertName);
+            alertDateTxt = itemView.findViewById(R.id.alertDate);
         }
 
-        @Override
-        public void onClick(View view) {
-            int position=getAdapterPosition();
-            CreateUser addCircle=this.name_array_list.get(position);
-            String latitude_user=addCircle.lat;
-            String longitude_user=addCircle.lng;
 
-            if(latitude_user.equals("n/a")&& longitude_user.equals("n/a")){
-                Toast.makeText(ctx,"Could not get location",Toast.LENGTH_LONG).show();
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            CreateUser addCircle = this.nameArrayList.get(position);
+            String latitude_user = addCircle.lat;
+            String longitude_user = addCircle.lng;
+
+            if(latitude_user.equals("na") && longitude_user.equals("na"))
+            {
+                Toast.makeText(ctx,"Could not get the location.Try again",Toast.LENGTH_SHORT).show();
             }
-            else {
-                Intent intent=new Intent(ctx, LiveMapActivity.class);
-                intent.putExtra("latitude",latitude_user);
-                intent.putExtra("longitude",longitude_user);
-                intent.putExtra("name",addCircle.name);
-                intent.putExtra("userid",addCircle.userid);
-                intent.putExtra("date",addCircle.date);
-                intent.putExtra("image",addCircle.profile_image);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ctx.startActivity(intent);
+            else
+            {
+                Intent mYIntent = new Intent(ctx,LiveMapActivity.class);
+                // mYIntent.putExtra("createuserobject",addCircle);
+                mYIntent.putExtra("latitude",latitude_user);
+                mYIntent.putExtra("longitude",longitude_user);
+                mYIntent.putExtra("name",addCircle.name);
+                mYIntent.putExtra("userid",addCircle.userid);
+                mYIntent.putExtra("date",addCircle.date);
+                mYIntent.putExtra("image",addCircle.profile_image);
+                mYIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ctx.startActivity(mYIntent);
+
             }
+
+
+
         }
 
+
         @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            int position=getAdapterPosition();
-            final CreateUser addCircle=this.name_array_list.get(position);
+        public boolean onMenuItemClick(MenuItem item) {
+
+
+            int position = getAdapterPosition();
+            final CreateUser addCircle = this.nameArrayList.get(position);
+
             myReference.child(addCircle.userid).removeValue()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(ctx,"Alert removed", Toast.LENGTH_LONG).show();
+                            if(task.isSuccessful())
+                            {
+                                Toast.makeText(ctx,"Alert removed.",Toast.LENGTH_SHORT).show();
                             }
-                            else{
-                                Toast.makeText(ctx,"Could not remove it",Toast.LENGTH_LONG).show();
+                            else
+                            {
+                                Toast.makeText(ctx,"Could not remove it",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
+
+
+
+
             return false;
         }
 
         @Override
-        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            MenuItem myActionItem=contextMenu.add("REMOVE");
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            MenuItem myActionItem = menu.add("REMOVE");
             myActionItem.setOnMenuItemClickListener(this);
         }
     }

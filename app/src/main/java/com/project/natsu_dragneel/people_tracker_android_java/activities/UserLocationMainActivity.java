@@ -136,9 +136,11 @@ public class UserLocationMainActivity extends AppCompatActivity
             Intent intent=new Intent(UserLocationMainActivity.this,MyCircleActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_joinedCircle) {
-
+            Intent myIntent = new Intent(UserLocationMainActivity.this, JoinedCirclesActivity.class);
+            startActivity(myIntent);
         } else if (id == R.id.nav_inviteMembers) {
-
+            Intent intent = new Intent(UserLocationMainActivity.this, SignupInviteCodeActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_shareLocation) {
             String uri = "http://maps.google.com/maps?saddr="+latitude+","+longitude;
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);

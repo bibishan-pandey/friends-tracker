@@ -1,53 +1,88 @@
 package com.project.natsu_dragneel.people_tracker_android_java.activities;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 
-public class SignupPasswordActivity extends Activity {
+public class SignupPasswordActivity extends AppCompatActivity {
 
+    EditText e1_password;
+    Toolbar toolbar;
+    Button b1_password;
     String email;
-    final String password_length="Password must be at least 8 characters long";
-    final String please_wait="Please wait...";
-    EditText editText_password_signup;
-    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_password);
-        interface_builder();
-    }
+        e1_password = (EditText)findViewById(R.id.editTextPassword);
+        toolbar = (Toolbar)findViewById(R.id.toolbarPassword);
+        b1_password = (Button)findViewById(R.id.buttonPassword);
 
-    public void interface_builder(){
-        editText_password_signup=(EditText)findViewById(R.id.editText_password_signup);
-        dialog = new ProgressDialog(this);
-        Intent intent=getIntent();
-        if(intent!=null){
-            email=intent.getStringExtra("email");
+        Intent intent = getIntent();
+        if (intent!=null) {
+            email = intent.getStringExtra("email");
         }
+
+
+
+
+        b1_password.setEnabled(false);
+        b1_password.setBackgroundColor(Color.parseColor("#faebd7"));
+        toolbar.setTitle("Password");
+        setSupportActionBar(toolbar);
+
+
+        e1_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length()>=6)
+                {
+                    b1_password.setEnabled(true);
+                    b1_password.setBackgroundColor(Color.parseColor("#9C27B0"));
+                }
+                else
+                {
+                    b1_password.setEnabled(false);
+                    b1_password.setBackgroundColor(Color.parseColor("#faebd7"));
+                }
+            }
+        });
+
     }
 
-    public void password_to_name(View v){
-        if(editText_password_signup.getText().toString().length()>7){
-            dialog.setMessage(please_wait);
-            dialog.show();
-            Intent intent=new Intent(SignupPasswordActivity.this,SignupNameActivity.class);
-            intent.putExtra("email",email);
-            intent.putExtra("password",editText_password_signup.getText().toString());
-            dialog.dismiss();
-            startActivity(intent);
+    public void goToNameActivity(View v)
+    {
+        if(e1_password.getText().toString().length()>=6)
+        {
+            // go to Name Activity
+            Intent myIntent = new Intent(SignupPasswordActivity.this,SignupNameActivity.class);
+            myIntent.putExtra("email",email);
+            myIntent.putExtra("password",e1_password.getText().toString());
+            startActivity(myIntent);
             finish();
-        }
-        else{
-            Toast.makeText(getApplicationContext(),password_length,Toast.LENGTH_LONG).show();
+
         }
     }
+
 
 }

@@ -4,22 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context=".activities.AlertCenterActivity">
+    android:background="@color/colorPrimaryDark">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/alert_toolbar"
-        app:titleTextColor="@android:color/background_light"
-        android:background="@color/colorPrimaryDark"/>
+        app:titleTextColor="@android:color/white"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:id="@+id/alertRecyclerView"
-        android:layout_below="@id/alert_toolbar"
+        android:layout_below="@+id/toolbar"
         android:layout_alignParentLeft="true" />
+
 
 </RelativeLayout>

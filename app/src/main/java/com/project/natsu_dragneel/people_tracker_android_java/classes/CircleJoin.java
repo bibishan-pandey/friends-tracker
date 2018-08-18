@@ -1,12 +1,18 @@
 package com.project.natsu_dragneel.people_tracker_android_java.classes;
 
-public class CircleJoin {
+public class CircleJoin
+{
+    public String circlememberid;
 
-    public String circle_member_id;
+    public CircleJoin(String circlememberid)
+    {
+        this.circlememberid = circlememberid;
 
-    public CircleJoin(){}
-
-    public CircleJoin(String circle_member_id) {
-        this.circle_member_id = circle_member_id;
     }
+
+    public CircleJoin()
+    {}
+
+
+
 }

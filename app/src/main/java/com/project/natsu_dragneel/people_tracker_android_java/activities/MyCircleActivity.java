@@ -1,12 +1,10 @@
 package com.project.natsu_dragneel.people_tracker_android_java.activities;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -26,110 +24,130 @@ import java.util.ArrayList;
 
 public class MyCircleActivity extends AppCompatActivity {
 
-    android.support.v7.widget.Toolbar toolbar;
+    Toolbar toolbar;
+
     RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
+    RecyclerView.Adapter recycleradapter;
     RecyclerView.LayoutManager layoutManager;
-
-    String circle_member_id;
-
+    DatabaseReference reference;
     FirebaseAuth auth;
     FirebaseUser user;
-
     CreateUser createUser;
+    //  String memberName,memberStatus,memberLat,memberLng;
+    ArrayList<CreateUser> nameList;
 
-    ArrayList<CreateUser> name_list;
+    // AddCircle addCircle;
 
-    ArrayList<String> circle_user_id_list;
-    DatabaseReference reference,user_reference;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    DatabaseReference usersReference;
+
+    ArrayList<String> circleuser_idList;
+    String memberUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_circle);
-
-        recyclerView=(RecyclerView)findViewById(R.id.recycler_view);
-
-        auth=FirebaseAuth.getInstance();
-        user=auth.getCurrentUser();
-
-        name_list=new ArrayList<>();
-
-        layoutManager=new LinearLayoutManager(this);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        layoutManager = new LinearLayoutManager(this);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("My Circle");
 
-        toolbar=(android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("My Circle / Followed");
+
 
         setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null){
+        if(getSupportActionBar()!=null)
+        {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        circle_user_id_list=new ArrayList<>();
 
-        user_reference= FirebaseDatabase.getInstance().getReference().child("Users");
-        reference=FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("CircleMembers");
+        nameList = new ArrayList<>();
+
+
+        circleuser_idList = new ArrayList<>();
+
+
+        usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("CircleMembers");
+
+
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                name_list.clear();
-                if(dataSnapshot.exists()){
-                    for(DataSnapshot dss:dataSnapshot.getChildren()){
-                        circle_member_id=dss.child("circle_member_id").getValue(String.class);
-                        user_reference.child(circle_member_id)
-                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        createUser=dataSnapshot.getValue(CreateUser.class);
-                                        name_list.add(createUser);
-                                        adapter.notifyDataSetChanged();
-                                    }
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                                        Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                nameList.clear();
+
+                if(dataSnapshot.exists())
+                {
+                    for(DataSnapshot dss: dataSnapshot.getChildren())
+                    {
+                        memberUserId = dss.child("circlememberid").getValue(String.class);
+
+                        usersReference.child(memberUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                createUser = dataSnapshot.getValue(CreateUser.class);
+                                nameList.add(createUser);
+                                recycleradapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                    Toast.makeText(getApplicationContext(),"Showing circle members",Toast.LENGTH_LONG).show();
-                    adapter=new MembersAdapter(name_list,getApplicationContext());
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(),"Showing circle members",Toast.LENGTH_SHORT).show();
+                    recycleradapter = new MembersAdapter(nameList,getApplicationContext());
+
+                    recyclerView.setAdapter(recycleradapter);
+                    recycleradapter.notifyDataSetChanged();
+
+
                 }
-                else{
-                    Toast.makeText(getApplicationContext(),"List is empty",Toast.LENGTH_LONG).show();
+
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"List is empty.",Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
+
+
+
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
-        adapter=new MembersAdapter(name_list,getApplicationContext());
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if(item.getItemId() == android.R.id.home)
             finish();
-        }
         return super.onOptionsItemSelected(item);
     }
 
-    public void refresh(View v){
+
+    public void refresh(View v)
+    {
         finish();
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         startActivity(getIntent());
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
     }
+
 }

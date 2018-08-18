@@ -4,51 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/activity_horizontal_margin"
-    android:layout_marginEnd="@dimen/activity_horizontal_margin"
     tools:context=".activities.JoinCirlceActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/joincircle_toolbar"
-        app:titleTextColor="@android:color/background_light"
-        android:background="@color/colorPrimaryDark"/>
 
     <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:text="Enter your Invite code"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/pinview"
-        android:layout_alignParentStart="true"
-        android:text="Enter circle code to join"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        tools:ignore="RtlCompat" />
+        app:titleTextColor="@android:color/white"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
+
 
     <com.goodiebag.pinview.Pinview
-        android:id="@+id/pinview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        app:cursorVisible="true"
-        app:pinHeight="35dp"
-        app:pinLength="6"
+        android:id="@+id/mypinview"
         app:pinWidth="35dp"
-        tools:ignore="RtlCompat" />
+        android:minHeight="40dp"
+        app:pinLength="6"
+        app:cursorVisible="true"
+        app:forceKeyboard="true"
+        app:inputType="number"
+        android:layout_below="@+id/toolbar"
+
+        android:layout_marginTop="60dp">
+    </com.goodiebag.pinview.Pinview>
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="Ask your friends for their circle code"
+        android:layout_below="@+id/mypinview"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" />
 
     <Button
-        android:id="@+id/button_join_circle"
-        android:layout_width="match_parent"
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="@android:color/holo_purple"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:onClick="button_join_circle"
-        android:text="Add"
-        android:textColor="@android:color/background_light"
-        tools:ignore="RtlCompat" />
+        android:background="@drawable/button_shape"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:onClick="getCode"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginEnd="149dp"
+        android:layout_marginRight="149dp"
+        android:layout_marginTop="40dp"
+        android:text="Submit"
+        android:layout_below="@+id/textView7"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+
+
 
 </RelativeLayout>

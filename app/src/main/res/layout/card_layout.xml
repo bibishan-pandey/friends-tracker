@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:cardview="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
     android:layout_margin="6dp"
-    cardview:cardElevation="3dp"
-    cardview:cardCornerRadius="12dp"
-    cardview:contentPadding="4dp"
+    card_view:cardElevation="3dp"
+    card_view:cardCornerRadius="12dp"
+    card_view:contentPadding="4dp"
     android:foreground="?selectableItemBackground">
-    
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="14dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/parentLinear"
+        android:padding="14dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,32 +24,38 @@
             android:weightSum="10"
             android:orientation="horizontal">
 
-            <android.support.v4.widget.CircleImageView
-                android:layout_width="5dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="0dp"
+                android:id="@+id/item_imageprofile"
                 android:layout_height="50dp"
                 android:layout_weight="2"
-                android:id="@+id/image_profile"
-                android:src="@drawable/icon_profile"/>
-            
+                android:src="@drawable/icon_profile"
+                />
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/item_title"
+                android:layout_width="0dp"
                 android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:text="Dubai"
                 android:textStyle="bold"
                 android:padding="10dp"
-                android:textSize="22dp"
-                android:text="User"
-                android:id="@+id/item_title"/>
+                android:textSize="22sp" />
 
             <ImageView
-                android:layout_width="5dp"
-                android:layout_height="50dp"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:id="@+id/online_indicator"
-                android:src="@drawable/icon_location_off"/>
+                android:id="@+id/item_image"
+                android:src="@drawable/icon_location_off"
+
+
+                />
+
 
         </LinearLayout>
 
     </LinearLayout>
+
 
 </android.support.v7.widget.CardView>

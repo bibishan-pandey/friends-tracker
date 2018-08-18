@@ -31,9 +31,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SigninActivity"
-            android:label="@string/title_activity_signin" />
-        <activity
             android:name=".activities.SignupEmailActivity"
             android:label="@string/title_activity_signup" />
         <activity
@@ -72,7 +69,8 @@
         <activity android:name=".activities.JoinedCirclesActivity" />
         <activity android:name=".activities.AlertCenterActivity" />
         <activity android:name=".activities.SigninEmailActivity" />
-        <activity android:name=".activities.SigninPasswordActivity"></activity>
+        <activity android:name=".activities.SigninPasswordActivity" />
+        <activity android:name=".activities.SendHelpAlertsActivity"></activity>
     </application>
 
 </manifest>

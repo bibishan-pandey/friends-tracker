@@ -1,7 +1,6 @@
 package com.project.natsu_dragneel.people_tracker_android_java.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +26,7 @@ public class JoinedCirclesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Toolbar toolbar;
 
-    RecyclerView.Adapter recyclerAdapter;
+    RecyclerView.Adapter recycleradapter;
     RecyclerView.LayoutManager layoutManager;
 
     FirebaseAuth auth;
@@ -37,74 +36,98 @@ public class JoinedCirclesActivity extends AppCompatActivity {
     DatabaseReference usersReference;
     CreateUser createUser;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joined_circles);
-
-        recyclerView=(RecyclerView)findViewById(R.id.recycler_view_joined);
-        layoutManager=new LinearLayoutManager(this);
-
-        toolbar=(Toolbar)findViewById(R.id.joined_circle_toolbar);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerviewJoined);
+        layoutManager = new LinearLayoutManager(this);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle("Joined Circles");
         setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null){
+
+        if(getSupportActionBar()!=null)
+        {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        myList=new ArrayList<>();
+
+
+        myList = new ArrayList<>();
+
+
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        auth=FirebaseAuth.getInstance();
-        user=auth.getCurrentUser();
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        joinedReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
+        usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        joinedReference= FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
-        usersReference=FirebaseDatabase.getInstance().getReference().child("Users");
 
         joinedReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 myList.clear();
-                if(dataSnapshot.exists()){
-                    for(DataSnapshot dss:dataSnapshot.getChildren()){
-                        String memberUserid=dss.child("circlememberid").getValue(String.class);
+
+                if(dataSnapshot.exists())
+                {
+                    for(DataSnapshot dss: dataSnapshot.getChildren())
+                    {
+
+                        String memberUserid = dss.child("circlememberid").getValue(String.class);
+
                         usersReference.child(memberUserid).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                createUser=dataSnapshot.getValue(CreateUser.class);
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                createUser = dataSnapshot.getValue(CreateUser.class);
+                                //  Toast.makeText(getApplicationContext(),createUser.name,Toast.LENGTH_SHORT).show();
                                 myList.add(createUser);
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Toast.makeText(getApplicationContext(), databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                            public void onCancelled(DatabaseError databaseError) {
+                                Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         });
+
+
                     }
-                    Toast.makeText(JoinedCirclesActivity.this, "Showing joined circles", Toast.LENGTH_SHORT).show();
-                    recyclerAdapter=new JoinedMembersAdapter(myList,getApplicationContext());
-                    recyclerView.setAdapter(recyclerAdapter);
-                    recyclerAdapter.notifyDataSetChanged();
+
+                    Toast.makeText(getApplicationContext(),"Showing joined circles",Toast.LENGTH_SHORT).show();
+                    recycleradapter = new JoinedMembersAdapter(myList,getApplicationContext());
+                    recyclerView.setAdapter(recycleradapter);
+                    recycleradapter.notifyDataSetChanged();
+
+
                 }
-                else{
-                    Toast.makeText(JoinedCirclesActivity.this, "You have not joined any circle yet", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"You have not joined any circle yet!",Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
+
+
+
+
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(JoinedCirclesActivity.this, databaseError.toString(), Toast.LENGTH_SHORT).show();
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(),databaseError.toString(),Toast.LENGTH_LONG).show();
+
             }
         });
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if(item.getItemId() == android.R.id.home)
             finish();
-        }
         return super.onOptionsItemSelected(item);
     }
 }

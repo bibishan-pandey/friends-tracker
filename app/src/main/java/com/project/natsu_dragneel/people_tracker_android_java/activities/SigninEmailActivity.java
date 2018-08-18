@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,75 +17,95 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.auth.ProviderQueryResult;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 
 public class SigninEmailActivity extends AppCompatActivity {
 
-    EditText signin_email_edittext;
-    Button sign_email_btn;
+    EditText e1_email;
+    Toolbar toolbar;
+    Button b1_emailnext;
     ProgressDialog dialog;
     FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_email);
+        e1_email = (EditText)findViewById(R.id.editTextPass);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("Sign In");
+        setSupportActionBar(toolbar);
+        dialog = new ProgressDialog(this);
 
-        signin_email_edittext=(EditText)findViewById(R.id.signin_email_edittext);
-        dialog=new ProgressDialog(this);
 
-        auth=FirebaseAuth.getInstance();
-        sign_email_btn=(Button)findViewById(R.id.signin_email_btn);
-        sign_email_btn.setEnabled(false);
-        sign_email_btn.setBackgroundColor(Color.parseColor("#faebd7"));
-        final String emailPattern="[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-        signin_email_edittext.addTextChangedListener(new TextWatcher() {
+
+        auth = FirebaseAuth.getInstance();
+        b1_emailnext = (Button)findViewById(R.id.button);
+        b1_emailnext.setEnabled(false);
+        b1_emailnext.setBackgroundColor(Color.parseColor("#faebd7"));
+        final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+
+        e1_email.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                if(signin_email_edittext.getText().toString().matches(emailPattern)&& editable.length()>0){
-                    sign_email_btn.setEnabled(true);
-                    sign_email_btn.setBackgroundColor(Color.parseColor("#ffff4444"));
+            public void afterTextChanged(Editable s) {
+                if(e1_email.getText().toString().matches(emailPattern) && s.length() > 0)
+                {
+                    b1_emailnext.setEnabled(true);
+                    b1_emailnext.setBackgroundColor(Color.parseColor("#9C27B0"));
+
                 }
-                else{
-                    sign_email_btn.setEnabled(false);
-                    sign_email_btn.setBackgroundColor(Color.parseColor("#faebd7"));
+                else
+                {
+                    b1_emailnext.setEnabled(false);
+                    b1_emailnext.setBackgroundColor(Color.parseColor("#faebd7"));
                 }
+
             }
         });
     }
 
-    public void checkEmail(View v){
-        dialog.setMessage("Please wait...");
+    public void checkEmail(View v)
+    {
+        dialog.setMessage("Please wait!");
         dialog.show();
-        auth.fetchSignInMethodsForEmail(signin_email_edittext.getText().toString())
-                .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+        auth.fetchProvidersForEmail(e1_email.getText().toString())
+                .addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                        boolean check=!task.getResult().getSignInMethods().isEmpty();
-                        if(!check){
+                    public void onComplete(@NonNull Task<ProviderQueryResult> task) {
+                        boolean check = !task.getResult().getProviders().isEmpty();
+                        if(!check)
+                        {
                             dialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"This email doesnot exist. Please create an account to sign in.",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"This email does not exist. Please create an account first",Toast.LENGTH_SHORT).show();
+
                         }
-                        else{
+                        else
+                        {
+                            // go to password login
                             dialog.dismiss();
-                            Intent intent=new Intent(SigninEmailActivity.this,SigninPasswordActivity.class);
-                            intent.putExtra("email_login",signin_email_edittext.getText().toString());
-                            startActivity(intent);
+                            Intent myIntent = new Intent(SigninEmailActivity.this,SigninPasswordActivity.class);
+                            myIntent.putExtra("email_login",e1_email.getText().toString());
+                            startActivity(myIntent);
                             finish();
+
+
                         }
                     }
                 });
+
     }
 }

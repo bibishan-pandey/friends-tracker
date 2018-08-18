@@ -4,21 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context=".activities.JoinedCirclesActivity">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/joined_circle_toolbar"
-        app:titleTextColor="@android:color/background_light"
-        android:background="@android:color/holo_red_light"/>
+        app:titleTextColor="@android:color/white"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerviewJoined"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_view_joined"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/joined_circle_toolbar"
-        tools:ignore="RtlCompat" />
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true" />
+
 
 </RelativeLayout>
