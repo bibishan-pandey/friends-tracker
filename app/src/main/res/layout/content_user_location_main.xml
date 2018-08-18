@@ -8,43 +8,47 @@
     tools:context=".activities.UserLocationMainActivity"
     tools:showIn="@layout/app_bar_user_location_main">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/appBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+
+    <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".NavigationActivity" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/appBarLayout"
+        android:layout_alignParentLeft="true" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:elevation="10dp"
-        android:background="@drawable/white_border"
-        android:id="@+id/relLayout1">
 
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:id="@+id/ic_magnify"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/icon_location"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/ic_magnify"
-            android:layout_centerVertical="true"
-            android:textSize="15sp"
-            android:textColor="#000"
-            android:id="@+id/input_search"
-            android:background="@null"
-            android:hint="Enter Address, City or Zip Code"
-            android:imeOptions="actionSearch"/>
-    </RelativeLayout>
-
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:onClick="inviteMembers"
+        android:text="Invite Members to your Circle"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true" />
 </RelativeLayout>

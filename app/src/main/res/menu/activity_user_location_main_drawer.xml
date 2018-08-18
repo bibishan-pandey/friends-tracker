@@ -18,6 +18,11 @@
             android:id="@+id/nav_inviteMembers"
             android:icon="@drawable/icon_invite_drawer"
             android:title="Invite Members"/>
+
+        <item
+            android:id="@+id/nav_alertCenter"
+            android:title="Alerts Center" />
+
         <item
             android:id="@+id/nav_shareLocation"
             android:icon="@drawable/icon_share"
