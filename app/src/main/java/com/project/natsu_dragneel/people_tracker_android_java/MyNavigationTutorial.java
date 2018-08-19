@@ -77,7 +77,7 @@ public class MyNavigationTutorial extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_navigation_tutorial);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Family GPS Tracker");
+        toolbar.setTitle("People Tracker");
         setSupportActionBar(toolbar);
 
         auth = FirebaseAuth.getInstance();

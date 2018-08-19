@@ -26,14 +26,14 @@
         android:paddingTop="16dp"
         android:text="Name"
         android:id="@+id/nameTxt"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     <TextView
         android:id="@+id/emailTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:text="Email" />
 
 

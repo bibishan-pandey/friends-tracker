@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -22,7 +21,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class JoinCircleActivity extends AppCompatActivity {
-    Toolbar toolbar;
     Pinview pinView;
     DatabaseReference reference,currentReference;
     FirebaseAuth auth;
@@ -36,8 +34,6 @@ public class JoinCircleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_circle);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Join a Circle");
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -46,14 +42,6 @@ public class JoinCircleActivity extends AppCompatActivity {
 
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         currentReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
-
-
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null)
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
 
 
         currentReference.addValueEventListener(new ValueEventListener() {

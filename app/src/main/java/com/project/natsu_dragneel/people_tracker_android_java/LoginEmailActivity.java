@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -21,7 +20,6 @@ import com.google.firebase.auth.ProviderQueryResult;
 
 public class LoginEmailActivity extends AppCompatActivity {
     EditText e1_email;
-    Toolbar toolbar;
     Button b1_emailnext;
     ProgressDialog dialog;
     FirebaseAuth auth;
@@ -32,9 +30,6 @@ public class LoginEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_email);
         e1_email = (EditText)findViewById(R.id.editTextPass);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Sign In");
-        setSupportActionBar(toolbar);
         dialog = new ProgressDialog(this);
 
 

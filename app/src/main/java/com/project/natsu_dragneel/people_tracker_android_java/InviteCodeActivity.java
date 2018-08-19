@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -28,7 +27,6 @@ import com.google.firebase.storage.UploadTask;
 
 public class InviteCodeActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
     TextView t4_code;
     String name,email,password,date,issharing;
     String code = null;
@@ -43,18 +41,8 @@ public class InviteCodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_code);
-        toolbar =(Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Invite Code");
         dialog = new ProgressDialog(this);
         t6_done = (TextView)findViewById(R.id.textView6);
-        setSupportActionBar(toolbar);
-
-        if(getSupportActionBar()!=null)
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-
 
         auth = FirebaseAuth.getInstance();
         reference= FirebaseDatabase.getInstance().getReference().child("Users");

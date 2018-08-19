@@ -4,36 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mytracker.gpstracker.familytracker.MainActivity">
+    android:layout_margin="16dp"
+    tools:context=".MainActivity">
 
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ALREADY HAVE AN ACCOUNT?"
         android:id="@+id/button"
-        android:padding="10dp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:onClick="LoginUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/button2"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_shape"
+        android:onClick="LoginUser"
+        android:padding="10dp"
+        android:text="ALREADY HAVE AN ACCOUNT?"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="NEED NEW ACCOUNT?"
         android:id="@+id/button2"
-        android:layout_marginBottom="122dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:padding="10dp"
-        android:onClick="getStarted_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentStart="true"
+        android:background="@drawable/button_shape"
+        android:onClick="getStarted_click"
+        android:padding="10dp"
+        android:text="NEED NEW ACCOUNT?"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imageView"

@@ -5,79 +5,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     tools:context="com.mytracker.gpstracker.familytracker.JoinCircleActivity">
 
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginTop="22dp"
+        android:layout_above="@+id/mypinview"
+        android:layout_alignParentStart="true"
         android:gravity="center"
         android:text="Enter your Invite code"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
-        android:background="?attr/colorPrimary">
-    </android.support.v7.widget.Toolbar>
+        android:textStyle="bold" />
 
 
     <com.goodiebag.pinview.Pinview
+        android:id="@+id/mypinview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mypinview"
-        app:pinWidth="35dp"
-        android:minHeight="40dp"
-        app:pinLength="6"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         app:cursorVisible="true"
         app:forceKeyboard="true"
         app:inputType="number"
-        android:layout_below="@+id/toolbar"
-
-        android:layout_marginTop="60dp">
-    </com.goodiebag.pinview.Pinview>
+        app:pinLength="6"
+        app:pinWidth="35dp"
+        app:pinHeight="35dp"/>
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/mypinview"
         android:layout_marginTop="18dp"
-        android:textSize="14sp"
-        android:textStyle="bold"
         android:gravity="center"
         android:text="Ask your friends for their circle code"
-        android:layout_below="@+id/mypinview"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/button_shape"
-        android:textSize="16sp"
-        android:textColor="#FFFFFF"
-        android:onClick="getCode"
         android:gravity="center"
-        android:textStyle="bold"
-        android:layout_marginEnd="149dp"
-        android:layout_marginRight="149dp"
-        android:layout_marginTop="40dp"
+        android:onClick="getCode"
         android:text="Submit"
-        android:layout_below="@+id/textView7"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
 
 

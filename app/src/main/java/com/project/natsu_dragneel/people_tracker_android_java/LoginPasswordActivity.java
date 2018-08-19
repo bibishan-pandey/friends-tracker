@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -22,7 +21,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginPasswordActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
     EditText e1_pass;
     Button b1_password;
     FirebaseAuth auth;
@@ -35,13 +33,10 @@ public class LoginPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_password);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Password");
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
 
-        setSupportActionBar(toolbar);
         e1_pass = (EditText)findViewById(R.id.editTextPass);
         b1_password = (Button)findViewById(R.id.button);
 
