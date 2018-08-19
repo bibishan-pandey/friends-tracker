@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.mytracker.gpstracker.familytracker.JoinedCirclesActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,14 +17,12 @@
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
-
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerviewJoined"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:id="@+id/alertRecyclerView"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentLeft="true" />
+        android:layout_below="@+id/toolbar" />
 
 
 </RelativeLayout>

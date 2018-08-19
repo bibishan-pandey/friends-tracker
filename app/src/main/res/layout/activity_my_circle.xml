@@ -5,25 +5,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
-
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.mytracker.gpstracker.familytracker.MyCircleActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:titleTextColor="@android:color/white"
+
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
 
+
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:id="@+id/alertRecyclerView"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/toolbar" />
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:onClick="refresh"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        app:srcCompat="@drawable/refresh"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/recyclerview" />
 
 
 </RelativeLayout>

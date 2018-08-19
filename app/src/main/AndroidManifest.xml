@@ -23,7 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AccountMainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,18 +31,61 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SignupEmailActivity"
-            android:label="@string/title_activity_signup" />
+            android:name=".RegisterEmailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
         <activity
-            android:name=".activities.SignupPasswordActivity"
-            android:label="@string/title_activity_password" />
+            android:name=".RegisterPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activities.SignupNameActivity"
-            android:label="@string/title_activity_name" />
-        <activity android:name=".activities.SignupInviteCodeActivity" />
+            android:name=".RegisterNameActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".InviteCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginEmailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".LoginPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".AlertCenterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".SendHelpAlertsActivity"></activity>
+        <activity
+            android:name=".JoinCircleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyCircleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".JoinedCirclesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LiveMapActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
+        <service
+            android:name=".LocationShareService"
+            android:enabled="true"
+            android:exported="false" />
+        <activity
+            android:name=".MyNavigationTutorial"
+            android:label="Map"
+            android:theme="@style/AppTheme"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -59,18 +102,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".activities.UserLocationMainActivity"
-            android:label="@string/title_activity_user_location_main"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".activities.FollowActivity" />
-        <activity android:name=".activities.FollowersActivity" />
-        <activity android:name=".activities.LiveMapActivity" />
-        <activity android:name=".activities.FollowedActivity" />
-        <activity android:name=".activities.AlertCenterActivity" />
-        <activity android:name=".activities.SigninEmailActivity" />
-        <activity android:name=".activities.SigninPasswordActivity" />
-        <activity android:name=".activities.SendHelpAlertsActivity"></activity>
     </application>
 
 </manifest>
