@@ -70,7 +70,7 @@ public class FollowActivity extends AppCompatActivity {
 
     public void get_code_to_follow(View v) {
         current_userid = user.getUid();
-        Query query = reference.orderByChild("FollowCode").equalTo(follow_code_pinview.getValue());
+        Query query = reference.orderByChild("Code").equalTo(follow_code_pinview.getValue());
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

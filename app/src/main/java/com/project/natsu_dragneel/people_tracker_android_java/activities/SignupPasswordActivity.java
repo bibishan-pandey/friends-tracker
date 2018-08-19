@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.project.natsu_dragneel.people_tracker_android_java.R;
 public class SignupPasswordActivity extends AppCompatActivity {
 
     EditText signup_password_edittext;
-    Toolbar toolbar;
     Button signup_password_button;
     String email;
 
@@ -25,7 +23,6 @@ public class SignupPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_password);
         signup_password_edittext = (EditText) findViewById(R.id.signup_password_edittext);
-        toolbar = (Toolbar) findViewById(R.id.toolbarPassword);
         signup_password_button = (Button) findViewById(R.id.signup_password_button);
 
         Intent intent = getIntent();
@@ -35,9 +32,6 @@ public class SignupPasswordActivity extends AppCompatActivity {
 
         signup_password_button.setEnabled(false);
         signup_password_button.setBackgroundColor(Color.parseColor("#faebd7"));
-        toolbar.setTitle("Password");
-        setSupportActionBar(toolbar);
-
 
         signup_password_edittext.addTextChangedListener(new TextWatcher() {
             @Override
@@ -52,7 +46,7 @@ public class SignupPasswordActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() >= 6) {
+                if (s.length() > 7) {
                     signup_password_button.setEnabled(true);
                     signup_password_button.setBackground(getResources().getDrawable(R.drawable.button_shape_normal));
                 } else {

@@ -23,7 +23,6 @@ import com.project.natsu_dragneel.people_tracker_android_java.R;
 public class SigninEmailActivity extends AppCompatActivity {
 
     EditText signin_email_edittext;
-    Toolbar toolbar;
     Button signin_email_button;
     ProgressDialog dialog;
     FirebaseAuth auth;
@@ -33,9 +32,6 @@ public class SigninEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_email);
         signin_email_edittext = (EditText)findViewById(R.id.signup_name_edittext);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Sign In");
-        setSupportActionBar(toolbar);
         dialog = new ProgressDialog(this);
 
         auth = FirebaseAuth.getInstance();

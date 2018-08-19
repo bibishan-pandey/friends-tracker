@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -23,7 +22,6 @@ import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignupNameActivity extends AppCompatActivity {
-    Toolbar toolbar;
     EditText signup_name_edittext;
     CircleImageView circleImageView;
     Button signup_name_button;
@@ -34,9 +32,6 @@ public class SignupNameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_name);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Your Profile");
-        setSupportActionBar(toolbar);
         signup_name_edittext = (EditText) findViewById(R.id.signup_name_edittext);
         signup_name_button = (Button) findViewById(R.id.signup_name_button);
 

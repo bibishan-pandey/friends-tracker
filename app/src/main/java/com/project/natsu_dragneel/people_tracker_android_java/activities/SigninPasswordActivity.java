@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -24,7 +23,6 @@ import com.project.natsu_dragneel.people_tracker_android_java.R;
 
 public class SigninPasswordActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
     EditText signin_password_edittext;
     Button sigin_password_button;
     FirebaseAuth auth;
@@ -35,12 +33,9 @@ public class SigninPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_password);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Password");
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
-        setSupportActionBar(toolbar);
         signin_password_edittext = (EditText)findViewById(R.id.signup_name_edittext);
         sigin_password_button = (Button)findViewById(R.id.signin_password_button);
 
@@ -66,7 +61,7 @@ public class SigninPasswordActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length()>=6)
+                if(s.length()>7)
                 {
                     sigin_password_button.setEnabled(true);
                     sigin_password_button.setBackground(getResources().getDrawable(R.drawable.button_shape_normal));
