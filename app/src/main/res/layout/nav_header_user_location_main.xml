@@ -13,28 +13,25 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/user_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
-
         android:src="@drawable/icon_profile" />
-
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
+        android:paddingTop="14dp"
         android:text="Name"
         android:id="@+id/nameTxt"
-        android:textSize="22sp"
+        android:textSize="21sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     <TextView
         android:id="@+id/emailTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="13sp"
         android:text="Email" />
-
 
 </LinearLayout>

@@ -2,43 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    tools:context=".activities.MyCircleActivity">
+    tools:context=".activities.FollowersActivity">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:titleTextColor="@android:color/white"
-
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
-
-
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/recyclerViewFollowers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/toolbar" />
 
-
     <ImageView
-        android:id="@+id/imageView3"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:onClick="refresh"
-        android:layout_marginEnd="22dp"
-        android:layout_marginRight="22dp"
-        app:srcCompat="@drawable/icon_profile"
+        android:layout_above="@+id/recyclerViewFollowers"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/recyclerview" />
-
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:onClick="refresh"
+        app:srcCompat="@drawable/icon_profile" />
 
 </RelativeLayout>

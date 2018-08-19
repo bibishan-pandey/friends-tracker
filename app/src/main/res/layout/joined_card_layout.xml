@@ -18,22 +18,22 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="5dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
             android:id="@+id/itemImage"
-            android:src="@drawable/icon_profile"/>
-        
+            android:layout_width="5dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:src="@drawable/icon_profile" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/item_title"
-            android:width="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
             android:layout_weight="3"
-            android:text="Username"
+            android:width="5dp"
             android:padding="10dp"
-            android:textStyle="bold"
-            android:textSize="22sp"/>
+            android:text="Username"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
     

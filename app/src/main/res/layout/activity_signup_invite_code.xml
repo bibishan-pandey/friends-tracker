@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     android:orientation="vertical"
     tools:context=".activities.SignupInviteCodeActivity">
 
@@ -17,63 +18,69 @@
     </android.support.v7.widget.Toolbar>
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/code_textview"
         android:gravity="center_horizontal"
-        android:text="Share this invite code with the people you want in your circle"
+        android:text="Share this invite code to let other users follow you."
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/code_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="34sp"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:textColor="@color/colorPrimary"
         android:fontFamily="monospace"
-        android:layout_marginTop="42dp"
-        android:text="XXXXXX" />
+        android:text="XXXXXX"
+        android:textColor="@color/colorPrimary"
+        android:textSize="34sp" />
 
     <TextView
-        android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:layout_above="@+id/share_code_button"
+        android:layout_alignParentStart="true"
         android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="Share your code out loud or send it in a message"
-        />
+        android:text="Send it in a message."
+        android:textSize="16sp" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="120dp"
-        android:background="@drawable/button_shape"
+        android:id="@+id/share_code_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
-        android:textSize="16sp"
-        android:textAllCaps="false"
-        android:text="Send Code"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_gravity="center"
+        android:layout_marginBottom="61dp"
+        android:background="@drawable/button_shape_signin"
         android:onClick="sendCode"
+        android:text="Send Code"
+        android:textAllCaps="false"
         android:textColor="#FFFF"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:textSize="16sp" />
 
-        />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:onClick="Register"
-        android:textSize="20sp"
         android:layout_gravity="center"
-        android:text="    Done"
-        android:gravity="center_horizontal"
-        />
+        android:layout_marginTop="32dp"
+        android:background="@drawable/button_shape_normal"
+        android:gravity="center"
+        android:onClick="Register"
+        android:text="Register"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/icon_invite" />
 
 
-</LinearLayout>
+</RelativeLayout>

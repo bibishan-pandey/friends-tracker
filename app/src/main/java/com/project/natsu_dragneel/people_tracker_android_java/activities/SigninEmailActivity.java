@@ -22,34 +22,29 @@ import com.project.natsu_dragneel.people_tracker_android_java.R;
 
 public class SigninEmailActivity extends AppCompatActivity {
 
-    EditText e1_email;
+    EditText signin_email_edittext;
     Toolbar toolbar;
-    Button b1_emailnext;
+    Button signin_email_button;
     ProgressDialog dialog;
     FirebaseAuth auth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_email);
-        e1_email = (EditText)findViewById(R.id.editTextPass);
+        signin_email_edittext = (EditText)findViewById(R.id.signup_name_edittext);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle("Sign In");
         setSupportActionBar(toolbar);
         dialog = new ProgressDialog(this);
 
-
-
-
         auth = FirebaseAuth.getInstance();
-        b1_emailnext = (Button)findViewById(R.id.button);
-        b1_emailnext.setEnabled(false);
-        b1_emailnext.setBackgroundColor(Color.parseColor("#faebd7"));
+        signin_email_button = (Button)findViewById(R.id.signin_password_button);
+        signin_email_button.setEnabled(false);
+        signin_email_button.setBackgroundColor(Color.parseColor("#faebd7"));
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-
-        e1_email.addTextChangedListener(new TextWatcher() {
+        signin_email_edittext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -62,18 +57,16 @@ public class SigninEmailActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(e1_email.getText().toString().matches(emailPattern) && s.length() > 0)
+                if(signin_email_edittext.getText().toString().matches(emailPattern) && s.length() > 0)
                 {
-                    b1_emailnext.setEnabled(true);
-                    b1_emailnext.setBackgroundColor(Color.parseColor("#9C27B0"));
-
+                    signin_email_button.setEnabled(true);
+                    signin_email_button.setBackground(getResources().getDrawable(R.drawable.button_shape_normal));
                 }
                 else
                 {
-                    b1_emailnext.setEnabled(false);
-                    b1_emailnext.setBackgroundColor(Color.parseColor("#faebd7"));
+                    signin_email_button.setEnabled(false);
+                    signin_email_button.setBackgroundColor(Color.parseColor("#faebd7"));
                 }
-
             }
         });
     }
@@ -82,7 +75,7 @@ public class SigninEmailActivity extends AppCompatActivity {
     {
         dialog.setMessage("Please wait!");
         dialog.show();
-        auth.fetchProvidersForEmail(e1_email.getText().toString())
+        auth.fetchProvidersForEmail(signin_email_edittext.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
                     @Override
                     public void onComplete(@NonNull Task<ProviderQueryResult> task) {
@@ -91,21 +84,17 @@ public class SigninEmailActivity extends AppCompatActivity {
                         {
                             dialog.dismiss();
                             Toast.makeText(getApplicationContext(),"This email does not exist. Please create an account first",Toast.LENGTH_SHORT).show();
-
                         }
                         else
                         {
                             // go to password login
                             dialog.dismiss();
                             Intent myIntent = new Intent(SigninEmailActivity.this,SigninPasswordActivity.class);
-                            myIntent.putExtra("email_login",e1_email.getText().toString());
+                            myIntent.putExtra("EmailSignin",signin_email_edittext.getText().toString());
                             startActivity(myIntent);
                             finish();
-
-
                         }
                     }
                 });
-
     }
 }

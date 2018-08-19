@@ -84,7 +84,7 @@ public class UserLocationMainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_location_main);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Family GPS Tracker");
+        toolbar.setTitle("People Tracker");
         setSupportActionBar(toolbar);
 
         auth = FirebaseAuth.getInstance();
@@ -102,16 +102,12 @@ public class UserLocationMainActivity extends AppCompatActivity
 
         textName = (TextView) header.findViewById(R.id.nameTxt);
         textEmail = (TextView) header.findViewById(R.id.emailTxt);
-        circleImageView = (CircleImageView)header.findViewById(R.id.imageView2);
-
-
+        circleImageView = (CircleImageView)header.findViewById(R.id.user_image);
         //   aSwitch.setOnCheckedChangeListener(getApplicationContext());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -119,12 +115,7 @@ public class UserLocationMainActivity extends AppCompatActivity
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                         1000);
             }
-
         }
-
-
-
-
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -132,11 +123,11 @@ public class UserLocationMainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 try {
-                    myDate = dataSnapshot.child(user.getUid()).child("date").getValue().toString();
-                    mySharing = dataSnapshot.child(user.getUid()).child("issharing").getValue().toString();
-                    myEmail = dataSnapshot.child(user.getUid()).child("email").getValue().toString();
-                    myName = dataSnapshot.child(user.getUid()).child("name").getValue().toString();
-                    myProfileImage = dataSnapshot.child(user.getUid()).child("profile_image").getValue().toString();
+                    myDate = dataSnapshot.child(user.getUid()).child("Date").getValue().toString();
+                    mySharing = dataSnapshot.child(user.getUid()).child("isSharing").getValue().toString();
+                    myEmail = dataSnapshot.child(user.getUid()).child("Email").getValue().toString();
+                    myName = dataSnapshot.child(user.getUid()).child("Name").getValue().toString();
+                    myProfileImage = dataSnapshot.child(user.getUid()).child("Profile_Image").getValue().toString();
 
                     textName.setText(myName);
                     textEmail.setText(myEmail);
@@ -145,7 +136,6 @@ public class UserLocationMainActivity extends AppCompatActivity
                 {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(),"Could not connect to the network. Please try again later",Toast.LENGTH_SHORT).show();
-
                 }
             }
 
@@ -154,9 +144,6 @@ public class UserLocationMainActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
     }
 
     @Override
@@ -180,13 +167,13 @@ public class UserLocationMainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_joinCircle) {
-            Intent intent = new Intent(UserLocationMainActivity.this, JoinCirlceActivity.class);
+            Intent intent = new Intent(UserLocationMainActivity.this, FollowActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_myCircle) {
-            Intent intent=new Intent(UserLocationMainActivity.this,MyCircleActivity.class);
+            Intent intent=new Intent(UserLocationMainActivity.this,FollowersActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_joinedCircle) {
-            Intent myIntent = new Intent(UserLocationMainActivity.this, JoinedCirclesActivity.class);
+            Intent myIntent = new Intent(UserLocationMainActivity.this, FollowedActivity.class);
             startActivity(myIntent);
         } else if (id == R.id.nav_alertCenter) {
             Intent myIntent = new Intent(UserLocationMainActivity.this, SendHelpAlertsActivity.class);
@@ -252,15 +239,12 @@ public class UserLocationMainActivity extends AppCompatActivity
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         request = new LocationRequest().create();
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         request.setInterval(7000);
-
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(client, request, this);
@@ -279,26 +263,20 @@ public class UserLocationMainActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location) {
         LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
-
-
         latLngCurrent = new LatLng(location.getLatitude(), location.getLongitude());
         if (marker == null) {
             marker = mMap.addMarker(new MarkerOptions().position(latLngCurrent).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngCurrent, 15));
-
-
         } else {
             marker.setPosition(latLngCurrent);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngCurrent, 15));
         }
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_send:
-
                 if(isServiceRunning(getApplicationContext(),LocationShareService.class))
                 {
                     Toast.makeText(getApplicationContext(),"You are already sharing your location.",Toast.LENGTH_SHORT).show();
@@ -308,66 +286,33 @@ public class UserLocationMainActivity extends AppCompatActivity
                     Intent myIntent = new Intent(UserLocationMainActivity.this,LocationShareService.class);
                     startService(myIntent);
                 }
-
-
                 break;
             case R.id.action_stop:
                 Intent myIntent2 = new Intent(UserLocationMainActivity.this,LocationShareService.class);
                 stopService(myIntent2);
-                reference.child(user.getUid()).child("issharing").setValue("false")
+                reference.child(user.getUid()).child("isSharing").setValue("false")
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful())
                                 {
                                     Toast.makeText(getApplicationContext(),"Location sharing is now stopped",Toast.LENGTH_SHORT).show();
-
-
                                 }
                                 else
                                 {
                                     Toast.makeText(getApplicationContext(),"Location sharing could not be stopped",Toast.LENGTH_SHORT).show();
                                 }
-
                             }
                         });
-
-
-
-
-
                 break;
-
-
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        if(requestCode==1000)
-        {
-            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
-            {
-                Toast.makeText(getApplicationContext(),"Location permission granted. Thankyou.",Toast.LENGTH_SHORT).show();
-                onConnected(null);
-
-            }
-        }
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     public boolean isServiceRunning(Context c, Class<?> serviceClass)
     {
         ActivityManager activityManager = (ActivityManager)c.getSystemService(Context.ACTIVITY_SERVICE);
-
-
         List<ActivityManager.RunningServiceInfo> services = activityManager.getRunningServices(Integer.MAX_VALUE);
-
-
-
         for(ActivityManager.RunningServiceInfo runningServiceInfo : services)
         {
             if(runningServiceInfo.service.getClassName().equals(serviceClass.getName()))
@@ -375,15 +320,11 @@ public class UserLocationMainActivity extends AppCompatActivity
                 return true;
             }
         }
-
         return false;
-
-
     }
 
-    public void inviteMembers(View v) {
+    public void geofencing(View v) {
         Intent myIntent = new Intent(UserLocationMainActivity.this, SignupInviteCodeActivity.class);
         startActivity(myIntent);
     }
-
 }

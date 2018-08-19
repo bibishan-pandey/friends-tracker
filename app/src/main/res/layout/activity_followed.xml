@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context=".activities.JoinedCirclesActivity">
+    android:layout_margin="16dp"
+    tools:context=".activities.FollowedActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -17,12 +17,12 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerviewJoined"
+        android:id="@+id/recyclerviewFollowed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentLeft="true" />
+        android:layout_below="@+id/toolbar" />
 
 
 </RelativeLayout>

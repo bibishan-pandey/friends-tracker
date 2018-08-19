@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,14 +33,14 @@ import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser
 public class SignupInviteCodeActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    TextView t4_code;
+    TextView code_textview;
     String name,email,password,date,issharing;
     String code = null;
     DatabaseReference reference;
     FirebaseAuth auth;
     FirebaseUser user;
     ProgressDialog dialog;
-    TextView t6_done;
+    Button registerButton;
     StorageReference firebaseStorageReference;
     Uri resultUri;
     @Override
@@ -49,7 +50,7 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
         toolbar =(Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle("Invite Code");
         dialog = new ProgressDialog(this);
-        t6_done = (TextView)findViewById(R.id.textView6);
+        registerButton = (Button)findViewById(R.id.registerButton);
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar()!=null)
@@ -61,36 +62,32 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         reference= FirebaseDatabase.getInstance().getReference().child("Users");
-        firebaseStorageReference = FirebaseStorage.getInstance().getReference().child("Profile_images");
-        t4_code = (TextView)findViewById(R.id.textView4);
+        firebaseStorageReference = FirebaseStorage.getInstance().getReference().child("ProfileImages");
+        code_textview = (TextView)findViewById(R.id.code_textview);
 
         Intent intent = getIntent();
         if (intent!=null)
         {
-
-            name = intent.getStringExtra("name");
-            email = intent.getStringExtra("email");
-            password = intent.getStringExtra("password");
-            date = intent.getStringExtra("date");
-            issharing = intent.getStringExtra("issharing");
-            code = intent.getStringExtra("code");
-            resultUri = intent.getParcelableExtra("imageUri");
-
-
-
+            name = intent.getStringExtra("Name");
+            email = intent.getStringExtra("Email");
+            password = intent.getStringExtra("Password");
+            date = intent.getStringExtra("Date");
+            issharing = intent.getStringExtra("isSharing");
+            code = intent.getStringExtra("Code");
+            resultUri = intent.getParcelableExtra("ImageURL");
         }
 
         if(code == null)
         {
             // check for code in firebase
-            t6_done.setVisibility(View.GONE);
+            registerButton.setVisibility(View.GONE);
 
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     user = auth.getCurrentUser();
-                    String user_code = dataSnapshot.child(user.getUid()).child("circlecode").getValue().toString();
-                    t4_code.setText(user_code);
+                    String user_code = dataSnapshot.child(user.getUid()).child("FollowCode").getValue().toString();
+                    code_textview.setText(user_code);
                 }
 
                 @Override
@@ -98,29 +95,25 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
 
                 }
             });
-
-
         }
         else
         {
-            t4_code.setText(code);
+            code_textview.setText(code);
         }
-
     }
 
     public void sendCode(View v)
     {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("text/plain");
-        i.putExtra(Intent.EXTRA_TEXT,"Hello, My GPS Tracker Circle code is "+t4_code.getText().toString()+". Please join my circle.");
+        i.putExtra(Intent.EXTRA_TEXT,"People Tracker follow code is "+code_textview.getText().toString()+". Please follow to share location.");
         startActivity(i.createChooser(i,"Share using:"));
     }
 
     public void Register(View v)
     {
-
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("Creating new Profile. Please wait");
+        dialog.setMessage("Creating a new account. Please wait");
         dialog.setCancelable(false);
         dialog.show();
 
@@ -145,11 +138,10 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
                                                         .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
                                                                 if(task.isSuccessful())
                                                                 {
                                                                     String downloadPath = task.getResult().getStorage().getDownloadUrl().toString();
-                                                                    reference.child(user.getUid()).child("profile_image").setValue(downloadPath)
+                                                                    reference.child(user.getUid()).child("ProfileImage").setValue(downloadPath)
                                                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                 @Override
                                                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -158,31 +150,16 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
                                                                                         dialog.dismiss();
                                                                                         // send email.
                                                                                         sendVerificationEmail();
-
-
                                                                                     }
-
                                                                                 }
                                                                             });
-
-
                                                                 }
                                                                 else
                                                                 {
                                                                     Toast.makeText(getApplicationContext(),"Could not upload user image",Toast.LENGTH_SHORT).show();
                                                                 }
-
-
                                                             }
                                                         });
-
-
-
-
-
-
-
-
                                             }
                                         }
                                     });
@@ -191,12 +168,8 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
                         {
                             Toast.makeText(getApplicationContext(),"Could not create account. Try again later",Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
-
-
-
     }
 
     public void sendVerificationEmail()
@@ -210,7 +183,6 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Email sent for verification. Please check email.",Toast.LENGTH_SHORT).show();
                             finish();
                             auth.signOut();
-
                             Intent myIntent = new Intent(SignupInviteCodeActivity.this,AccountMainActivity.class);
                             startActivity(myIntent);
                         }
@@ -220,12 +192,10 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
                             finish();
                             overridePendingTransition(0, 0);
                             startActivity(getIntent());
-
                         }
                     }
                 });
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

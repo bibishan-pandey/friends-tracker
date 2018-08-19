@@ -38,13 +38,10 @@
                 android:layout_width="0dp"
                 android:layout_weight="7"
                 android:layout_height="wrap_content"
-                android:text="Dubai"
+                android:text="Username"
                 android:textStyle="bold"
                 android:padding="5dp"
                 android:textSize="22sp" />
-
-
-
 
         </LinearLayout>
 
@@ -53,7 +50,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
 
             <TextView
                 android:id="@+id/alertDate"

@@ -23,9 +23,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-
-
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -35,20 +32,20 @@
         android:layout_below="@+id/appBarLayout"
         android:layout_alignParentLeft="true" />
 
-
     <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:id="@+id/geofence_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_shape"
-        android:textColor="#FFFFFF"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:onClick="inviteMembers"
-        android:text="Invite Members to your Circle"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentStart="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_shape_normal"
+        android:onClick="geofencing"
+        android:text="Start Geofencing"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
 </RelativeLayout>

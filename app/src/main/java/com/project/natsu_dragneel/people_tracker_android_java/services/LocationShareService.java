@@ -35,9 +35,13 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class LocationShareService extends Service implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    public LocationShareService() {
-    }
+public class LocationShareService
+        extends Service
+        implements LocationListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
+
+    public LocationShareService() {}
 
     GoogleApiClient client;
     LocationRequest request;
@@ -47,23 +51,19 @@ public class LocationShareService extends Service implements LocationListener, G
     FirebaseUser user;
 
     NotificationCompat.Builder notification;
-    public final int uniqueId = 654321;
+    public final int uniqueId = 123456;
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-
-
         throw new UnsupportedOperationException("Not yet implemented");
-
-
-
-
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        reference = FirebaseDatabase.getInstance().getReference().child("Users");
+        reference = FirebaseDatabase
+                .getInstance()
+                .getReference()
+                .child("Users");
         auth = FirebaseAuth.getInstance();
         notification = new NotificationCompat.Builder(this);
         notification.setAutoCancel(false);
@@ -76,10 +76,7 @@ public class LocationShareService extends Service implements LocationListener, G
                 .addOnConnectionFailedListener(this)
                 .build();
         client.connect();
-
-
     }
-
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -87,61 +84,40 @@ public class LocationShareService extends Service implements LocationListener, G
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         request.setInterval(500);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(client, request, this);
 
         notification.setSmallIcon(R.drawable.icon_location);
-        notification.setTicker("Notification.");
+        notification.setTicker("Notification");
         notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle("Family Tracker App");
-        notification.setContentText("You are sharing your location.!");
+        notification.setContentTitle("People Tracker");
+        notification.setContentText("You are sharing your location!");
         notification.setDefaults(Notification.DEFAULT_SOUND);
-
 
         Intent intent = new Intent(getApplicationContext(),UserLocationMainActivity.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0,intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         notification.setContentIntent(pendingIntent);
-
-        // Build the nofification
-
         NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
         nm.notify(uniqueId,notification.build());
-
-
-
-
-        // display notification
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult){}
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
+    public void onConnectionSuspended(int i) {}
 
     @Override
     public void onLocationChanged(Location location) {
         latLngCurrent = new LatLng(location.getLatitude(), location.getLongitude());
-
         shareLocation();
-
-
     }
-
-
-
 
     public void shareLocation()
     {
@@ -150,10 +126,18 @@ public class LocationShareService extends Service implements LocationListener, G
         SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault());
         String myDate = sdf1.format(date);
 
-        reference.child(user.getUid()).child("issharing").setValue("true");
-        reference.child(user.getUid()).child("date").setValue(myDate);
-        reference.child(user.getUid()).child("lat").setValue(String.valueOf(latLngCurrent.latitude));
-        reference.child(user.getUid()).child("lng").setValue(String.valueOf(latLngCurrent.longitude))
+        reference.child(user.getUid())
+                .child("issharing")
+                .setValue("true");
+        reference.child(user.getUid())
+                .child("date")
+                .setValue(myDate);
+        reference.child(user.getUid())
+                .child("lat")
+                .setValue(String.valueOf(latLngCurrent.latitude));
+        reference.child(user.getUid())
+                .child("lng")
+                .setValue(String.valueOf(latLngCurrent.longitude))
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -161,22 +145,16 @@ public class LocationShareService extends Service implements LocationListener, G
                         {
                             Toast.makeText(getApplicationContext(),"Could not share Location.",Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
     }
-
 
     @Override
     public void onDestroy() {
         LocationServices.FusedLocationApi.removeLocationUpdates(client,this);
         client.disconnect();
-        //  reference.child(user.getUid()).child("issharing").setValue("false");
-
+        //reference.child(user.getUid()).child("issharing").setValue("false");
         NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         nm.cancel(uniqueId);
-
-
-
     }
 }

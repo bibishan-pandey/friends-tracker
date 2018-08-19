@@ -46,19 +46,19 @@ public class LiveMapActivity extends AppCompatActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_map);
-        toolbar = (Toolbar)findViewById(R.id.toolbar22);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
 
         myOptions = new MarkerOptions();
         Intent intent = getIntent();
         mKeys = new ArrayList<>();
         if(intent!=null)
         {
-            latitude=intent.getStringExtra("latitude");
-            longitude = intent.getStringExtra("longitude");
-            name = intent.getStringExtra("name");
-            userid = intent.getStringExtra("userid");
-            prevdate = intent.getStringExtra("date");
-            prevImage = intent.getStringExtra("image");
+            latitude=intent.getStringExtra("Latitude");
+            longitude = intent.getStringExtra("Longitude");
+            name = intent.getStringExtra("Name");
+            userid = intent.getStringExtra("UserID");
+            prevdate = intent.getStringExtra("Date");
+            prevImage = intent.getStringExtra("Image");
         }
         toolbar.setTitle(name + "'s Location");
         setSupportActionBar(toolbar);
@@ -69,40 +69,28 @@ public class LiveMapActivity extends AppCompatActivity implements OnMapReadyCall
         }
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
 
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-
-
 
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 //  Toast.makeText(getApplicationContext(),"onAdded",Toast.LENGTH_SHORT).show();
-
-
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 //   CreateUser user = dataSnapshot.getValue(CreateUser.class);
-
                 //  Toast.makeText(getApplicationContext(),dataSnapshot.getKey(),Toast.LENGTH_LONG).show();
-
-
-
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        myName = dataSnapshot.child("name").getValue(String.class);
-                        myLat = dataSnapshot.child("lat").getValue(String.class);
-                        myLng = dataSnapshot.child("lng").getValue(String.class);
-                        myDate = dataSnapshot.child("date").getValue(String.class);
-                        myImage = dataSnapshot.child("profile_image").getValue(String.class);
-
+                        myName = dataSnapshot.child("Name").getValue(String.class);
+                        myLat = dataSnapshot.child("Lat").getValue(String.class);
+                        myLng = dataSnapshot.child("Lng").getValue(String.class);
+                        myDate = dataSnapshot.child("Date").getValue(String.class);
+                        myImage = dataSnapshot.child("ProfileImage").getValue(String.class);
 
                         friendLatLng = new LatLng(Double.parseDouble(myLat),Double.parseDouble(myLng));
 
@@ -119,10 +107,6 @@ public class LiveMapActivity extends AppCompatActivity implements OnMapReadyCall
                         {
                             marker.setPosition(friendLatLng);
                         }
-
-
-
-
                     }
 
                     @Override
@@ -130,10 +114,6 @@ public class LiveMapActivity extends AppCompatActivity implements OnMapReadyCall
 
                     }
                 });
-
-
-
-
             }
 
             @Override
@@ -151,7 +131,6 @@ public class LiveMapActivity extends AppCompatActivity implements OnMapReadyCall
 
             }
         });
-
     }
 
     @Override
@@ -161,7 +140,6 @@ public class LiveMapActivity extends AppCompatActivity implements OnMapReadyCall
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
-
                 return null;
             }
 
@@ -183,8 +161,6 @@ public class LiveMapActivity extends AppCompatActivity implements OnMapReadyCall
                     dateTxt.setText(dateTxt.getText().toString() + myDate);
                     Picasso.get().load(myImage).placeholder(R.drawable.icon_profile).into(imageTxt);
                 }
-
-
                 return row;
             }
         });
@@ -205,12 +181,7 @@ public class LiveMapActivity extends AppCompatActivity implements OnMapReadyCall
         {
             marker.setPosition(friendLatLng);
         }
-
-
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(friendLatLng,15));
-
-
-
     }
 
     @Override

@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-
+    android:layout_margin="16dp"
     tools:context=".activities.SignupEmailActivity">
-
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,47 +17,41 @@
     </android.support.v7.widget.Toolbar>
 
     <EditText
-        android:id="@+id/editTextPass"
-        android:layout_width="wrap_content"
+        android:id="@+id/signup_name_edittext"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:hint="Enter your email address"
+        android:layout_centerVertical="true"
+        android:ems="10"
         android:gravity="center"
+        android:hint="Enter your email address"
+        android:inputType="textEmailAddress"
         android:padding="17dp"
         android:textSize="18sp"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginTop="151dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentLeft="true" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signup_email_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Next"
-        android:onClick="checkIfEmailPresent"
-        android:background="@drawable/button_shape"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="6dp"
-        android:text="By signing up you accept our Terms of Service and Privacy Policy."
-        android:layout_alignParentLeft="true" />
+        android:background="@drawable/button_shape_signin"
+        android:onClick="checkIfEmailPresent"
+        android:text="Sign Up Next"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/icon_sign_up" />
 
 
 </RelativeLayout>

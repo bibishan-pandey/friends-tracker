@@ -25,13 +25,11 @@ import com.project.natsu_dragneel.people_tracker_android_java.R;
 public class SigninPasswordActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    EditText e1_pass;
-    Button b1_password;
+    EditText signin_password_edittext;
+    Button sigin_password_button;
     FirebaseAuth auth;
     String email;
     ProgressDialog dialog;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +40,20 @@ public class SigninPasswordActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
-
         setSupportActionBar(toolbar);
-        e1_pass = (EditText)findViewById(R.id.editTextPass);
-        b1_password = (Button)findViewById(R.id.button);
+        signin_password_edittext = (EditText)findViewById(R.id.signup_name_edittext);
+        sigin_password_button = (Button)findViewById(R.id.signin_password_button);
 
         Intent intent = getIntent();
         if (intent!=null)
         {
-            email = intent.getStringExtra("email_login");
+            email = intent.getStringExtra("EmailSignin");
         }
 
+        sigin_password_button.setEnabled(false);
+        sigin_password_button.setBackgroundColor(Color.parseColor("#faebd7"));
 
-        b1_password.setEnabled(false);
-        b1_password.setBackgroundColor(Color.parseColor("#faebd7"));
-
-        e1_pass.addTextChangedListener(new TextWatcher() {
+        signin_password_edittext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -72,13 +68,13 @@ public class SigninPasswordActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(s.length()>=6)
                 {
-                    b1_password.setEnabled(true);
-                    b1_password.setBackgroundColor(Color.parseColor("#9C27B0"));
+                    sigin_password_button.setEnabled(true);
+                    sigin_password_button.setBackground(getResources().getDrawable(R.drawable.button_shape_normal));
                 }
                 else
                 {
-                    b1_password.setEnabled(false);
-                    b1_password.setBackgroundColor(Color.parseColor("#faebd7"));
+                    sigin_password_button.setEnabled(false);
+                    sigin_password_button.setBackgroundColor(Color.parseColor("#faebd7"));
                 }
             }
         });
@@ -88,9 +84,9 @@ public class SigninPasswordActivity extends AppCompatActivity {
     {
         dialog.setMessage("Please wait. Logging in.");
         dialog.show();
-        if(e1_pass.getText().toString().length()>=6)
+        if(signin_password_edittext.getText().toString().length()>=6)
         {
-            auth.signInWithEmailAndPassword(email,e1_pass.getText().toString())
+            auth.signInWithEmailAndPassword(email,signin_password_edittext.getText().toString())
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -122,11 +118,6 @@ public class SigninPasswordActivity extends AppCompatActivity {
                             }
                         }
                     });
-
-
-
-
-
         }
     }
 }
