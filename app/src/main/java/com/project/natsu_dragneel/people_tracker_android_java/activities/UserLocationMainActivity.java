@@ -166,21 +166,21 @@ public class UserLocationMainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.nav_joinCircle) {
+        if (id == R.id.nav_follow) {
             Intent intent = new Intent(UserLocationMainActivity.this, FollowActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_myCircle) {
+        } else if (id == R.id.nav_followers) {
             Intent intent=new Intent(UserLocationMainActivity.this,FollowersActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_joinedCircle) {
+        } else if (id == R.id.nav_followed) {
             Intent myIntent = new Intent(UserLocationMainActivity.this, FollowedActivity.class);
             startActivity(myIntent);
         } else if (id == R.id.nav_alertCenter) {
-            Intent myIntent = new Intent(UserLocationMainActivity.this, SendHelpAlertsActivity.class);
-            startActivity(myIntent);
+            //Intent myIntent = new Intent(UserLocationMainActivity.this, SendHelpAlertsActivity.class);
+            //startActivity(myIntent);
         } else if (id == R.id.nav_inviteMembers) {
-            Intent intent = new Intent(UserLocationMainActivity.this, SignupInviteCodeActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(UserLocationMainActivity.this, SignupInviteCodeActivity.class);
+            //startActivity(intent);
         } else if (id == R.id.nav_shareLocation) {
             String uri = "http://maps.google.com/maps?saddr="+latitude+","+longitude;
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -338,7 +338,7 @@ public class UserLocationMainActivity extends AppCompatActivity
     }
 
     public void geofencing(View v) {
-        Intent myIntent = new Intent(UserLocationMainActivity.this, SignupInviteCodeActivity.class);
-        startActivity(myIntent);
+        //Intent myIntent = new Intent(UserLocationMainActivity.this, SignupInviteCodeActivity.class);
+        //startActivity(myIntent);
     }
 }

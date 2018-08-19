@@ -24,8 +24,6 @@ import java.util.ArrayList;
 
 public class FollowersActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-
     RecyclerView recyclerView;
     RecyclerView.Adapter recycleradapter;
     RecyclerView.LayoutManager layoutManager;
@@ -49,10 +47,6 @@ public class FollowersActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Followers");
-
-        setSupportActionBar(toolbar);
         if(getSupportActionBar()!=null)
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FollowedMembersAdapter extends RecyclerView.Adapter<FollowedMembersAdapter.JoinedMembersViewHolder> {
+public class FollowedMembersAdapter extends RecyclerView.Adapter<FollowedMembersAdapter.FollowedMembersViewHolder> {
 
     ArrayList<CreateUser> nameList = new ArrayList<>();
     Context c;
@@ -41,15 +41,15 @@ public class FollowedMembersAdapter extends RecyclerView.Adapter<FollowedMembers
     }
 
     @Override
-    public FollowedMembersAdapter.JoinedMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FollowedMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.joined_card_layout,parent,false);
-        FollowedMembersAdapter.JoinedMembersViewHolder membersViewHolder = new FollowedMembersAdapter.JoinedMembersViewHolder(view,c,nameList);
+        FollowedMembersAdapter.FollowedMembersViewHolder membersViewHolder = new FollowedMembersAdapter.FollowedMembersViewHolder(view,c,nameList);
         return membersViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(FollowedMembersAdapter.JoinedMembersViewHolder holder, int position) {
+    public void onBindViewHolder(FollowedMembersAdapter.FollowedMembersViewHolder holder, int position) {
 
         final CreateUser addCircle = nameList.get(position);
         // String name = nameList.get(position);
@@ -60,7 +60,7 @@ public class FollowedMembersAdapter extends RecyclerView.Adapter<FollowedMembers
     }
 
 
-    public static class JoinedMembersViewHolder extends RecyclerView.ViewHolder
+    public static class FollowedMembersViewHolder extends RecyclerView.ViewHolder
             implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener
     {
         TextView name_txt;
@@ -71,7 +71,7 @@ public class FollowedMembersAdapter extends RecyclerView.Adapter<FollowedMembers
         FirebaseUser user;
         ArrayList<CreateUser> nameArrayList;
         CircleImageView i1;
-        public JoinedMembersViewHolder(View itemView,Context ctx,ArrayList<CreateUser> nameArrayList) {
+        public FollowedMembersViewHolder(View itemView,Context ctx,ArrayList<CreateUser> nameArrayList) {
             super(itemView);
             itemView.setOnCreateContextMenuListener(this);
             this.v = itemView;
@@ -104,7 +104,7 @@ public class FollowedMembersAdapter extends RecyclerView.Adapter<FollowedMembers
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful())
                                                 {
-                                                    Toast.makeText(ctx,"Unjoined successfully",Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(ctx,"Unfollowed successfully",Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
@@ -120,7 +120,7 @@ public class FollowedMembersAdapter extends RecyclerView.Adapter<FollowedMembers
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            MenuItem myActionItem = menu.add("UNJOIN");
+            MenuItem myActionItem = menu.add("Unfollow");
             myActionItem.setOnMenuItemClickListener(this);
         }
     }

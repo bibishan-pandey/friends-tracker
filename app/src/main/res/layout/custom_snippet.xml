@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:padding="10dp"
-    android:background="@color/colorPrimaryDark"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,25 +17,25 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/snippetName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/snippetName"
-            android:textSize="22sp"
             android:padding="10dp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
             android:text="User"
-            android:textColor="@android:color/background_light"/>
+            android:textAllCaps="true"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/snippetDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
             android:padding="10dp"
-            android:textAllCaps="false"
-            android:id="@+id/snippetDate"
             android:text="Last Seen:"
-            android:textColor="@android:color/background_light"/>
+            android:textAllCaps="false"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="17sp" />
 
     </LinearLayout>
     

@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +37,7 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
     ProgressDialog dialog;
-    Button registerButton;
+    TextView registerTextView;
     StorageReference firebaseStorageReference;
     Uri resultUri;
     @Override
@@ -46,7 +45,7 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_invite_code);
         dialog = new ProgressDialog(this);
-        registerButton = (Button)findViewById(R.id.registerButton);
+        registerTextView = (TextView)findViewById(R.id.registerTextView);
 
         auth = FirebaseAuth.getInstance();
         reference= FirebaseDatabase.getInstance().getReference().child("Users");
@@ -68,7 +67,7 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
         if(code == null)
         {
             // check for code in firebase
-            registerButton.setVisibility(View.GONE);
+            registerTextView.setVisibility(View.GONE);
 
             reference.addValueEventListener(new ValueEventListener() {
                 @Override

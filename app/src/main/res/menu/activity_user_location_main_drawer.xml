@@ -3,17 +3,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_joinCircle"
+            android:id="@+id/nav_follow"
             android:icon="@drawable/icon_join_circle"
-            android:title="Join Circle"/>
+            android:title="Follow"/>
         <item
-            android:id="@+id/nav_myCircle"
+            android:id="@+id/nav_followers"
             android:icon="@drawable/icon_my_circle"
-            android:title="My Circle"/>
+            android:title="Followers"/>
         <item
-            android:id="@+id/nav_joinedCircle"
+            android:id="@+id/nav_followed"
             android:icon="@drawable/icon_joined_circle"
-            android:title="Joined Circle"/>
+            android:title="Followed"/>
         <item
             android:id="@+id/nav_inviteMembers"
             android:icon="@drawable/icon_invite_drawer"

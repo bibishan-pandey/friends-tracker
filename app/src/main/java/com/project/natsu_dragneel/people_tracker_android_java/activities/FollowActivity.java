@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -26,7 +25,6 @@ import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser
 
 public class FollowActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
     Pinview follow_code_pinview;
     DatabaseReference reference, currentReference;
     FirebaseAuth auth;
@@ -39,8 +37,6 @@ public class FollowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Follow a user");
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -48,12 +44,6 @@ public class FollowActivity extends AppCompatActivity {
 
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         currentReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
 
         currentReference.addValueEventListener(new ValueEventListener() {
             @Override
