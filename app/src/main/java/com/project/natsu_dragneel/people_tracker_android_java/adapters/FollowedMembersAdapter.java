@@ -25,11 +25,11 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class JoinedMembersAdapter extends RecyclerView.Adapter<JoinedMembersAdapter.JoinedMembersViewHolder> {
+public class FollowedMembersAdapter extends RecyclerView.Adapter<FollowedMembersAdapter.JoinedMembersViewHolder> {
 
     ArrayList<CreateUser> nameList = new ArrayList<>();
     Context c;
-    public JoinedMembersAdapter(ArrayList<CreateUser> nameList,Context c)
+    public FollowedMembersAdapter(ArrayList<CreateUser> nameList, Context c)
     {
         this.nameList = nameList;
         this.c=c;
@@ -41,21 +41,21 @@ public class JoinedMembersAdapter extends RecyclerView.Adapter<JoinedMembersAdap
     }
 
     @Override
-    public JoinedMembersAdapter.JoinedMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FollowedMembersAdapter.JoinedMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.joined_card_layout,parent,false);
-        JoinedMembersAdapter.JoinedMembersViewHolder membersViewHolder = new JoinedMembersAdapter.JoinedMembersViewHolder(view,c,nameList);
+        FollowedMembersAdapter.JoinedMembersViewHolder membersViewHolder = new FollowedMembersAdapter.JoinedMembersViewHolder(view,c,nameList);
         return membersViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(JoinedMembersAdapter.JoinedMembersViewHolder holder, int position) {
+    public void onBindViewHolder(FollowedMembersAdapter.JoinedMembersViewHolder holder, int position) {
 
         final CreateUser addCircle = nameList.get(position);
         // String name = nameList.get(position);
-        Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.icon_profile).into(holder.i1);
+        Picasso.get().load(addCircle.ProfileImage).placeholder(R.drawable.icon_profile).into(holder.i1);
 
-        holder.name_txt.setText(addCircle.name);
+        holder.name_txt.setText(addCircle.Name);
 
     }
 
@@ -79,7 +79,7 @@ public class JoinedMembersAdapter extends RecyclerView.Adapter<JoinedMembersAdap
             this.nameArrayList = nameArrayList;
             auth = FirebaseAuth.getInstance();
             user = auth.getCurrentUser();
-            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
+            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("Followed");
             currentReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
             name_txt = (TextView)itemView.findViewById(R.id.item_title);
@@ -92,13 +92,13 @@ public class JoinedMembersAdapter extends RecyclerView.Adapter<JoinedMembersAdap
             int position = getAdapterPosition();
             final CreateUser addCircle = this.nameArrayList.get(position);
 
-            reference.child(addCircle.userid).removeValue()
+            reference.child(addCircle.UserID).removeValue()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                currentReference.child(addCircle.userid).child("CircleMembers").child(user.getUid()).removeValue()
+                                currentReference.child(addCircle.UserID).child("Followers").child(user.getUid()).removeValue()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

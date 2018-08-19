@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
-import com.project.natsu_dragneel.people_tracker_android_java.adapters.JoinedMembersAdapter;
+import com.project.natsu_dragneel.people_tracker_android_java.adapters.FollowedMembersAdapter;
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public class FollowedActivity extends AppCompatActivity {
                     }
 
                     Toast.makeText(getApplicationContext(), "Showing followed users", Toast.LENGTH_SHORT).show();
-                    recycleradapter = new JoinedMembersAdapter(myList, getApplicationContext());
+                    recycleradapter = new FollowedMembersAdapter(myList, getApplicationContext());
                     recyclerView.setAdapter(recycleradapter);
                     recycleradapter.notifyDataSetChanged();
                 } else {

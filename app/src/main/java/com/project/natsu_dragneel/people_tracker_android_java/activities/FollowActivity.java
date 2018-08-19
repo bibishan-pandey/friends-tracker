@@ -80,7 +80,7 @@ public class FollowActivity extends AppCompatActivity {
                     for (DataSnapshot childDss : dataSnapshot.getChildren()) {
                         createUser = childDss.getValue(CreateUser.class);
                     }
-                    joinUserId = createUser.userid;
+                    joinUserId = createUser.UserID;
 
                     circleReference = FirebaseDatabase.getInstance().getReference().child("Users").child(joinUserId).child("Followers");
                     joinedReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("Followed");

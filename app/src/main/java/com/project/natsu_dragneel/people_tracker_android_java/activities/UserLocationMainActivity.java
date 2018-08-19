@@ -127,7 +127,7 @@ public class UserLocationMainActivity extends AppCompatActivity
                     mySharing = dataSnapshot.child(user.getUid()).child("isSharing").getValue().toString();
                     myEmail = dataSnapshot.child(user.getUid()).child("Email").getValue().toString();
                     myName = dataSnapshot.child(user.getUid()).child("Name").getValue().toString();
-                    myProfileImage = dataSnapshot.child(user.getUid()).child("Profile_Image").getValue().toString();
+                    myProfileImage = dataSnapshot.child(user.getUid()).child("ProfileImage").getValue().toString();
 
                     textName.setText(myName);
                     textEmail.setText(myEmail);
@@ -307,6 +307,20 @@ public class UserLocationMainActivity extends AppCompatActivity
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if(requestCode==1000)
+        {
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
+            {
+                Toast.makeText(getApplicationContext(),"Location permission granted.",Toast.LENGTH_SHORT).show();
+                onConnected(null);
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     public boolean isServiceRunning(Context c, Class<?> serviceClass)

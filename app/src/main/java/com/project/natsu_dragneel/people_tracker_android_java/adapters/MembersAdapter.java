@@ -56,14 +56,14 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
     public void onBindViewHolder(MembersViewHolder holder, int position) {
 
         CreateUser addCircle = nameList.get(position);
-        holder.name_txt.setText(addCircle.name);
-        Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.icon_profile).into(holder.circleImageView);
+        holder.name_txt.setText(addCircle.Name);
+        Picasso.get().load(addCircle.ProfileImage).placeholder(R.drawable.icon_profile).into(holder.circleImageView);
 
-        if(addCircle.issharing.equals("false"))
+        if(addCircle.isSharing.equals("false"))
         {
             holder.i1.setImageResource(R.drawable.icon_location_off);
         }
-        else if(addCircle.issharing.equals("true"))
+        else if(addCircle.isSharing.equals("true"))
         {
             holder.i1.setImageResource(R.drawable.icon_location_on);
         }
@@ -95,7 +95,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
             this.ctx = ctx;
             mAuth = FirebaseAuth.getInstance();
             mUser = mAuth.getCurrentUser();
-            mReference = FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid()).child("CircleMembers");
+            mReference = FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid()).child("Followers");
             mJoinedRef = FirebaseDatabase.getInstance().getReference().child("Users");
             name_txt = itemView.findViewById(R.id.item_title);
             i1  = itemView.findViewById(R.id.item_image);
@@ -106,8 +106,8 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
         public void onClick(View v) {
             int position = getAdapterPosition();
             CreateUser addCircle = this.nameArrayList.get(position);
-            String latitude_user = addCircle.lat;
-            String longitude_user = addCircle.lng;
+            String latitude_user = addCircle.Lat;
+            String longitude_user = addCircle.Lng;
 
 
             if(latitude_user.equals("na") && longitude_user.equals("na"))
@@ -121,12 +121,12 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
             {
                 Intent mYIntent = new Intent(ctx,LiveMapActivity.class);
                 // mYIntent.putExtra("createuserobject",addCircle);
-                mYIntent.putExtra("latitude",latitude_user);
-                mYIntent.putExtra("longitude",longitude_user);
-                mYIntent.putExtra("name",addCircle.name);
-                mYIntent.putExtra("userid",addCircle.userid);
-                mYIntent.putExtra("date",addCircle.date);
-                mYIntent.putExtra("image",addCircle.profile_image);
+                mYIntent.putExtra("Latitude",latitude_user);
+                mYIntent.putExtra("Longitude",longitude_user);
+                mYIntent.putExtra("Name",addCircle.Name);
+                mYIntent.putExtra("UserID",addCircle.UserID);
+                mYIntent.putExtra("Date",addCircle.Date);
+                mYIntent.putExtra("Image",addCircle.ProfileImage);
                 mYIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ctx.startActivity(mYIntent);
             }
@@ -139,20 +139,19 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
             int position = getAdapterPosition();
             final CreateUser addCircle = this.nameArrayList.get(position);
 
-            mReference.child(addCircle.userid).removeValue()
+            mReference.child(addCircle.UserID).removeValue()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                mJoinedRef.child(addCircle.userid).child("JoinedCircles").child(mUser.getUid()).removeValue()
+                                mJoinedRef.child(addCircle.UserID).child("Followed").child(mUser.getUid()).removeValue()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful())
                                                 {
                                                     Toast.makeText(ctx,"User removed from circle.",Toast.LENGTH_SHORT).show();
-
                                                 }
                                             }
                                         });

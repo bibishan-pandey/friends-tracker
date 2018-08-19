@@ -89,7 +89,6 @@ public class SignupNameActivity extends AppCompatActivity {
                 myIntent.putExtra("Date", "na");
                 myIntent.putExtra("isSharing", "false");
                 myIntent.putExtra("Code", code);
-
                 myIntent.putExtra("ImageURL", resultUri);
                 startActivity(myIntent);
                 Toast.makeText(getApplicationContext(), resultUri.toString(), Toast.LENGTH_SHORT).show();

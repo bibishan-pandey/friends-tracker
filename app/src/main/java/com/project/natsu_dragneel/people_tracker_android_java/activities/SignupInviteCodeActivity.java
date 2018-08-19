@@ -124,7 +124,7 @@ public class SignupInviteCodeActivity extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             user = auth.getCurrentUser();
-                            CreateUser createUser = new CreateUser(name,email,password,date,code,user.getUid(),"false","na","na","defaultimage");
+                            CreateUser createUser = new CreateUser(name,email,password,date,code,user.getUid(),"false","na","na","icon_profile");
 
                             reference.child(user.getUid()).setValue(createUser)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {

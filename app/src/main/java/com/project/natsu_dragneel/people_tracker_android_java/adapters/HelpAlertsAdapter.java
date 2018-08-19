@@ -54,9 +54,9 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
     public void onBindViewHolder(HelpAlertViewHolder holder, int position) {
         CreateUser addCircle = nameList.get(position);
 
-        holder.alertNameTxt.setText(addCircle.name);
-        holder.alertDateTxt.setText(addCircle.date);
-        Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.icon_profile).into(holder.alertImageView);
+        holder.alertNameTxt.setText(addCircle.Name);
+        holder.alertDateTxt.setText(addCircle.Date);
+        Picasso.get().load(addCircle.ProfileImage).placeholder(R.drawable.icon_profile).into(holder.alertImageView);
 
 
     }
@@ -95,8 +95,8 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
         public void onClick(View v) {
             int position = getAdapterPosition();
             CreateUser addCircle = this.nameArrayList.get(position);
-            String latitude_user = addCircle.lat;
-            String longitude_user = addCircle.lng;
+            String latitude_user = addCircle.Lat;
+            String longitude_user = addCircle.Lng;
 
             if(latitude_user.equals("na") && longitude_user.equals("na"))
             {
@@ -108,10 +108,10 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
                 // mYIntent.putExtra("createuserobject",addCircle);
                 mYIntent.putExtra("latitude",latitude_user);
                 mYIntent.putExtra("longitude",longitude_user);
-                mYIntent.putExtra("name",addCircle.name);
-                mYIntent.putExtra("userid",addCircle.userid);
-                mYIntent.putExtra("date",addCircle.date);
-                mYIntent.putExtra("image",addCircle.profile_image);
+                mYIntent.putExtra("name",addCircle.Name);
+                mYIntent.putExtra("userid",addCircle.UserID);
+                mYIntent.putExtra("date",addCircle.Date);
+                mYIntent.putExtra("image",addCircle.ProfileImage);
                 mYIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ctx.startActivity(mYIntent);
 
@@ -129,7 +129,7 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
             int position = getAdapterPosition();
             final CreateUser addCircle = this.nameArrayList.get(position);
 
-            myReference.child(addCircle.userid).removeValue()
+            myReference.child(addCircle.UserID).removeValue()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
