@@ -1,4 +1,4 @@
-package com.project.natsu_dragneel.people_tracker_android_java;
+package com.project.natsu_dragneel.people_tracker_android_java.adapters.following_adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.project.natsu_dragneel.people_tracker_android_java.R;
+import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

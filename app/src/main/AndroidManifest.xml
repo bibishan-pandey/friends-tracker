@@ -31,59 +31,59 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterEmailActivity"
+            android:name=".activities.signup_activities.RegisterEmailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
-            android:name=".RegisterPasswordActivity"
+            android:name=".activities.signup_activities.RegisterPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".RegisterNameActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".InviteCodeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".LoginEmailActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".LoginPasswordActivity"
+            android:name=".activities.signup_activities.RegisterNameActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".AlertCenterActivity"
+            android:name=".activities.invitation_activity.InviteCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.signin_activities.LoginEmailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.signin_activities.LoginPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name=".SendHelpAlertsActivity"></activity>
         <activity
-            android:name=".JoinCircleActivity"
+            android:name=".activities.alert_activities.AlertCenterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".activities.alert_activities.SendHelpAlertsActivity"></activity>
+        <activity
+            android:name=".activities.follow_activity.JoinCircleActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MyCircleActivity"
+            android:name=".activities.followers_activity.MyCircleActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".JoinedCirclesActivity"
+            android:name=".activities.following_activity.JoinedCirclesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LiveMapActivity"
+            android:name=".activities.maps_activities.LiveMapActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
         <service
-            android:name=".LocationShareService"
+            android:name=".services.LocationShareService"
             android:enabled="true"
             android:exported="false" />
         <activity
-            android:name=".MyNavigationTutorial"
+            android:name=".activities.maps_activities.MyNavigationTutorial"
             android:label="Map"
             android:theme="@style/AppTheme"></activity>
         <!--

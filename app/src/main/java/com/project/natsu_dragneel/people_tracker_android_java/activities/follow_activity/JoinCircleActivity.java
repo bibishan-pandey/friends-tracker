@@ -1,4 +1,4 @@
-package com.project.natsu_dragneel.people_tracker_android_java;
+package com.project.natsu_dragneel.people_tracker_android_java.activities.follow_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.project.natsu_dragneel.people_tracker_android_java.R;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.MyNavigationTutorial;
+import com.project.natsu_dragneel.people_tracker_android_java.classes.FollowClass;
+import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 
 public class JoinCircleActivity extends AppCompatActivity {
     Pinview pinView;
@@ -94,8 +98,8 @@ public class JoinCircleActivity extends AppCompatActivity {
 
 
 
-                    CircleJoin circleJoin = new CircleJoin(current_userid);
-                    final CircleJoin circleJoin1 = new CircleJoin(joinUserId);
+                    FollowClass circleJoin = new FollowClass(current_userid);
+                    final FollowClass circleJoin1 = new FollowClass(joinUserId);
 
                     circleReference.child(user.getUid()).setValue(circleJoin)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {

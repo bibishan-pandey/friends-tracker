@@ -7,6 +7,9 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.MyNavigationTutorial;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.signin_activities.LoginEmailActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.signup_activities.RegisterEmailActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,43 +23,29 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         user = auth.getCurrentUser();
-
-
         if(user == null)
         {
             setContentView(R.layout.activity_main);
-
-
         }
         else
         {
-            Intent myIntent = new Intent(MainActivity.this,MyNavigationTutorial.class);
-            startActivity(myIntent);
+            Intent intent = new Intent(MainActivity.this,MyNavigationTutorial.class);
+            startActivity(intent);
             finish();
-
         }
     }
 
-
-    public void getStarted_click(View v)
+    public void signup_click(View v)
     {
-
-        Intent myintent = new Intent(MainActivity.this,RegisterEmailActivity.class);
-        startActivity(myintent);
+        Intent intent = new Intent(MainActivity.this,RegisterEmailActivity.class);
+        startActivity(intent);
         finish();
-
     }
 
-    public void LoginUser(View v)
+    public void signin_click(View v)
     {
-
-        Intent myIntent = new Intent(MainActivity.this,LoginEmailActivity.class);
-        startActivity(myIntent);
+        Intent intent = new Intent(MainActivity.this,LoginEmailActivity.class);
+        startActivity(intent);
         finish();
-
     }
-
-
-
-
 }

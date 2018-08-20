@@ -1,12 +1,11 @@
-package com.project.natsu_dragneel.people_tracker_android_java;
+package com.project.natsu_dragneel.people_tracker_android_java.activities.alert_activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,103 +15,89 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.natsu_dragneel.people_tracker_android_java.adapters.alert_adapter.HelpAlertsAdapter;
+import com.project.natsu_dragneel.people_tracker_android_java.R;
+import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 
 import java.util.ArrayList;
 
-public class MyCircleActivity extends AppCompatActivity {
-    Toolbar toolbar;
+public class AlertCenterActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
     RecyclerView recyclerView;
     RecyclerView.Adapter recycleradapter;
     RecyclerView.LayoutManager layoutManager;
-    DatabaseReference reference;
+    ArrayList<CreateUser> myList;
     FirebaseAuth auth;
     FirebaseUser user;
-    CreateUser createUser;
-    //  String memberName,memberStatus,memberLat,memberLng;
-    ArrayList<CreateUser> nameList;
-
-    // AddCircle addCircle;
-
-
-    DatabaseReference usersReference;
-
-    ArrayList<String> circleuser_idList;
     String memberUserId;
+
+    CreateUser createUser;
+    DatabaseReference reference,userReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_circle);
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        setContentView(R.layout.activity_alert_center);
+        recyclerView = (RecyclerView)findViewById(R.id.alertRecyclerView);
         layoutManager = new LinearLayoutManager(this);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("My Circle");
-
-
-
+        toolbar.setTitle("Help Center");
         setSupportActionBar(toolbar);
+
+
+
+        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("HelpAlerts");
+        userReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        myList = new ArrayList<>();
+
+
         if(getSupportActionBar()!=null)
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-
-        nameList = new ArrayList<>();
-
-
-        circleuser_idList = new ArrayList<>();
-
-
-        usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
-
-        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("CircleMembers");
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
 
 
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                nameList.clear();
+                myList.clear();
 
                 if(dataSnapshot.exists())
                 {
                     for(DataSnapshot dss: dataSnapshot.getChildren())
                     {
-                        memberUserId = dss.child("circlememberid").getValue(String.class);
+                        memberUserId = dss.child("circlememberid").getValue().toString();
 
-                        usersReference.child(memberUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        userReference.child(memberUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-
                                 createUser = dataSnapshot.getValue(CreateUser.class);
-                                nameList.add(createUser);
-                                recycleradapter.notifyDataSetChanged();
+                                myList.add(createUser);
+
                             }
 
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
-                                Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),databaseError.getCode(),Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
-                    Toast.makeText(getApplicationContext(),"Showing circle members",Toast.LENGTH_SHORT).show();
-                    recycleradapter = new MembersAdapter(nameList,getApplicationContext());
+                    Toast.makeText(getApplicationContext(),"Showing alerts",Toast.LENGTH_SHORT).show();
+                    recycleradapter = new HelpAlertsAdapter(myList,getApplicationContext());
 
                     recyclerView.setAdapter(recycleradapter);
                     recycleradapter.notifyDataSetChanged();
-
-
                 }
-
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"List is empty.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Alert list is empty",Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
 
@@ -122,12 +107,12 @@ public class MyCircleActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
 
-
     }
+
 
 
     @Override
@@ -136,14 +121,4 @@ public class MyCircleActivity extends AppCompatActivity {
             finish();
         return super.onOptionsItemSelected(item);
     }
-
-
-    public void refresh(View v)
-    {
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
-    }
-
 }

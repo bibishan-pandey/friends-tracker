@@ -1,4 +1,4 @@
-package com.project.natsu_dragneel.people_tracker_android_java;
+package com.project.natsu_dragneel.people_tracker_android_java.activities.alert_activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +16,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.natsu_dragneel.people_tracker_android_java.R;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.MyNavigationTutorial;
+import com.project.natsu_dragneel.people_tracker_android_java.classes.FollowClass;
 
 import java.util.ArrayList;
 
@@ -102,7 +105,7 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                                 }
                                 else
                                 {
-                                    CircleJoin circleJoin = new CircleJoin(user.getUid());
+                                    FollowClass circleJoin = new FollowClass(user.getUid());
                                     for(int i =0;i<userIDsList.size();i++)
                                     {
 

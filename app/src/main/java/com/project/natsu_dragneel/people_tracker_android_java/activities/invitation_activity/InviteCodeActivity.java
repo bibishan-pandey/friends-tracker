@@ -1,4 +1,4 @@
-package com.project.natsu_dragneel.people_tracker_android_java;
+package com.project.natsu_dragneel.people_tracker_android_java.activities.invitation_activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -24,6 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.R;
+import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 
 public class InviteCodeActivity extends AppCompatActivity {
 

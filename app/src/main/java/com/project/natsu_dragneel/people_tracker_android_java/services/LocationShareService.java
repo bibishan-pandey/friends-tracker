@@ -1,4 +1,4 @@
-package com.project.natsu_dragneel.people_tracker_android_java;
+package com.project.natsu_dragneel.people_tracker_android_java.services;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.MyNavigationTutorial;
+import com.project.natsu_dragneel.people_tracker_android_java.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -90,7 +92,7 @@ public class LocationShareService extends Service implements LocationListener, G
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(client, request, this);
 
-        notification.setSmallIcon(R.drawable.location);
+        notification.setSmallIcon(R.drawable.location_on);
         notification.setTicker("Notification.");
         notification.setWhen(System.currentTimeMillis());
         notification.setContentTitle("Family Tracker App");

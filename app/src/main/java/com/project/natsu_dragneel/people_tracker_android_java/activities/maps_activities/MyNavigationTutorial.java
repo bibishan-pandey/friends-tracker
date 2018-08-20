@@ -1,4 +1,4 @@
-package com.project.natsu_dragneel.people_tracker_android_java;
+package com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -46,6 +46,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.invitation_activity.InviteCodeActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.follow_activity.JoinCircleActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.following_activity.JoinedCirclesActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.followers_activity.MyCircleActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.R;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.alert_activities.SendHelpAlertsActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.alert_activities.AlertCenterActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.services.LocationShareService;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
