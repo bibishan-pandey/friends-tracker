@@ -44,7 +44,7 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
 
     @Override
     public HelpAlertViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alert_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alert_card_layout,parent,false);
         HelpAlertViewHolder alertViewHolder = new HelpAlertViewHolder(view,c,nameList);
         return alertViewHolder;
 

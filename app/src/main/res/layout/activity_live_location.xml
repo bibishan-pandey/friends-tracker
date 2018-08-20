@@ -32,7 +32,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:onClick="start_geofence"
-        android:background="@drawable/button_shape"
+        android:background="@android:color/holo_red_light"
         android:text="Start Geofence"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
