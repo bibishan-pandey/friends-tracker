@@ -23,10 +23,11 @@ import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser
 import java.util.ArrayList;
 
 public class FollowersActivity extends AppCompatActivity {
+
     Toolbar toolbar;
 
     RecyclerView recyclerView;
-    RecyclerView.Adapter recycleradapter;
+    RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
     DatabaseReference reference;
     FirebaseAuth auth;
@@ -34,68 +35,50 @@ public class FollowersActivity extends AppCompatActivity {
     CreateUser createUser;
     //  String memberName,memberStatus,memberLat,memberLng;
     ArrayList<CreateUser> nameList;
-
     // AddCircle addCircle;
-
-
     DatabaseReference usersReference;
 
-    ArrayList<String> circleuser_idList;
+    ArrayList<String> followersUserIdList;
     String memberUserId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers);
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerViewFollowers);
         layoutManager = new LinearLayoutManager(this);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("My Circle");
-
-
-
+        toolbar.setTitle("Followers");
         setSupportActionBar(toolbar);
         if(getSupportActionBar()!=null)
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
-
         nameList = new ArrayList<>();
-
-
-        circleuser_idList = new ArrayList<>();
-
-
+        followersUserIdList = new ArrayList<>();
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
-
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("CircleMembers");
-
-
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 nameList.clear();
-
                 if(dataSnapshot.exists())
                 {
                     for(DataSnapshot dss: dataSnapshot.getChildren())
                     {
                         memberUserId = dss.child("circlememberid").getValue(String.class);
-
                         usersReference.child(memberUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-
                                 createUser = dataSnapshot.getValue(CreateUser.class);
                                 nameList.add(createUser);
-                                recycleradapter.notifyDataSetChanged();
+                                recyclerAdapter.notifyDataSetChanged();
                             }
 
                             @Override
@@ -104,23 +87,16 @@ public class FollowersActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    Toast.makeText(getApplicationContext(),"Showing circle members",Toast.LENGTH_SHORT).show();
-                    recycleradapter = new FollowersAdapter(nameList,getApplicationContext());
-
-                    recyclerView.setAdapter(recycleradapter);
-                    recycleradapter.notifyDataSetChanged();
-
-
+                    Toast.makeText(getApplicationContext(),"Showing followers",Toast.LENGTH_SHORT).show();
+                    recyclerAdapter = new FollowersAdapter(nameList,getApplicationContext());
+                    recyclerView.setAdapter(recyclerAdapter);
+                    recyclerAdapter.notifyDataSetChanged();
                 }
-
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"List is empty.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Sorry, no followers",Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
-
-
-
             }
 
             @Override
@@ -128,10 +104,7 @@ public class FollowersActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -140,7 +113,6 @@ public class FollowersActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     public void refresh(View v)
     {
         finish();
@@ -148,5 +120,4 @@ public class FollowersActivity extends AppCompatActivity {
         startActivity(getIntent());
         overridePendingTransition(0, 0);
     }
-
 }
