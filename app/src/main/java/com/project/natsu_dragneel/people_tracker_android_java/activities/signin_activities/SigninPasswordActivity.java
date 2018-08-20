@@ -37,8 +37,8 @@ public class SigninPasswordActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
-        signin_password_edittext = (EditText)findViewById(R.id.signup_email_edittext);
-        signin_password_next_button = (Button)findViewById(R.id.signup_email_next_button);
+        signin_password_edittext = (EditText)findViewById(R.id.signup_profile_edittext);
+        signin_password_next_button = (Button)findViewById(R.id.signup_profile_next_button);
 
         Intent intent = getIntent();
         if (intent!=null)

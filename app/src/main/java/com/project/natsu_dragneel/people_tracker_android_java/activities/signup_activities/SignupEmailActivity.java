@@ -31,11 +31,11 @@ public class SignupEmailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_email);
-        signup_email_edittext = (EditText)findViewById(R.id.signup_email_edittext);
+        signup_email_edittext = (EditText)findViewById(R.id.signup_profile_edittext);
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
-        signup_email_next_button = (Button)findViewById(R.id.signup_email_next_button);
+        signup_email_next_button = (Button)findViewById(R.id.signup_profile_next_button);
         signup_email_next_button.setEnabled(false);
         signup_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
 

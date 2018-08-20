@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/signup_email_edittext"
+        android:id="@+id/signup_profile_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -23,7 +23,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/signup_email_next_button"
+        android:id="@+id/signup_profile_next_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -40,7 +40,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/signup_email_next_button"
+        android:layout_above="@+id/signup_profile_next_button"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="6dp"
         android:text="By signing up you accept our Terms of Service and Privacy Policy." />
