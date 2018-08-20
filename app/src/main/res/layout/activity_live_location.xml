@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mytracker.gpstracker.familytracker.LiveMapActivity">
+    tools:context=".LiveMapActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar22"
+        android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,8 +22,20 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar22" />
+        android:layout_below="@+id/toolbar" />
 
-
+    <Button
+        android:id="@+id/geofence_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:onClick="start_geofence"
+        android:background="@drawable/button_shape"
+        android:text="Start Geofence"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
 </RelativeLayout>

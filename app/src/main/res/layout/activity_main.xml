@@ -11,7 +11,7 @@
         android:id="@+id/signup_profile_next_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button2"
+        android:layout_above="@+id/geofence_button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:background="@drawable/button_shape"
@@ -22,7 +22,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/geofence_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

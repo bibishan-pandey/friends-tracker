@@ -8,6 +8,4 @@
 
     <include layout="@layout/content_current_location" />
 
-
-
 </RelativeLayout>

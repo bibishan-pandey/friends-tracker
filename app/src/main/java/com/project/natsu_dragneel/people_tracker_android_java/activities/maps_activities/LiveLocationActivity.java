@@ -31,7 +31,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LiveLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-
     GoogleMap mMap;
     LatLng friendLatLng;
     String latitude,longitude,name,userid,prevdate,prevImage;
@@ -70,31 +69,19 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         }
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
 
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-
-
-
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 //  Toast.makeText(getApplicationContext(),"onAdded",Toast.LENGTH_SHORT).show();
-
-
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 //   CreateUser user = dataSnapshot.getValue(CreateUser.class);
-
                 //  Toast.makeText(getApplicationContext(),dataSnapshot.getKey(),Toast.LENGTH_LONG).show();
-
-
-
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -103,8 +90,6 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                         myLng = dataSnapshot.child("lng").getValue(String.class);
                         myDate = dataSnapshot.child("date").getValue(String.class);
                         myImage = dataSnapshot.child("profile_image").getValue(String.class);
-
-
                         friendLatLng = new LatLng(Double.parseDouble(myLat),Double.parseDouble(myLng));
 
                         myOptions.position(friendLatLng);
@@ -120,10 +105,6 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                         {
                             marker.setPosition(friendLatLng);
                         }
-
-
-
-
                     }
 
                     @Override
@@ -131,10 +112,6 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
                     }
                 });
-
-
-
-
             }
 
             @Override
@@ -152,17 +129,14 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
             }
         });
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
-
                 return null;
             }
 
@@ -184,8 +158,6 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                     dateTxt.setText(dateTxt.getText().toString() + myDate);
                     Picasso.get().load(myImage).placeholder(R.drawable.defaultprofile).into(imageTxt);
                 }
-
-
                 return row;
             }
         });
@@ -197,7 +169,6 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         optionsnew.title(name);
         optionsnew.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         //  optionsnew.snippet("Last seen:"+prevdate);
-
         if(marker == null)
         {
             marker = mMap.addMarker(optionsnew);
@@ -206,12 +177,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         {
             marker.setPosition(friendLatLng);
         }
-
-
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(friendLatLng,15));
-
-
-
     }
 
     @Override
@@ -219,5 +185,9 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         if(item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    public void start_geofence(View v){
+
     }
 }

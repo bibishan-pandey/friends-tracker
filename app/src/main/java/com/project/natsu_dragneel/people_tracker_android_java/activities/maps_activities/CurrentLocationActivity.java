@@ -364,13 +364,6 @@ public class CurrentLocationActivity extends AppCompatActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public void inviteMembers(View v)
-    {
-        Intent myIntent = new Intent(CurrentLocationActivity.this,InvitationActivity.class);
-        startActivity(myIntent);
-    }
-
-
     public boolean isServiceRunning(Context c,Class<?> serviceClass)
     {
         ActivityManager activityManager = (ActivityManager)c.getSystemService(Context.ACTIVITY_SERVICE);
