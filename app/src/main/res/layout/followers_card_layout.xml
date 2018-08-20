@@ -5,19 +5,16 @@
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
-    android:layout_margin="6dp"
+    android:layout_margin="3dp"
     card_view:cardElevation="3dp"
-    card_view:cardCornerRadius="12dp"
-    card_view:contentPadding="4dp"
+    card_view:contentPadding="1dp"
     android:foreground="?selectableItemBackground">
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/parentLinear"
-        android:padding="14dp">
+        android:id="@+id/parentLinear">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,35 +25,31 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="0dp"
                 android:id="@+id/item_imageprofile"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_weight="2"
-                android:src="@drawable/defaultprofile"
-                />
+                android:src="@drawable/defaultprofile" />
 
             <TextView
                 android:id="@+id/item_title"
                 android:layout_width="0dp"
                 android:layout_weight="7"
                 android:layout_height="wrap_content"
-                android:text="Dubai"
+                android:text="Username"
+                android:layout_gravity="center_vertical"
                 android:textStyle="bold"
                 android:padding="10dp"
                 android:textSize="22sp" />
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:id="@+id/item_image"
-                android:src="@drawable/location_off"
-
-
-                />
-
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/location_off" />
 
         </LinearLayout>
 
     </LinearLayout>
-
 
 </android.support.v7.widget.CardView>

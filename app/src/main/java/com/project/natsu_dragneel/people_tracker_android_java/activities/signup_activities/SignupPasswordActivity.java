@@ -22,7 +22,7 @@ public class SignupPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_password);
         signup_password_edittext = (EditText)findViewById(R.id.signup_password_edittext);
-        signup_password_next_signup = (Button)findViewById(R.id.buttonPassword);
+        signup_password_next_signup = (Button)findViewById(R.id.signup_password_next_signup);
 
         Intent intent = getIntent();
         if (intent!=null) {

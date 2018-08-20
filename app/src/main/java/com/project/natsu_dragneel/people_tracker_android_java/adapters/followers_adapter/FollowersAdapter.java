@@ -49,7 +49,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
     @Override
     public MembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.followers_card_layout,parent,false);
         MembersViewHolder membersViewHolder = new MembersViewHolder(view,c,nameList);
         return membersViewHolder;
     }

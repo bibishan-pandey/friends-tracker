@@ -43,7 +43,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.Join
     @Override
     public FollowingAdapter.JoinedMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.joined_card_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.follow_card_layout,parent,false);
         FollowingAdapter.JoinedMembersViewHolder membersViewHolder = new FollowingAdapter.JoinedMembersViewHolder(view,c,nameList);
         return membersViewHolder;
     }

@@ -46,7 +46,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_location);
-        toolbar = (Toolbar)findViewById(R.id.toolbar22);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
 
         myOptions = new MarkerOptions();
         Intent intent = getIntent();
