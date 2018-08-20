@@ -3,10 +3,9 @@ package com.project.natsu_dragneel.people_tracker_android_java.activities.signup
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -18,12 +17,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.signin_activities.SigninEmailActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.signin_activities.SigninEmailActivity;
 
 public class SignupEmailActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
     EditText signup_email_edittext;
     Button signup_email_next_button;
     ProgressDialog dialog;
@@ -33,7 +31,6 @@ public class SignupEmailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_email);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
         signup_email_edittext = (EditText)findViewById(R.id.signup_email_edittext);
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
@@ -41,8 +38,6 @@ public class SignupEmailActivity extends AppCompatActivity {
         signup_email_next_button = (Button)findViewById(R.id.signup_email_next_button);
         signup_email_next_button.setEnabled(false);
         signup_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
-        toolbar.setTitle("Email Address");
-        setSupportActionBar(toolbar);
 
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         signup_email_edittext.addTextChangedListener(new TextWatcher() {
