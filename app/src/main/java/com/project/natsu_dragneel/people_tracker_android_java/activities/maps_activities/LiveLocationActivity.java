@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class LiveMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class LiveLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
     GoogleMap mMap;
@@ -46,7 +46,7 @@ public class LiveMapActivity extends AppCompatActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_live_map);
+        setContentView(R.layout.activity_live_location);
         toolbar = (Toolbar)findViewById(R.id.toolbar22);
 
         myOptions = new MarkerOptions();

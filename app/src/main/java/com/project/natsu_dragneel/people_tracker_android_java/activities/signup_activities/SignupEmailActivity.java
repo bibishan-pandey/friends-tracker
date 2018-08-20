@@ -18,10 +18,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.signin_activities.LoginEmailActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.signin_activities.SigninEmailActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 
-public class RegisterEmailActivity extends AppCompatActivity {
+public class SignupEmailActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     EditText e1_email;
@@ -32,7 +32,7 @@ public class RegisterEmailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_email);
+        setContentView(R.layout.activity_signup_email);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         e1_email = (EditText)findViewById(R.id.editTextPass);
         auth = FirebaseAuth.getInstance();
@@ -91,7 +91,7 @@ public class RegisterEmailActivity extends AppCompatActivity {
 
                         if(!check)
                         {
-                            Intent myIntent = new Intent(RegisterEmailActivity.this,RegisterPasswordActivity.class);
+                            Intent myIntent = new Intent(SignupEmailActivity.this,SignupPasswordActivity.class);
                             myIntent.putExtra("email",e1_email.getText().toString());
                             startActivity(myIntent);
                             finish();
@@ -100,7 +100,7 @@ public class RegisterEmailActivity extends AppCompatActivity {
                         else
                         {
                             Toast.makeText(getApplicationContext(),"You already have an account. Please login.",Toast.LENGTH_SHORT).show();
-                            Intent myIntent = new Intent(RegisterEmailActivity.this,LoginEmailActivity.class);
+                            Intent myIntent = new Intent(SignupEmailActivity.this,SigninEmailActivity.class);
                             startActivity(myIntent);
                             finish();
 

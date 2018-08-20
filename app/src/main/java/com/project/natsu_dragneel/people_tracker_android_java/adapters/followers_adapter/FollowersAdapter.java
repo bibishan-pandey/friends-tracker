@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.LiveMapActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.LiveLocationActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 import com.squareup.picasso.Picasso;
@@ -28,12 +28,12 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersViewHolder>
+public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.MembersViewHolder>
 {
 
     ArrayList<CreateUser> nameList = new ArrayList<>();
     Context c;
-    public MembersAdapter(ArrayList<CreateUser> nameList,Context c)
+    public FollowersAdapter(ArrayList<CreateUser> nameList, Context c)
     {
         this.nameList = nameList;
         this.c=c;
@@ -121,7 +121,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
             }
             else
             {
-                Intent mYIntent = new Intent(ctx,LiveMapActivity.class);
+                Intent mYIntent = new Intent(ctx,LiveLocationActivity.class);
                 // mYIntent.putExtra("createuserobject",addCircle);
                 mYIntent.putExtra("latitude",latitude_user);
                 mYIntent.putExtra("longitude",longitude_user);

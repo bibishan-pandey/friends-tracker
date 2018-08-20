@@ -20,9 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.MyNavigationTutorial;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.CurrentLocationActivity;
 
-public class LoginPasswordActivity extends AppCompatActivity {
+public class SigninPasswordActivity extends AppCompatActivity {
 
     EditText e1_pass;
     Button b1_password;
@@ -35,7 +35,7 @@ public class LoginPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_password);
+        setContentView(R.layout.activity_signin_password);
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
@@ -98,7 +98,7 @@ public class LoginPasswordActivity extends AppCompatActivity {
                                 {
                                     dialog.dismiss();
                                     finish();
-                                    Intent myIntent = new Intent(LoginPasswordActivity.this,MyNavigationTutorial.class);
+                                    Intent myIntent = new Intent(SigninPasswordActivity.this,CurrentLocationActivity.class);
                                     startActivity(myIntent);
                                 }
                                 else
@@ -107,7 +107,7 @@ public class LoginPasswordActivity extends AppCompatActivity {
                                     finish();
                                     FirebaseAuth.getInstance().signOut();
                                     Toast.makeText(getApplicationContext(),"This email is not verified yet. Please check your email",Toast.LENGTH_SHORT).show();
-                                    Intent myIntent = new Intent(LoginPasswordActivity.this,MainActivity.class);
+                                    Intent myIntent = new Intent(SigninPasswordActivity.this,MainActivity.class);
                                     startActivity(myIntent);
                                 }
                             }

@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.project.natsu_dragneel.people_tracker_android_java.R;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.invitation_activity.InviteCodeActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.invitation_activity.InvitationActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.Date;
@@ -22,7 +22,7 @@ import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RegisterNameActivity extends AppCompatActivity {
+public class SignupProfileActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     EditText e1;
@@ -36,7 +36,7 @@ public class RegisterNameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_name);
+        setContentView(R.layout.activity_signup_profile);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle("Your Profile");
         setSupportActionBar(toolbar);
@@ -103,7 +103,7 @@ public class RegisterNameActivity extends AppCompatActivity {
 
             if(resultUri !=null)
             {
-                Intent myIntent = new Intent(RegisterNameActivity.this, InviteCodeActivity.class);
+                Intent myIntent = new Intent(SignupProfileActivity.this, InvitationActivity.class);
                 myIntent.putExtra("name", e1.getText().toString());
                 myIntent.putExtra("email", email);
                 myIntent.putExtra("password", password);

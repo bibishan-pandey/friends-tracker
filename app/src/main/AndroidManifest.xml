@@ -31,28 +31,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.signup_activities.RegisterEmailActivity"
+            android:name=".activities.signup_activities.SignupEmailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
-            android:name=".activities.signup_activities.RegisterPasswordActivity"
+            android:name=".activities.signup_activities.SignupPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activities.signup_activities.RegisterNameActivity"
+            android:name=".activities.signup_activities.SignupProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activities.invitation_activity.InviteCodeActivity"
+            android:name=".activities.invitation_activity.InvitationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.signin_activities.LoginEmailActivity"
+            android:name=".activities.signin_activities.SigninEmailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activities.signin_activities.LoginPasswordActivity"
+            android:name=".activities.signin_activities.SigninPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
@@ -63,16 +63,16 @@
 
         <activity android:name=".activities.alert_activities.SendHelpAlertsActivity"></activity>
         <activity
-            android:name=".activities.follow_activity.JoinCircleActivity"
+            android:name=".activities.follow_activity.FollowActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.followers_activity.MyCircleActivity"
+            android:name=".activities.followers_activity.FollowersActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.following_activity.JoinedCirclesActivity"
+            android:name=".activities.following_activity.FollowingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.maps_activities.LiveMapActivity"
+            android:name=".activities.maps_activities.LiveLocationActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -83,7 +83,7 @@
             android:enabled="true"
             android:exported="false" />
         <activity
-            android:name=".activities.maps_activities.MyNavigationTutorial"
+            android:name=".activities.maps_activities.CurrentLocationActivity"
             android:label="Map"
             android:theme="@style/AppTheme"></activity>
         <!--

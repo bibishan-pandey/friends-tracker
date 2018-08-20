@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_my_navigation_tutorial"
+        layout="@layout/app_bar_current_location"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_my_navigation_tutorial"
-        app:menu="@menu/activity_my_navigation_tutorial_drawer" />
+        app:headerLayout="@layout/nav_header_current_location"
+        app:menu="@menu/activity_current_location_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

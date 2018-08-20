@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.maps_activities.MyNavigationTutorial">
+    tools:context=".activities.maps_activities.CurrentLocationActivity">
 
-    <include layout="@layout/content_my_navigation_tutorial" />
+    <include layout="@layout/content_current_location" />
 
 
 

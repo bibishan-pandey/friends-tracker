@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.LiveMapActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.LiveLocationActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 import com.squareup.picasso.Picasso;
@@ -104,7 +104,7 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
             }
             else
             {
-                Intent mYIntent = new Intent(ctx,LiveMapActivity.class);
+                Intent mYIntent = new Intent(ctx,LiveLocationActivity.class);
                 // mYIntent.putExtra("createuserobject",addCircle);
                 mYIntent.putExtra("latitude",latitude_user);
                 mYIntent.putExtra("longitude",longitude_user);

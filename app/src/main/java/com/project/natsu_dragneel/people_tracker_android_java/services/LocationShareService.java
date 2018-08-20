@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.MyNavigationTutorial;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.CurrentLocationActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 
 import java.text.SimpleDateFormat;
@@ -100,7 +100,7 @@ public class LocationShareService extends Service implements LocationListener, G
         notification.setDefaults(Notification.DEFAULT_SOUND);
 
 
-        Intent intent = new Intent(getApplicationContext(),MyNavigationTutorial.class);
+        Intent intent = new Intent(getApplicationContext(),CurrentLocationActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0,intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);

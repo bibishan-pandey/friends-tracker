@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 
-public class LoginEmailActivity extends AppCompatActivity {
+public class SigninEmailActivity extends AppCompatActivity {
     EditText e1_email;
     Button b1_emailnext;
     ProgressDialog dialog;
@@ -29,7 +29,7 @@ public class LoginEmailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_email);
+        setContentView(R.layout.activity_signin_email);
         e1_email = (EditText)findViewById(R.id.editTextPass);
         dialog = new ProgressDialog(this);
 
@@ -91,7 +91,7 @@ public class LoginEmailActivity extends AppCompatActivity {
                         {
                             // go to password login
                             dialog.dismiss();
-                            Intent myIntent = new Intent(LoginEmailActivity.this,LoginPasswordActivity.class);
+                            Intent myIntent = new Intent(SigninEmailActivity.this,SigninPasswordActivity.class);
                             myIntent.putExtra("email_login",e1_email.getText().toString());
                             startActivity(myIntent);
                             finish();

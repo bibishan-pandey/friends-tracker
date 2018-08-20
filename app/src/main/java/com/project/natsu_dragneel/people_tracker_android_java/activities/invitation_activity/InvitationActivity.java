@@ -28,7 +28,7 @@ import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 
-public class InviteCodeActivity extends AppCompatActivity {
+public class InvitationActivity extends AppCompatActivity {
 
     TextView t4_code;
     String name,email,password,date,issharing;
@@ -43,7 +43,7 @@ public class InviteCodeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invite_code);
+        setContentView(R.layout.activity_invitation);
         dialog = new ProgressDialog(this);
         t6_done = (TextView)findViewById(R.id.textView6);
 
@@ -199,7 +199,7 @@ public class InviteCodeActivity extends AppCompatActivity {
                             finish();
                             auth.signOut();
 
-                            Intent myIntent = new Intent(InviteCodeActivity.this,MainActivity.class);
+                            Intent myIntent = new Intent(InvitationActivity.this,MainActivity.class);
                             startActivity(myIntent);
                         }
                         else

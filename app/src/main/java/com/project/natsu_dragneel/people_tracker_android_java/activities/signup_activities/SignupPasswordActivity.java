@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 
-public class RegisterPasswordActivity extends AppCompatActivity {
+public class SignupPasswordActivity extends AppCompatActivity {
 
     EditText e1_password;
     Toolbar toolbar;
@@ -22,7 +22,7 @@ public class RegisterPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_password);
+        setContentView(R.layout.activity_signup_password);
         e1_password = (EditText)findViewById(R.id.editTextPassword);
         toolbar = (Toolbar)findViewById(R.id.toolbarPassword);
         b1_password = (Button)findViewById(R.id.buttonPassword);
@@ -74,7 +74,7 @@ public class RegisterPasswordActivity extends AppCompatActivity {
         if(e1_password.getText().toString().length()>=6)
         {
             // go to Name Activity
-            Intent myIntent = new Intent(RegisterPasswordActivity.this,RegisterNameActivity.class);
+            Intent myIntent = new Intent(SignupPasswordActivity.this,SignupProfileActivity.class);
             myIntent.putExtra("email",email);
             myIntent.putExtra("password",e1_password.getText().toString());
             startActivity(myIntent);

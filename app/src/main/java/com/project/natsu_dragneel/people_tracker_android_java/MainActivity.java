@@ -7,9 +7,9 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.MyNavigationTutorial;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.signin_activities.LoginEmailActivity;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.signup_activities.RegisterEmailActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.CurrentLocationActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.signin_activities.SigninEmailActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.signup_activities.SignupEmailActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            Intent intent = new Intent(MainActivity.this,MyNavigationTutorial.class);
+            Intent intent = new Intent(MainActivity.this,CurrentLocationActivity.class);
             startActivity(intent);
             finish();
         }
@@ -37,14 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void signup_click(View v)
     {
-        Intent intent = new Intent(MainActivity.this,RegisterEmailActivity.class);
+        Intent intent = new Intent(MainActivity.this,SignupEmailActivity.class);
         startActivity(intent);
         finish();
     }
 
     public void signin_click(View v)
     {
-        Intent intent = new Intent(MainActivity.this,LoginEmailActivity.class);
+        Intent intent = new Intent(MainActivity.this,SigninEmailActivity.class);
         startActivity(intent);
         finish();
     }

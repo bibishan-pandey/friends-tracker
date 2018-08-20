@@ -20,11 +20,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.MyNavigationTutorial;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.CurrentLocationActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.classes.FollowClass;
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 
-public class JoinCircleActivity extends AppCompatActivity {
+public class FollowActivity extends AppCompatActivity {
     Pinview pinView;
     DatabaseReference reference,currentReference;
     FirebaseAuth auth;
@@ -37,7 +37,7 @@ public class JoinCircleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_join_circle);
+        setContentView(R.layout.activity_follow);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -113,7 +113,7 @@ public class JoinCircleActivity extends AppCompatActivity {
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         Toast.makeText(getApplicationContext(),"You have joined this circle successfully",Toast.LENGTH_SHORT).show();
                                                         finish();
-                                                        Intent myIntent = new Intent(JoinCircleActivity.this,MyNavigationTutorial.class);
+                                                        Intent myIntent = new Intent(FollowActivity.this,CurrentLocationActivity.class);
                                                         startActivity(myIntent);
                                                     }
                                                 });

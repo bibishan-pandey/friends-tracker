@@ -16,12 +16,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
-import com.project.natsu_dragneel.people_tracker_android_java.adapters.following_adapter.JoinedMembersAdapter;
+import com.project.natsu_dragneel.people_tracker_android_java.adapters.following_adapter.FollowingAdapter;
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 
 import java.util.ArrayList;
 
-public class JoinedCirclesActivity extends AppCompatActivity {
+public class FollowingActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     Toolbar toolbar;
@@ -40,7 +40,7 @@ public class JoinedCirclesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_joined_circles);
+        setContentView(R.layout.activity_following);
         recyclerView = (RecyclerView)findViewById(R.id.recyclerviewJoined);
         layoutManager = new LinearLayoutManager(this);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -97,7 +97,7 @@ public class JoinedCirclesActivity extends AppCompatActivity {
                     }
 
                     Toast.makeText(getApplicationContext(),"Showing joined circles",Toast.LENGTH_SHORT).show();
-                    recycleradapter = new JoinedMembersAdapter(myList,getApplicationContext());
+                    recycleradapter = new FollowingAdapter(myList,getApplicationContext());
                     recyclerView.setAdapter(recycleradapter);
                     recycleradapter.notifyDataSetChanged();
 

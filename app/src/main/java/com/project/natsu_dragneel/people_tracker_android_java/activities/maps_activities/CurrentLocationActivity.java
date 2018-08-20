@@ -46,11 +46,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.invitation_activity.InviteCodeActivity;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.follow_activity.JoinCircleActivity;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.following_activity.JoinedCirclesActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.invitation_activity.InvitationActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.follow_activity.FollowActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.following_activity.FollowingActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.followers_activity.MyCircleActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.followers_activity.FollowersActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.alert_activities.SendHelpAlertsActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.alert_activities.AlertCenterActivity;
@@ -61,7 +61,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyNavigationTutorial extends AppCompatActivity
+public class CurrentLocationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks
         , GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -84,7 +84,7 @@ public class MyNavigationTutorial extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_navigation_tutorial);
+        setContentView(R.layout.activity_current_location);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle("People Tracker");
         setSupportActionBar(toolbar);
@@ -118,7 +118,7 @@ public class MyNavigationTutorial extends AppCompatActivity
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MyNavigationTutorial.this,
+                ActivityCompat.requestPermissions(CurrentLocationActivity.this,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                         1000);
             }
@@ -188,41 +188,41 @@ public class MyNavigationTutorial extends AppCompatActivity
                 auth.signOut();
                 finish();
 
-                Intent myIntent2 = new Intent(MyNavigationTutorial.this,LocationShareService.class);
+                Intent myIntent2 = new Intent(CurrentLocationActivity.this,LocationShareService.class);
                 stopService(myIntent2);
 
-                Intent i = new Intent(MyNavigationTutorial.this, MainActivity.class);
+                Intent i = new Intent(CurrentLocationActivity.this, MainActivity.class);
                 startActivity(i);
             }
         } else if (id == R.id.joinCircle)
         {
 
-            Intent myIntent = new Intent(MyNavigationTutorial.this, JoinCircleActivity.class);
+            Intent myIntent = new Intent(CurrentLocationActivity.this, FollowActivity.class);
             startActivity(myIntent);
         } else if (id == R.id.myCircle)
         {
-            Intent intent = new Intent(MyNavigationTutorial.this, MyCircleActivity.class);
+            Intent intent = new Intent(CurrentLocationActivity.this, FollowersActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.inviteFriends)
         {
-            Intent myIntent = new Intent(MyNavigationTutorial.this, InviteCodeActivity.class);
+            Intent myIntent = new Intent(CurrentLocationActivity.this, InvitationActivity.class);
             startActivity(myIntent);
         } else if (id == R.id.joinedCircle)
         {
-            Intent myIntent = new Intent(MyNavigationTutorial.this, JoinedCirclesActivity.class);
+            Intent myIntent = new Intent(CurrentLocationActivity.this, FollowingActivity.class);
             startActivity(myIntent);
         }
 
 
         else if(id == R.id.sendHelpAlert) {
-            Intent myIntent = new Intent(MyNavigationTutorial.this, SendHelpAlertsActivity.class);
+            Intent myIntent = new Intent(CurrentLocationActivity.this, SendHelpAlertsActivity.class);
             startActivity(myIntent);
         }
 
         else if(id == R.id.alertCenter)
         {
-            Intent myIntent = new Intent(MyNavigationTutorial.this,AlertCenterActivity.class);
+            Intent myIntent = new Intent(CurrentLocationActivity.this,AlertCenterActivity.class);
             startActivity(myIntent);
         }
 
@@ -304,14 +304,14 @@ public class MyNavigationTutorial extends AppCompatActivity
                 }
                 else
                 {
-                    Intent myIntent = new Intent(MyNavigationTutorial.this,LocationShareService.class);
+                    Intent myIntent = new Intent(CurrentLocationActivity.this,LocationShareService.class);
                     startService(myIntent);
                 }
 
 
                 break;
             case R.id.action_stop:
-                Intent myIntent2 = new Intent(MyNavigationTutorial.this,LocationShareService.class);
+                Intent myIntent2 = new Intent(CurrentLocationActivity.this,LocationShareService.class);
                 stopService(myIntent2);
                 reference.child(user.getUid()).child("issharing").setValue("false")
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -344,7 +344,7 @@ public class MyNavigationTutorial extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.my_navigation_tutorial,menu);
+        getMenuInflater().inflate(R.menu.current_location,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -366,7 +366,7 @@ public class MyNavigationTutorial extends AppCompatActivity
 
     public void inviteMembers(View v)
     {
-        Intent myIntent = new Intent(MyNavigationTutorial.this,InviteCodeActivity.class);
+        Intent myIntent = new Intent(CurrentLocationActivity.this,InvitationActivity.class);
         startActivity(myIntent);
     }
 
