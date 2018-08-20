@@ -3,44 +3,49 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:padding="10dp"
-    android:background="@color/colorPrimaryDark"
+    android:background="@android:color/background_light"
     android:layout_height="match_parent">
-
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/snippetImage"
-        android:src="@drawable/defaultprofile"
-        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/snippetName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/background_light"
-            android:textSize="22sp"
-            android:padding="10dp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:text="HAROON" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/snippetImage"
+            android:src="@drawable/defaultprofile" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/background_light"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:textAllCaps="false"
-            android:id="@+id/snippetDate"
-            android:text="Last Seen:"
-            />
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/snippetName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:padding="10dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:text="Username" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15sp"
+                android:padding="10dp"
+                android:textAllCaps="false"
+                android:id="@+id/snippetDate"
+                android:text="Last Seen:" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
