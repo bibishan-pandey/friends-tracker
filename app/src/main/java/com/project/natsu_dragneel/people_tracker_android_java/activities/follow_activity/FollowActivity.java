@@ -25,38 +25,29 @@ import com.project.natsu_dragneel.people_tracker_android_java.classes.FollowClas
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 
 public class FollowActivity extends AppCompatActivity {
-    Pinview pinView;
+    
+    Pinview code_pin_view;
     DatabaseReference reference,currentReference;
     FirebaseAuth auth;
     FirebaseUser user;
     String currentUserId;
-    DatabaseReference circleReference,joinedReference;
-    String joinUserId;
-    String current_userid;
+    DatabaseReference followersReference,followingReference;
+    String followUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
+
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-
-
-        pinView = (Pinview)findViewById(R.id.mypinview);
-
+        code_pin_view = (Pinview)findViewById(R.id.code_pin_view);
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         currentReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
-
-
         currentReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-                current_userid = dataSnapshot.child("userid").getValue().toString();
-
-
-
+                currentUserId = dataSnapshot.child("userid").getValue().toString();
             }
 
             @Override
@@ -64,76 +55,55 @@ public class FollowActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-
-
-    }// end of onCreate
-
-    public void getCode(View v)
+    public void get_users_code_with_uid(View v)
     {
-
-        // find the circle code owner name and email through his uid
         currentUserId = user.getUid();
-
-        Query query = reference.orderByChild("circlecode").equalTo(pinView.getValue());
-
+        Query query = reference.orderByChild("circlecode").equalTo(code_pin_view.getValue());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists())
                 {
-
                     CreateUser createUser = null;
                     for(DataSnapshot childDss : dataSnapshot.getChildren())
                     {
                         createUser = childDss.getValue(CreateUser.class);
                     }
-                    joinUserId = createUser.userid;
-
-                    circleReference = FirebaseDatabase.getInstance().getReference().child("Users").child(joinUserId).child("CircleMembers");
-                    joinedReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
-
-
+                    followUserId = createUser.userid;
+                    followersReference = FirebaseDatabase.getInstance().getReference().child("Users").child(followUserId).child("CircleMembers");
+                    followingReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
                     // get the correct values from the user
-
-
-
-                    FollowClass circleJoin = new FollowClass(current_userid);
-                    final FollowClass circleJoin1 = new FollowClass(joinUserId);
-
-                    circleReference.child(user.getUid()).setValue(circleJoin)
+                    FollowClass currentFollowUser = new FollowClass(currentUserId);
+                    final FollowClass followUser = new FollowClass(followUserId);
+                    followersReference.child(user.getUid()).setValue(currentFollowUser)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful())
                                     {
-                                        joinedReference.child(joinUserId).setValue(circleJoin1)
+                                        followingReference.child(followUserId).setValue(followUser)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                        Toast.makeText(getApplicationContext(),"You have joined this circle successfully",Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(),"You started following this user successfully",Toast.LENGTH_SHORT).show();
                                                         finish();
                                                         Intent myIntent = new Intent(FollowActivity.this,CurrentLocationActivity.class);
                                                         startActivity(myIntent);
                                                     }
                                                 });
-
-
-
-
                                     }
                                     else
                                     {
-                                        Toast.makeText(getApplicationContext(),"Could not join, try again",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(),"Could not follow, try again",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
-
-
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"Invalid circle code entered",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Invitation code entered is invalid",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -142,7 +112,6 @@ public class FollowActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     @Override
