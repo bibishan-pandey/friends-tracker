@@ -19,7 +19,7 @@
     </android.support.v7.widget.Toolbar>
 
     <EditText
-        android:id="@+id/editTextPass"
+        android:id="@+id/signin_email_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -32,7 +32,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signin_email_next_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -49,7 +49,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button"
+        android:layout_above="@+id/signin_email_next_button"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="6dp"
         android:text="By signing up you accept our Terms of Service and Privacy Policy." />

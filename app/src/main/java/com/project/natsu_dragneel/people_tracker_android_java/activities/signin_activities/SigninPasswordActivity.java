@@ -40,8 +40,8 @@ public class SigninPasswordActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
 
 
-        e1_pass = (EditText)findViewById(R.id.editTextPass);
-        b1_password = (Button)findViewById(R.id.button);
+        e1_pass = (EditText)findViewById(R.id.signin_email_edittext);
+        b1_password = (Button)findViewById(R.id.signin_email_next_button);
 
         Intent intent = getIntent();
         if (intent!=null)

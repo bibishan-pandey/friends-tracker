@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/editTextPass"
+        android:id="@+id/signin_email_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -23,15 +23,15 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signin_email_next_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:background="@drawable/button_shape"
-        android:onClick="checkEmail"
-        android:text="Next"
+        android:onClick="email_exists_or_not"
+        android:text="Sign Up Next"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />

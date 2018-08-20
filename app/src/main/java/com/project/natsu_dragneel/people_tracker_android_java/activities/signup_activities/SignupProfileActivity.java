@@ -40,8 +40,8 @@ public class SignupProfileActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle("Your Profile");
         setSupportActionBar(toolbar);
-        e1 = (EditText)findViewById(R.id.editTextPass);
-        b1 = (Button)findViewById(R.id.button);
+        e1 = (EditText)findViewById(R.id.signin_email_edittext);
+        b1 = (Button)findViewById(R.id.signin_email_next_button);
 
 
 

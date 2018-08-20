@@ -20,30 +20,24 @@ import com.google.firebase.auth.ProviderQueryResult;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 
 public class SigninEmailActivity extends AppCompatActivity {
-    EditText e1_email;
-    Button b1_emailnext;
+
+    EditText signin_email_edittext;
+    Button signin_email_next_button;
     ProgressDialog dialog;
     FirebaseAuth auth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_email);
-        e1_email = (EditText)findViewById(R.id.editTextPass);
+        signin_email_edittext = (EditText)findViewById(R.id.signin_email_edittext);
         dialog = new ProgressDialog(this);
-
-
-
-
         auth = FirebaseAuth.getInstance();
-        b1_emailnext = (Button)findViewById(R.id.button);
-        b1_emailnext.setEnabled(false);
-        b1_emailnext.setBackgroundColor(Color.parseColor("#faebd7"));
+        signin_email_next_button = (Button)findViewById(R.id.signin_email_next_button);
+        signin_email_next_button.setEnabled(false);
+        signin_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-
-        e1_email.addTextChangedListener(new TextWatcher() {
+        signin_email_edittext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -56,27 +50,25 @@ public class SigninEmailActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(e1_email.getText().toString().matches(emailPattern) && s.length() > 0)
+                if(signin_email_edittext.getText().toString().matches(emailPattern) && s.length() > 0)
                 {
-                    b1_emailnext.setEnabled(true);
-                    b1_emailnext.setBackgroundColor(Color.parseColor("#9C27B0"));
-
+                    signin_email_next_button.setEnabled(true);
+                    signin_email_next_button.setBackgroundColor(Color.parseColor("#9C27B0"));
                 }
                 else
                 {
-                    b1_emailnext.setEnabled(false);
-                    b1_emailnext.setBackgroundColor(Color.parseColor("#faebd7"));
+                    signin_email_next_button.setEnabled(false);
+                    signin_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
                 }
-
             }
         });
     }
 
-    public void checkEmail(View v)
+    public void email_exists_or_not(View v)
     {
         dialog.setMessage("Please wait!");
         dialog.show();
-        auth.fetchProvidersForEmail(e1_email.getText().toString())
+        auth.fetchProvidersForEmail(signin_email_edittext.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
                     @Override
                     public void onComplete(@NonNull Task<ProviderQueryResult> task) {
@@ -85,22 +77,17 @@ public class SigninEmailActivity extends AppCompatActivity {
                         {
                             dialog.dismiss();
                             Toast.makeText(getApplicationContext(),"This email does not exist. Please create an account first",Toast.LENGTH_SHORT).show();
-
                         }
                         else
                         {
                             // go to password login
                             dialog.dismiss();
                             Intent myIntent = new Intent(SigninEmailActivity.this,SigninPasswordActivity.class);
-                            myIntent.putExtra("email_login",e1_email.getText().toString());
+                            myIntent.putExtra("email_login",signin_email_edittext.getText().toString());
                             startActivity(myIntent);
                             finish();
-
-
                         }
                     }
                 });
-
     }
-
 }
