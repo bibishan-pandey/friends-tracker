@@ -33,7 +33,7 @@
         android:layout_marginTop="25dp" />
 
     <EditText
-        android:id="@+id/signin_email_edittext"
+        android:id="@+id/signin_password_edittext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Enter your name"
@@ -49,7 +49,7 @@
 
 
     <Button
-        android:id="@+id/signin_email_next_button"
+        android:id="@+id/signin_password_next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -70,7 +70,7 @@
         android:text="This is how you'll appear on your map"
         android:textSize="16sp"
         android:layout_marginTop="7dp"
-        android:layout_below="@+id/signin_email_edittext"
+        android:layout_below="@+id/signin_password_edittext"
         android:layout_centerHorizontal="true" />
 
     <TextView
