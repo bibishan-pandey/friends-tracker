@@ -26,25 +26,24 @@ public class FollowingActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Toolbar toolbar;
 
-    RecyclerView.Adapter recycleradapter;
+    RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
 
     FirebaseAuth auth;
-    DatabaseReference joinedReference;
+    DatabaseReference followingReference;
     ArrayList<CreateUser> myList;
     FirebaseUser user;
     DatabaseReference usersReference;
     CreateUser createUser;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following);
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerviewJoined);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerViewFollowing);
         layoutManager = new LinearLayoutManager(this);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Joined Circles");
+        toolbar.setTitle("Following");
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar()!=null)
@@ -53,35 +52,25 @@ public class FollowingActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-
         myList = new ArrayList<>();
-
-
-
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        joinedReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
+        followingReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
-
-
-        joinedReference.addValueEventListener(new ValueEventListener() {
+        followingReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 myList.clear();
-
                 if(dataSnapshot.exists())
                 {
                     for(DataSnapshot dss: dataSnapshot.getChildren())
                     {
-
                         String memberUserid = dss.child("circlememberid").getValue(String.class);
-
                         usersReference.child(memberUserid).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-
                                 createUser = dataSnapshot.getValue(CreateUser.class);
                                 //  Toast.makeText(getApplicationContext(),createUser.name,Toast.LENGTH_SHORT).show();
                                 myList.add(createUser);
@@ -92,37 +81,25 @@ public class FollowingActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         });
-
-
                     }
-
-                    Toast.makeText(getApplicationContext(),"Showing joined circles",Toast.LENGTH_SHORT).show();
-                    recycleradapter = new FollowingAdapter(myList,getApplicationContext());
-                    recyclerView.setAdapter(recycleradapter);
-                    recycleradapter.notifyDataSetChanged();
-
-
+                    Toast.makeText(getApplicationContext(),"Showing following members",Toast.LENGTH_SHORT).show();
+                    recyclerAdapter = new FollowingAdapter(myList,getApplicationContext());
+                    recyclerView.setAdapter(recyclerAdapter);
+                    recyclerAdapter.notifyDataSetChanged();
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"You have not joined any circle yet!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Sorry, no following members",Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
-
-
-
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(getApplicationContext(),databaseError.toString(),Toast.LENGTH_LONG).show();
-
             }
         });
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
