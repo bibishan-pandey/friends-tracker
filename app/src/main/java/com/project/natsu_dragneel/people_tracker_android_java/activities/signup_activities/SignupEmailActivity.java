@@ -24,8 +24,8 @@ import com.project.natsu_dragneel.people_tracker_android_java.R;
 public class SignupEmailActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    EditText e1_email;
-    Button b1_emailnext;
+    EditText signup_email_edittext;
+    Button signup_email_next_button;
     ProgressDialog dialog;
     FirebaseAuth auth;
 
@@ -34,18 +34,18 @@ public class SignupEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_email);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        e1_email = (EditText)findViewById(R.id.signin_password_edittext);
+        signup_email_edittext = (EditText)findViewById(R.id.signup_email_edittext);
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
-        b1_emailnext = (Button)findViewById(R.id.signin_password_next_button);
-        b1_emailnext.setEnabled(false);
-        b1_emailnext.setBackgroundColor(Color.parseColor("#faebd7"));
+        signup_email_next_button = (Button)findViewById(R.id.signup_email_next_button);
+        signup_email_next_button.setEnabled(false);
+        signup_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
         toolbar.setTitle("Email Address");
         setSupportActionBar(toolbar);
 
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        e1_email.addTextChangedListener(new TextWatcher() {
+        signup_email_edittext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -58,62 +58,46 @@ public class SignupEmailActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(e1_email.getText().toString().matches(emailPattern) && s.length() > 0)
+                if(signup_email_edittext.getText().toString().matches(emailPattern) && s.length() > 0)
                 {
-                    b1_emailnext.setEnabled(true);
-                    b1_emailnext.setBackgroundColor(Color.parseColor("#9C27B0"));
-
+                    signup_email_next_button.setEnabled(true);
+                    signup_email_next_button.setBackgroundColor(Color.parseColor("#9C27B0"));
                 }
                 else
                 {
-                    b1_emailnext.setEnabled(false);
-                    b1_emailnext.setBackgroundColor(Color.parseColor("#faebd7"));
+                    signup_email_next_button.setEnabled(false);
+                    signup_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
                 }
-
             }
         });
-
-
     }
 
-
-    public void checkIfEmailPresent(View v)
+    public void email_exist_check(View v)
     {
         dialog.setMessage("Please wait");
         dialog.show();
 
-        auth.fetchProvidersForEmail(e1_email.getText().toString())
+        auth.fetchProvidersForEmail(signup_email_edittext.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
                     @Override
                     public void onComplete(@NonNull Task<ProviderQueryResult> task) {
                         dialog.dismiss();
                         boolean check = !task.getResult().getProviders().isEmpty();
-
                         if(!check)
                         {
                             Intent myIntent = new Intent(SignupEmailActivity.this,SignupPasswordActivity.class);
-                            myIntent.putExtra("email",e1_email.getText().toString());
+                            myIntent.putExtra("email",signup_email_edittext.getText().toString());
                             startActivity(myIntent);
                             finish();
-
                         }
                         else
                         {
-                            Toast.makeText(getApplicationContext(),"You already have an account. Please login.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"You already have an account. Please signin.",Toast.LENGTH_SHORT).show();
                             Intent myIntent = new Intent(SignupEmailActivity.this,SigninEmailActivity.class);
                             startActivity(myIntent);
                             finish();
-
-
-
-
                         }
                     }
                 });
-
-
     }
-
-
-
 }

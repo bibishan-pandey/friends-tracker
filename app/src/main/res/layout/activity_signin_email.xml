@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/signin_password_edittext"
+        android:id="@+id/signup_email_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -23,7 +23,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/signin_password_next_button"
+        android:id="@+id/signup_email_next_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
