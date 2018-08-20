@@ -30,32 +30,32 @@ import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser
 
 public class InvitationActivity extends AppCompatActivity {
 
-    TextView t4_code;
+    TextView show_code_textview;
     String name,email,password,date,issharing;
     String code = null;
     DatabaseReference reference;
     FirebaseAuth auth;
     FirebaseUser user;
     ProgressDialog dialog;
-    TextView t6_done;
+    TextView register_done_textview;
     StorageReference firebaseStorageReference;
     Uri resultUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation);
         dialog = new ProgressDialog(this);
-        t6_done = (TextView)findViewById(R.id.textView6);
+        register_done_textview = (TextView)findViewById(R.id.register_done_textview);
 
         auth = FirebaseAuth.getInstance();
         reference= FirebaseDatabase.getInstance().getReference().child("Users");
         firebaseStorageReference = FirebaseStorage.getInstance().getReference().child("Profile_images");
-        t4_code = (TextView)findViewById(R.id.textView4);
+        show_code_textview = (TextView)findViewById(R.id.show_code_textview);
 
         Intent intent = getIntent();
         if (intent!=null)
         {
-
             name = intent.getStringExtra("name");
             email = intent.getStringExtra("email");
             password = intent.getStringExtra("password");
@@ -63,22 +63,19 @@ public class InvitationActivity extends AppCompatActivity {
             issharing = intent.getStringExtra("issharing");
             code = intent.getStringExtra("code");
             resultUri = intent.getParcelableExtra("imageUri");
-
-
-
         }
 
         if(code == null)
         {
             // check for code in firebase
-            t6_done.setVisibility(View.GONE);
+            register_done_textview.setVisibility(View.GONE);
 
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     user = auth.getCurrentUser();
                     String user_code = dataSnapshot.child(user.getUid()).child("circlecode").getValue().toString();
-                    t4_code.setText(user_code);
+                    show_code_textview.setText(user_code);
                 }
 
                 @Override
@@ -86,29 +83,25 @@ public class InvitationActivity extends AppCompatActivity {
 
                 }
             });
-
-
         }
         else
         {
-            t4_code.setText(code);
+            show_code_textview.setText(code);
         }
-
     }
 
-    public void sendCode(View v)
+    public void share_code_button(View v)
     {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("text/plain");
-        i.putExtra(Intent.EXTRA_TEXT,"Hello, My GPS Tracker Circle code is "+t4_code.getText().toString()+". Please join my circle.");
+        i.putExtra(Intent.EXTRA_TEXT,"People Tracker invitation code is "+show_code_textview.getText().toString()+". Please follow me to connect.");
         startActivity(i.createChooser(i,"Share using:"));
     }
 
-    public void Register(View v)
+    public void register_done_button(View v)
     {
-
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("Creating new Profile. Please wait");
+        dialog.setMessage("Creating a new account. Please wait");
         dialog.setCancelable(false);
         dialog.show();
 
@@ -133,7 +126,6 @@ public class InvitationActivity extends AppCompatActivity {
                                                         .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
                                                                 if(task.isSuccessful())
                                                                 {
                                                                     String downloadPath = task.getResult().getStorage().getDownloadUrl().toString();
@@ -144,33 +136,17 @@ public class InvitationActivity extends AppCompatActivity {
                                                                                     if(task.isSuccessful())
                                                                                     {
                                                                                         dialog.dismiss();
-                                                                                        // send email.
                                                                                         sendVerificationEmail();
-
-
                                                                                     }
-
                                                                                 }
                                                                             });
-
-
                                                                 }
                                                                 else
                                                                 {
-                                                                    Toast.makeText(getApplicationContext(),"Could not upload user image",Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(getApplicationContext(),"Could not upload profile picture",Toast.LENGTH_SHORT).show();
                                                                 }
-
-
                                                             }
                                                         });
-
-
-
-
-
-
-
-
                                             }
                                         }
                                     });
@@ -179,12 +155,8 @@ public class InvitationActivity extends AppCompatActivity {
                         {
                             Toast.makeText(getApplicationContext(),"Could not create account. Try again later",Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
-
-
-
     }
 
     public void sendVerificationEmail()
@@ -198,7 +170,6 @@ public class InvitationActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Email sent for verification. Please check email.",Toast.LENGTH_SHORT).show();
                             finish();
                             auth.signOut();
-
                             Intent myIntent = new Intent(InvitationActivity.this,MainActivity.class);
                             startActivity(myIntent);
                         }
@@ -208,7 +179,6 @@ public class InvitationActivity extends AppCompatActivity {
                             finish();
                             overridePendingTransition(0, 0);
                             startActivity(getIntent());
-
                         }
                     }
                 });

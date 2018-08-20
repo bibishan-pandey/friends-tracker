@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--suppress ALL -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:orientation="vertical"
-    tools:context="com.mytracker.gpstracker.familytracker.InviteCodeActivity">
+    tools:context=".InviteCodeActivity">
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView4"
+        android:layout_below="@+id/show_code_textview"
         android:gravity="center_horizontal"
-        android:text="Share this invite code with the people you want in your circle"
+        android:text="Share this invite code with the people you want to connect"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/show_code_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -30,42 +29,31 @@
         android:textColor="@color/colorPrimary"
         android:textSize="34sp" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button3"
-        android:layout_alignParentStart="true"
-        android:gravity="center"
-        android:text="Share your code out loud or send it in a message"
-        android:textSize="16sp" />
-
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/share_code_button"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView6"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
+        android:layout_marginBottom="55dp"
         android:background="@drawable/button_shape"
-        android:onClick="sendCode"
-
-        android:text="Send Code"
+        android:onClick="share_code_button"
+        android:text="Share Code"
         android:textAllCaps="false"
         android:textColor="#FFFF"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/register_done_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
-        android:onClick="Register"
+        android:onClick="register_done_button"
         android:text="Done"
         android:textSize="20sp" />
 
-
-</LinearLayout>
+</RelativeLayout>
