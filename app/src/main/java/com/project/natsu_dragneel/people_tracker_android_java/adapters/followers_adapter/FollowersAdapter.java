@@ -63,11 +63,11 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
 
         if(addCircle.issharing.equals("false"))
         {
-            holder.i1.setImageResource(R.drawable.location_off);
+            holder.i1.setImageResource(R.drawable.ic_location_off);
         }
         else if(addCircle.issharing.equals("true"))
         {
-            holder.i1.setImageResource(R.drawable.location_on);
+            holder.i1.setImageResource(R.drawable.ic_location_on);
         }
 
 

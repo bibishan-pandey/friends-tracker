@@ -1,10 +1,9 @@
 package com.project.natsu_dragneel.people_tracker_android_java.activities.followers_activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -24,8 +23,6 @@ import java.util.ArrayList;
 
 public class FollowersActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-
     RecyclerView recyclerView;
     RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
@@ -33,9 +30,7 @@ public class FollowersActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
     CreateUser createUser;
-    //  String memberName,memberStatus,memberLat,memberLng;
     ArrayList<CreateUser> nameList;
-    // AddCircle addCircle;
     DatabaseReference usersReference;
 
     ArrayList<String> followersUserIdList;
@@ -52,14 +47,6 @@ public class FollowersActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Followers");
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null)
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
         nameList = new ArrayList<>();
         followersUserIdList = new ArrayList<>();
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -113,11 +100,20 @@ public class FollowersActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void refresh(View v)
+    public void reload_followers_view(View v)
     {
         finish();
         overridePendingTransition(0, 0);
         startActivity(getIntent());
         overridePendingTransition(0, 0);
+    }
+
+    public void back_image_button(View v){
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

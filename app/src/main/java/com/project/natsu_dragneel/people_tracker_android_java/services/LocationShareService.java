@@ -92,7 +92,7 @@ public class LocationShareService extends Service implements LocationListener, G
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(client, request, this);
 
-        notification.setSmallIcon(R.drawable.location_on);
+        notification.setSmallIcon(R.drawable.ic_location_on);
         notification.setTicker("Notification.");
         notification.setWhen(System.currentTimeMillis());
         notification.setContentTitle("Family Tracker App");

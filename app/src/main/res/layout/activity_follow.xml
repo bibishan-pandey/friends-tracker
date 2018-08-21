@@ -1,19 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress ALL -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:layout_margin="16dp"
-    tools:context=".JoinCircleActivity">
+    tools:context=".activities.follow_activity.FollowActivity">
+
+    <ImageView
+        android:id="@+id/back_image_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="back_image_button"
+        app:srcCompat="@drawable/ic_navigate_back" />
 
     <TextView
-        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="false"
+        android:layout_toEndOf="@+id/back_image_button"
+        android:layout_toRightOf="@+id/back_image_button"
+        android:gravity="center_vertical"
+        android:text="Follow"
+        android:textStyle="italic" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/back_image_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-16dp"
+        android:src="@drawable/icon_follow" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/code_pin_view"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/code_pin_view"
         android:gravity="center"
         android:text="Enter your invitation code"
         android:textSize="16sp"
@@ -24,22 +49,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         app:cursorVisible="true"
-        app:forceKeyboard="true"
+        app:forceKeyboard="false"
         app:inputType="number"
         app:pinLength="6"
         app:pinWidth="35dp"
-        app:pinHeight="35dp"/>
+        app:pinHeight="35dp" />
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/follow_submit_button"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/code_pin_view"
-        android:layout_marginTop="18dp"
         android:gravity="center"
         android:text="Ask your friends for their code"
         android:textSize="14sp"
@@ -47,7 +70,7 @@
 
     <Button
         android:id="@+id/follow_submit_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

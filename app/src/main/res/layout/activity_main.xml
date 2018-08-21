@@ -8,10 +8,10 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/signup_profile_next_button"
+        android:id="@+id/signin_nav_click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/geofence_button"
+        android:layout_above="@+id/signup_nav_click"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:background="@drawable/button_shape"
@@ -22,7 +22,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/geofence_button"
+        android:id="@+id/signup_nav_click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -36,12 +36,22 @@
         android:textSize="18sp" />
 
     <ImageView
-        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="371dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/ic_main"
-        android:layout_alignParentLeft="true" />
+        app:srcCompat="@drawable/ic_main" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/signin_nav_click"
+        android:layout_centerHorizontal="true"
+        android:text="People Tracker"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

@@ -35,7 +35,7 @@ public class SignupEmailActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
-        signup_email_next_button = (Button)findViewById(R.id.signup_profile_next_button);
+        signup_email_next_button = (Button)findViewById(R.id.signin_nav_click);
         signup_email_next_button.setEnabled(false);
         signup_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
 

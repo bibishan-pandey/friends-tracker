@@ -38,7 +38,7 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_help_alerts);
-        t1_CounterTxt = findViewById(R.id.textView9);
+        t1_CounterTxt = findViewById(R.id.count_down_textview);
         auth = FirebaseAuth.getInstance();
 
         userIDsList = new ArrayList<>();
@@ -48,14 +48,7 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
         myThread = new Thread(new ServerThread());
         myThread.start();
-
-
-
     }
-
-
-
-
 
     private class ServerThread implements Runnable
     {
@@ -63,30 +56,21 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
         public void run() {
             try {
                 //do some heavy task here on main separate thread like: Saving files in directory, any server operation or any heavy task
-
                 ///Once this task done and if you want to update UI the you can update UI operation on runOnUiThread method like this:
-
                 while(countValue!=0) {
-
                     sleep(1000);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             t1_CounterTxt.setText(String.valueOf(countValue));
                             countValue = countValue - 1;
-
                         }
                     });
-
-
-
-
                 }
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         circlereference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -96,19 +80,15 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                                     memberUserId = dss.child("circlememberid").getValue(String.class);
                                     userIDsList.add(memberUserId);
                                 }
-
-
                                 if(userIDsList.isEmpty())
                                 {
                                     Toast.makeText(getApplicationContext(),"No circle members. Please add some one to your circle.",Toast.LENGTH_SHORT).show();
-
                                 }
                                 else
                                 {
                                     FollowClass circleJoin = new FollowClass(user.getUid());
                                     for(int i =0;i<userIDsList.size();i++)
                                     {
-
                                         usersReference.child(userIDsList.get(i).toString()).child("HelpAlerts").child(user.getUid()).setValue(circleJoin)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
@@ -116,7 +96,6 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                                                         if(task.isSuccessful())
                                                         {
                                                             Toast.makeText(getApplicationContext(),"Alerts sent successfully.",Toast.LENGTH_SHORT).show();
-
                                                         }
                                                         else
                                                         {
@@ -126,15 +105,6 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                                                 });
                                     }
                                 }
-
-
-
-
-
-
-
-
-
                             }
 
                             @Override
@@ -142,15 +112,12 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         });
-
                     }
                 });
 
-
             }
             catch (Exception e) {
-                //print the error here
-
+                //error here
             }
         }
     }
@@ -158,7 +125,6 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
 
     public void setCancel(View v)
     {
-
         Toast.makeText(getApplicationContext(),"Alert cancelled.",Toast.LENGTH_SHORT).show();
         myThread.interrupt();
         Intent myIntent = new Intent(SendHelpAlertsActivity.this,CurrentLocationActivity.class);
@@ -166,6 +132,13 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
         finish();
     }
 
+    public void back_image_button(View v){
+        finish();
+    }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
 }

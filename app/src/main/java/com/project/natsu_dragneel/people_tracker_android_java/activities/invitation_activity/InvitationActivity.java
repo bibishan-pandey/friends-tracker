@@ -191,4 +191,13 @@ public class InvitationActivity extends AppCompatActivity {
             finish();
         return super.onOptionsItemSelected(item);
     }
+
+    public void back_image_button(View v){
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

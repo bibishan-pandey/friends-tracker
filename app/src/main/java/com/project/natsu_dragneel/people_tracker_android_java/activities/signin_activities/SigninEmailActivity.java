@@ -33,7 +33,7 @@ public class SigninEmailActivity extends AppCompatActivity {
         signin_email_edittext = (EditText)findViewById(R.id.signup_profile_edittext);
         dialog = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
-        signin_email_next_button = (Button)findViewById(R.id.signup_profile_next_button);
+        signin_email_next_button = (Button)findViewById(R.id.signin_nav_click);
         signin_email_next_button.setEnabled(false);
         signin_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";

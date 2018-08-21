@@ -1,70 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress ALL -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/back_image_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="back_image_button"
+        app:srcCompat="@drawable/ic_navigate_back" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
-        android:background="?attr/colorPrimary">
-    </android.support.v7.widget.Toolbar>
+        android:layout_height="30dp"
+        android:layout_alignParentTop="false"
+        android:layout_toEndOf="@+id/back_image_button"
+        android:layout_toRightOf="@+id/back_image_button"
+        android:gravity="center_vertical"
+        android:text="Send Help Alert"
+        android:textStyle="italic" />
 
     <at.markushi.ui.CircleButton
-        android:layout_width="128dip"
-        android:layout_height="128dip"
-        app:cb_color="@color/colorPrimary"
-
-        android:layout_marginTop="67dp"
-        android:layout_below="@+id/toolbar"
         android:id="@+id/circleButton"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:layout_width="match_parent"
+        android:layout_height="128dip"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView"
+        app:cb_color="@android:color/holo_red_light" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/count_down_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/circleButton"
         android:layout_marginTop="35dp"
-        android:textSize="44sp"
-        android:text="5"
         android:gravity="center"
+        android:text="5"
         android:textColor="#FFFFFF"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:textSize="44sp" />
 
     <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/circleButton"
-        android:layout_marginTop="43dp"
-        android:text="We will send help alert to all the members in your circle"
+        android:layout_above="@+id/button5"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:gravity="center_horizontal"
-        android:layout_alignParentEnd="true"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_alignParentStart="true" />
+        android:text="We will send help alert to all the connected members"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView10"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="96dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:background="@drawable/mynewbutton"
         android:onClick="setCancel"
         android:text="Cancel"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/back_image_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-16dp"
+        app:srcCompat="@drawable/send_help_alert" />
 
 </RelativeLayout>

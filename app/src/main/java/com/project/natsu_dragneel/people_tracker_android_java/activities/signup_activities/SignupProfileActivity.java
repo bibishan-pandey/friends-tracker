@@ -35,7 +35,7 @@ public class SignupProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_profile);
         signup_profile_edittext = (EditText)findViewById(R.id.signup_profile_edittext);
-        signup_profile_next_button = (Button)findViewById(R.id.signup_profile_next_button);
+        signup_profile_next_button = (Button)findViewById(R.id.signin_nav_click);
 
         signup_profile_next_button.setEnabled(false);
         signup_profile_next_button.setBackgroundColor(Color.parseColor("#faebd7"));

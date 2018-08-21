@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress ALL -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,16 +6,33 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:orientation="vertical"
-    tools:context=".InviteCodeActivity">
+    tools:context=".activities.invitation_activity.InvitationActivity">
+
+    <ImageView
+        android:id="@+id/back_image_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="back_image_button"
+        app:srcCompat="@drawable/ic_navigate_back" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/show_code_textview"
-        android:gravity="center_horizontal"
-        android:text="Share this invite code with the people you want to connect"
-        android:textSize="18sp" />
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="false"
+        android:layout_toEndOf="@+id/back_image_button"
+        android:layout_toRightOf="@+id/back_image_button"
+        android:gravity="center_vertical"
+        android:text="Invite Friends"
+        android:textStyle="italic" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/back_image_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-16dp"
+        android:src="@drawable/icon_invite" />
 
     <TextView
         android:id="@+id/show_code_textview"
@@ -29,31 +45,45 @@
         android:textColor="@color/colorPrimary"
         android:textSize="34sp" />
 
-    <Button
-        android:id="@+id/share_code_button"
-        android:layout_width="120dp"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:padding="10dp"
+        android:layout_below="@+id/show_code_textview"
+        android:gravity="center_horizontal"
+        android:text="Share this invite code with the people you want to connect"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/register_done_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/share_code_button"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_shape"
+        android:gravity="center_horizontal"
+        android:onClick="register_done_button"
+        android:padding="10dp"
+        android:text="Click to register"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/share_code_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/button_shape"
         android:onClick="share_code_button"
         android:text="Share Code"
         android:textAllCaps="false"
         android:textColor="#FFFF"
         android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/register_done_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:onClick="register_done_button"
-        android:text="Done"
-        android:textSize="20sp" />
 
 </RelativeLayout>

@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress ALL -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
-    tools:context=".MyCircleActivity">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
+    android:layout_margin="16dp"
+    tools:context=".activities.followers_activity.FollowersActivity">
+
+    <ImageView
+        android:id="@+id/back_image_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="back_image_button"
+        app:srcCompat="@drawable/ic_navigate_back" />
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
-        android:background="?attr/colorPrimary">
-    </android.support.v7.widget.Toolbar>
+        android:layout_height="30dp"
+        android:layout_alignParentTop="false"
+        android:layout_toEndOf="@+id/back_image_button"
+        android:layout_toRightOf="@+id/back_image_button"
+        android:gravity="center_vertical"
+        android:text="Followers"
+        android:textStyle="italic" />
+
+    <ImageView
+        android:id="@+id/refresh_image_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="reload_followers_view"
+        app:srcCompat="@drawable/ic_refresh"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewFollowers"
@@ -22,20 +41,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:onClick="refresh"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginRight="22dp"
-        app:srcCompat="@drawable/refresh"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/recyclerview" />
+        android:layout_below="@+id/refresh_image_button" />
 
 </RelativeLayout>
