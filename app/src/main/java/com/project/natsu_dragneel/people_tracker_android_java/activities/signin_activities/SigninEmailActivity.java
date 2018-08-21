@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
+import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 
 public class SigninEmailActivity extends AppCompatActivity {
@@ -89,5 +90,18 @@ public class SigninEmailActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent=new Intent(SigninEmailActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void back_image_button(View v){
+        finish();
+        Intent intent=new Intent(SigninEmailActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

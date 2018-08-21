@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 
 public class SignupPasswordActivity extends AppCompatActivity {
@@ -68,5 +69,18 @@ public class SignupPasswordActivity extends AppCompatActivity {
             startActivity(myIntent);
             finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent=new Intent(SignupPasswordActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void back_image_button(View v){
+        finish();
+        Intent intent=new Intent(SignupPasswordActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.invitation_activity.InvitationActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -126,5 +127,18 @@ public class SignupProfileActivity extends AppCompatActivity {
                 Exception error = result.getError();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent=new Intent(SignupProfileActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void back_image_button(View v){
+        finish();
+        Intent intent=new Intent(SignupProfileActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

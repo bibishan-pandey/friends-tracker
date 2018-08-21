@@ -5,12 +5,14 @@
         android:id="@+id/action_send"
         android:orderInCategory="100"
         android:title="Share Location"
+        android:icon="@drawable/ic_location_on"
         app:showAsAction="never" />
 
 
     <item
         android:id="@+id/action_stop"
         android:orderInCategory="100"
+        android:icon="@drawable/ic_location_off"
         android:title="Stop sharing Location"
         app:showAsAction="never" />
 

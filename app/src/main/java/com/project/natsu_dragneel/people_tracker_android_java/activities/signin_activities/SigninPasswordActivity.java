@@ -115,4 +115,17 @@ public class SigninPasswordActivity extends AppCompatActivity {
                     });
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent=new Intent(SigninPasswordActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void back_image_button(View v){
+        finish();
+        Intent intent=new Intent(SigninPasswordActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 }

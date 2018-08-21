@@ -26,14 +26,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button_shape"
         android:onClick="signup_click"
         android:padding="10dp"
         android:text="@string/action_sign_up_short"
         android:textColor="@android:color/background_light"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_alignParentLeft="true" />
 
     <ImageView
         android:layout_width="match_parent"

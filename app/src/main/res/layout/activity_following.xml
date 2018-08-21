@@ -29,8 +29,8 @@
         android:id="@+id/recyclerViewFollowing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/back_image_button" />
 
 </RelativeLayout>

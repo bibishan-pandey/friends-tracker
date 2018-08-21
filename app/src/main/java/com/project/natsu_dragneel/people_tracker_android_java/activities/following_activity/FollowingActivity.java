@@ -61,7 +61,7 @@ public class FollowingActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 createUser = dataSnapshot.getValue(CreateUser.class);
-                                //  Toast.makeText(getApplicationContext(),createUser.name,Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(),createUser.name,Toast.LENGTH_SHORT).show();
                                 myList.add(createUser);
                             }
 
