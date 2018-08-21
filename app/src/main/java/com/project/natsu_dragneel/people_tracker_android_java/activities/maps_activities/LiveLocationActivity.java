@@ -134,6 +134,10 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        LatLng kathmandu = new LatLng(27.7172, 85.3240);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu,12));
+
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {

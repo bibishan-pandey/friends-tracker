@@ -237,6 +237,8 @@ public class CurrentLocationActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        LatLng kathmandu = new LatLng(27.7172, 85.3240);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu,12));
 
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         client = new GoogleApiClient.Builder(this)
