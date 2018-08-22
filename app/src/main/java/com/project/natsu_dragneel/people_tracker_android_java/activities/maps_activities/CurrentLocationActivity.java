@@ -111,6 +111,7 @@ public class CurrentLocationActivity extends AppCompatActivity
         }
 
 
+        //my location data
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
 
         reference.addValueEventListener(new ValueEventListener() {

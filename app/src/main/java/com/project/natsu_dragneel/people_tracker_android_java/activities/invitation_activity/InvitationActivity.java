@@ -96,6 +96,7 @@ public class InvitationActivity extends AppCompatActivity {
         i.setType("text/plain");
         i.putExtra(Intent.EXTRA_TEXT,"People Tracker invitation code is "+show_code_textview.getText().toString()+". Please follow me to connect.");
         startActivity(i.createChooser(i,"Share using:"));
+        finish();
     }
 
     public void register_done_button(View v)
