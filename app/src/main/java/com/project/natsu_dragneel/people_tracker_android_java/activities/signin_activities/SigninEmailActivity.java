@@ -54,7 +54,7 @@ public class SigninEmailActivity extends AppCompatActivity {
                 if(signin_email_edittext.getText().toString().matches(emailPattern) && s.length() > 0)
                 {
                     signin_email_next_button.setEnabled(true);
-                    signin_email_next_button.setBackgroundColor(Color.parseColor("#9C27B0"));
+                    signin_email_next_button.setBackgroundColor(Color.parseColor("#f05545"));
                 }
                 else
                 {

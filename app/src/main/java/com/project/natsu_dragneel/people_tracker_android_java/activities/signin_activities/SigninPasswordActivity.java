@@ -65,7 +65,7 @@ public class SigninPasswordActivity extends AppCompatActivity {
                 if(s.length()>=6)
                 {
                     signin_password_next_button.setEnabled(true);
-                    signin_password_next_button.setBackgroundColor(Color.parseColor("#9C27B0"));
+                    signin_password_next_button.setBackgroundColor(Color.parseColor("#f05545"));
                 }
                 else
                 {

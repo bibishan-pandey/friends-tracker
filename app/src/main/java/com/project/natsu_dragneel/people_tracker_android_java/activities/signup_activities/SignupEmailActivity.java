@@ -57,7 +57,7 @@ public class SignupEmailActivity extends AppCompatActivity {
                 if(signup_email_edittext.getText().toString().matches(emailPattern) && s.length() > 0)
                 {
                     signup_email_next_button.setEnabled(true);
-                    signup_email_next_button.setBackgroundColor(Color.parseColor("#9C27B0"));
+                    signup_email_next_button.setBackgroundColor(Color.parseColor("#f05545"));
                 }
                 else
                 {

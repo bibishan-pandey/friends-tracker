@@ -47,7 +47,7 @@ public class SignupPasswordActivity extends AppCompatActivity {
                 if(s.length()>=6)
                 {
                     signup_password_next_signup.setEnabled(true);
-                    signup_password_next_signup.setBackgroundColor(Color.parseColor("#9C27B0"));
+                    signup_password_next_signup.setBackgroundColor(Color.parseColor("#f05545"));
                 }
                 else
                 {

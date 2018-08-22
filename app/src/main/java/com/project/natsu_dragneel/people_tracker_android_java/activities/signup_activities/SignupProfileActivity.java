@@ -63,7 +63,7 @@ public class SignupProfileActivity extends AppCompatActivity {
                 if(s.length()>0)
                 {
                     signup_profile_next_button.setEnabled(true);
-                    signup_profile_next_button.setBackgroundColor(Color.parseColor("#9C27B0"));
+                    signup_profile_next_button.setBackgroundColor(Color.parseColor("#f05545"));
                 }
                 else
                 {

@@ -42,7 +42,8 @@
         android:gravity="center"
         android:text="Enter your invitation code"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true" />
 
     <com.goodiebag.pinview.Pinview
         android:id="@+id/code_pin_view"
@@ -66,7 +67,8 @@
         android:gravity="center"
         android:text="Ask your friends for their code"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true" />
 
     <Button
         android:id="@+id/follow_submit_button"

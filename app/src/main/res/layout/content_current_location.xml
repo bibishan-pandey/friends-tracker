@@ -16,31 +16,41 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:id="@+id/current_location_click"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:onClick="fetch_location"
-        android:background="@android:color/background_light"
-        android:text="Show Location"
-        android:textAllCaps="false"
-        android:textColor="@android:color/background_dark"
-        android:textSize="16sp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true" />
+    <!--<Button-->
+        <!--android:id="@+id/current_location_click"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:onClick="fetch_location"-->
+        <!--android:background="@drawable/button_shape"-->
+        <!--android:text="Show Location"-->
+        <!--android:textAllCaps="false"-->
+        <!--android:textColor="@android:color/background_light"-->
+        <!--android:textSize="16sp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentLeft="true" />-->
 
     <Switch
         android:id="@+id/location_share_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/current_location_click"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:padding="10dp"
         android:onClick="share_location_switch"
         android:text="Location Share"
         android:textColor="@android:color/background_dark" />
+
+    <ImageView
+        android:id="@+id/current_location_click"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:onClick="fetch_location"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_location_on" />
 
 </RelativeLayout>
