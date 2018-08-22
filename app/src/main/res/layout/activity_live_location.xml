@@ -7,35 +7,57 @@
     android:layout_height="match_parent"
     tools:context=".LiveMapActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
+    <ImageView
+        android:id="@+id/back_image_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="back_image_button"
+        app:srcCompat="@drawable/ic_navigate_back" />
+
+    <TextView
+        android:id="@+id/user_name_textview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
-        android:background="?attr/colorPrimary">
-    </android.support.v7.widget.Toolbar>
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_alignParentTop="false"
+        android:layout_toEndOf="@+id/back_image_button"
+        android:layout_toRightOf="@+id/back_image_button"
+        android:gravity="center_vertical"
+        android:text="Username"
+        android:textStyle="italic" />
+
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:minHeight="?attr/actionBarSize"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:titleTextColor="@android:color/white"-->
+        <!--android:background="?attr/colorPrimary">-->
+    <!--</android.support.v7.widget.Toolbar>-->
 
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar" />
+        android:layout_below="@+id/user_name_textview" />
 
     <Button
-        android:id="@+id/signup_nav_click"
+        android:id="@+id/geofence_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_margin="16dp"
         android:onClick="start_geofence"
-        android:background="@android:color/transparent"
+        android:background="@android:color/background_light"
         android:text="Start Geofence"
         android:textAllCaps="false"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@android:color/tertiary_text_dark"
         android:textSize="16sp" />
 
 </RelativeLayout>

@@ -110,9 +110,10 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
             CreateUser addCircle = this.nameArrayList.get(position);
             String latitude_user = addCircle.lat;
             String longitude_user = addCircle.lng;
+            String sharing=addCircle.issharing;
 
 
-            if(latitude_user.equals("na") && longitude_user.equals("na"))
+            if(sharing.equals("false"))
             {
 
                 Toast.makeText(ctx,"This circle member is not sharing location.",Toast.LENGTH_SHORT).show();

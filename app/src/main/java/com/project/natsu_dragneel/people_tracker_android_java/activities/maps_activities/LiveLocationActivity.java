@@ -1,9 +1,11 @@
 package com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -34,7 +36,8 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     GoogleMap mMap;
     LatLng friendLatLng;
     String latitude,longitude,name,userid,prevdate,prevImage;
-    Toolbar toolbar;
+    //Toolbar toolbar;
+    TextView user_name_textview;
     Marker marker;
     DatabaseReference reference;
     String myImage;
@@ -46,8 +49,9 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_location);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        //toolbar = (Toolbar)findViewById(R.id.toolbar);
 
+        user_name_textview=(TextView)findViewById(R.id.user_name_textview);
         myOptions = new MarkerOptions();
         Intent intent = getIntent();
         mKeys = new ArrayList<>();
@@ -60,13 +64,14 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
             prevdate = intent.getStringExtra("date");
             prevImage = intent.getStringExtra("image");
         }
-        toolbar.setTitle(name + "'s Location");
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null)
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        user_name_textview.setText(name+"'s location");
+        //toolbar.setTitle(name + "'s Location");
+        //setSupportActionBar(toolbar);
+        //if(getSupportActionBar()!=null)
+        //{
+          //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            //getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //}
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -138,6 +143,12 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         LatLng kathmandu = new LatLng(27.7172, 85.3240);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu,12));
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
@@ -171,7 +182,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
         optionsnew.position(friendLatLng);
         optionsnew.title(name);
-        optionsnew.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        optionsnew.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         //  optionsnew.snippet("Last seen:"+prevdate);
         if(marker == null)
         {
@@ -193,5 +204,14 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
     public void start_geofence(View v){
 
+    }
+
+    public void back_image_button(View v){
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

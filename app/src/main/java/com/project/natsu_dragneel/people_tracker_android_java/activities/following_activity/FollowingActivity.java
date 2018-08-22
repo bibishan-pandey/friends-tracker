@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,85 +23,98 @@ import java.util.ArrayList;
 public class FollowingActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    RecyclerView.Adapter recyclerAdapter;
+
+    RecyclerView.Adapter recycleradapter;
     RecyclerView.LayoutManager layoutManager;
 
     FirebaseAuth auth;
-    DatabaseReference followingReference;
+    DatabaseReference joinedReference;
     ArrayList<CreateUser> myList;
     FirebaseUser user;
     DatabaseReference usersReference;
     CreateUser createUser;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following);
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerViewFollowing);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewFollowing);
         layoutManager = new LinearLayoutManager(this);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+
         myList = new ArrayList<>();
+
+
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        followingReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
+        joinedReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
-        followingReference.addValueEventListener(new ValueEventListener() {
+
+
+        joinedReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 myList.clear();
-                if(dataSnapshot.exists())
-                {
-                    for(DataSnapshot dss: dataSnapshot.getChildren())
-                    {
+
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot dss : dataSnapshot.getChildren()) {
+
                         String memberUserid = dss.child("circlememberid").getValue(String.class);
+
                         usersReference.child(memberUserid).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+
                                 createUser = dataSnapshot.getValue(CreateUser.class);
-                                //Toast.makeText(getApplicationContext(),createUser.name,Toast.LENGTH_SHORT).show();
+                                //  Toast.makeText(getApplicationContext(),createUser.name,Toast.LENGTH_SHORT).show();
                                 myList.add(createUser);
                             }
 
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
-                                Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
+
+
                     }
-                    Toast.makeText(getApplicationContext(),"Showing following members",Toast.LENGTH_SHORT).show();
-                    recyclerAdapter = new FollowingAdapter(myList,getApplicationContext());
-                    recyclerView.setAdapter(recyclerAdapter);
-                    recyclerAdapter.notifyDataSetChanged();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Sorry, no following members",Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(getApplicationContext(), "Showing joined circles", Toast.LENGTH_SHORT).show();
+                    recycleradapter = new FollowingAdapter(myList, getApplicationContext());
+                    recyclerView.setAdapter(recycleradapter);
+                    recycleradapter.notifyDataSetChanged();
+
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "You have not joined any circle yet!", Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
+
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),databaseError.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), databaseError.toString(), Toast.LENGTH_LONG).show();
+
             }
         });
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
-    }
-
-    public void back_image_button(View v){
-        finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
     }
 }

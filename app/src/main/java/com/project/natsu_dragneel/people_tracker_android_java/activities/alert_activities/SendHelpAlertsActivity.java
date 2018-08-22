@@ -95,6 +95,7 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if(task.isSuccessful())
                                                         {
+                                                            finish();
                                                             Toast.makeText(getApplicationContext(),"Alerts sent successfully.",Toast.LENGTH_SHORT).show();
                                                         }
                                                         else
