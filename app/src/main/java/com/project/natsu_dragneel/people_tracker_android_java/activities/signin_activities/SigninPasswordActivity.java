@@ -21,11 +21,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.CurrentLocationActivity;
+import com.project.natsu_dragneel.people_tracker_android_java.security.SHA_Conversion;
+
+import java.security.NoSuchAlgorithmException;
 
 public class SigninPasswordActivity extends AppCompatActivity {
 
     EditText signin_password_edittext;
     Button signin_password_next_button;
+    String signin_password_secure;
     FirebaseAuth auth;
     String email;
     ProgressDialog dialog;
@@ -38,6 +42,13 @@ public class SigninPasswordActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
 
         signin_password_edittext = (EditText)findViewById(R.id.signup_profile_edittext);
+
+        try {
+            signin_password_secure= SHA_Conversion.hashPassword(signin_password_edittext.getText().toString());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         signin_password_next_button = (Button)findViewById(R.id.signin_nav_click);
 
         Intent intent = getIntent();
@@ -82,7 +93,7 @@ public class SigninPasswordActivity extends AppCompatActivity {
         dialog.show();
         if(signin_password_edittext.getText().toString().length()>=6)
         {
-            auth.signInWithEmailAndPassword(email,signin_password_edittext.getText().toString())
+            auth.signInWithEmailAndPassword(email,signin_password_secure)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
