@@ -11,9 +11,6 @@ import android.widget.EditText;
 
 import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
-import com.project.natsu_dragneel.people_tracker_android_java.security.SHA_Conversion;
-
-import java.security.NoSuchAlgorithmException;
 
 public class SignupPasswordActivity extends AppCompatActivity {
 
@@ -27,11 +24,12 @@ public class SignupPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_password);
         signup_password_edittext = (EditText)findViewById(R.id.signup_password_edittext);
+        /*
         try {
             signup_password_secure=SHA_Conversion.hashPassword(signup_password_edittext.getText().toString());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-        }
+        }*/
 
         signup_password_next_signup = (Button)findViewById(R.id.signup_password_next_signup);
 
@@ -74,7 +72,7 @@ public class SignupPasswordActivity extends AppCompatActivity {
         {
             Intent myIntent = new Intent(SignupPasswordActivity.this,SignupProfileActivity.class);
             myIntent.putExtra("Email",email);
-            myIntent.putExtra("Password",signup_password_secure);
+            myIntent.putExtra("Password",signup_password_edittext.getText().toString());
             startActivity(myIntent);
             finish();
         }

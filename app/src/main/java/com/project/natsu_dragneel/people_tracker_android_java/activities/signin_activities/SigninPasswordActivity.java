@@ -18,20 +18,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.CurrentLocationActivity;
-import com.project.natsu_dragneel.people_tracker_android_java.security.SHA_Conversion;
-
-import java.security.NoSuchAlgorithmException;
 
 public class SigninPasswordActivity extends AppCompatActivity {
 
     EditText signin_password_edittext;
     Button signin_password_next_button;
     String signin_password_secure;
-    DatabaseReference reference;
     FirebaseAuth auth;
     FirebaseUser user;
     String email;
@@ -46,12 +41,12 @@ public class SigninPasswordActivity extends AppCompatActivity {
 
         signin_password_edittext = (EditText)findViewById(R.id.signup_profile_edittext);
 
-
+        /*
         try {
             signin_password_secure= SHA_Conversion.hashPassword(signin_password_edittext.getText().toString());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-        }
+        }*/
 
         signin_password_next_button = (Button)findViewById(R.id.signin_nav_click);
 
@@ -97,12 +92,12 @@ public class SigninPasswordActivity extends AppCompatActivity {
         dialog.show();
         if(signin_password_edittext.getText().toString().length()>=6)
         {
-            auth.signInWithEmailAndPassword(email,signin_password_secure)
+            auth.signInWithEmailAndPassword(email,signin_password_edittext.getText().toString())
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                FirebaseUser user = auth.getCurrentUser();
+                                user = auth.getCurrentUser();
                                 if (user.isEmailVerified()) {
                                     dialog.dismiss();
                                     finish();
