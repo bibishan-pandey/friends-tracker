@@ -22,9 +22,8 @@ import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser
 import java.util.ArrayList;
 
 public class AlertCenterActivity extends AppCompatActivity {
-
     RecyclerView recyclerView;
-    RecyclerView.Adapter recycleradapter;
+    RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<CreateUser> myList;
     FirebaseAuth auth;
@@ -73,10 +72,10 @@ public class AlertCenterActivity extends AppCompatActivity {
                         });
                     }
                     Toast.makeText(getApplicationContext(),"Showing alerts",Toast.LENGTH_SHORT).show();
-                    recycleradapter = new HelpAlertsAdapter(myList,getApplicationContext());
+                    recyclerAdapter = new HelpAlertsAdapter(myList,getApplicationContext());
 
-                    recyclerView.setAdapter(recycleradapter);
-                    recycleradapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(recyclerAdapter);
+                    recyclerAdapter.notifyDataSetChanged();
                 }
                 else
                 {
