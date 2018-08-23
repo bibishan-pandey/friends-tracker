@@ -82,7 +82,7 @@ public class SignupEmailActivity extends AppCompatActivity {
                         if(!check)
                         {
                             Intent myIntent = new Intent(SignupEmailActivity.this,SignupPasswordActivity.class);
-                            myIntent.putExtra("email",signup_email_edittext.getText().toString());
+                            myIntent.putExtra("Email",signup_email_edittext.getText().toString());
                             startActivity(myIntent);
                             finish();
                         }

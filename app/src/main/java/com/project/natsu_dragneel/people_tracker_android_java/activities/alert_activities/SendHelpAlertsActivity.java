@@ -42,7 +42,7 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
         userIDsList = new ArrayList<>();
         user = auth.getCurrentUser();
 
-        circlereference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("CircleMembers");
+        circlereference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("FollowerMembers");
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
         myThread = new Thread(new ServerThread());
         myThread.start();
@@ -75,12 +75,12 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                                 userIDsList.clear();
                                 for (DataSnapshot dss: dataSnapshot.getChildren())
                                 {
-                                    memberUserId = dss.child("circlememberid").getValue(String.class);
+                                    memberUserId = dss.child("MemberId").getValue(String.class);
                                     userIDsList.add(memberUserId);
                                 }
                                 if(userIDsList.isEmpty())
                                 {
-                                    Toast.makeText(getApplicationContext(),"No circle members. Please add some one to your circle.",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(),"No follower members.",Toast.LENGTH_SHORT).show();
                                 }
                                 else
                                 {

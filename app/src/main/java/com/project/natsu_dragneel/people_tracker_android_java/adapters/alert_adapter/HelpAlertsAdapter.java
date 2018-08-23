@@ -47,18 +47,15 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alert_card_layout,parent,false);
         HelpAlertViewHolder alertViewHolder = new HelpAlertViewHolder(view,c,nameList);
         return alertViewHolder;
-
     }
 
     @Override
     public void onBindViewHolder(HelpAlertViewHolder holder, int position) {
         CreateUser addCircle = nameList.get(position);
 
-        holder.alertNameTxt.setText(addCircle.name);
-        holder.alertDateTxt.setText(addCircle.date);
+        holder.alertNameTxt.setText(addCircle.Name);
+        holder.alertDateTxt.setText(addCircle.Date);
         Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.defaultprofile).into(holder.alertImageView);
-
-
     }
 
     public static class HelpAlertViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -90,7 +87,6 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
             alertDateTxt = itemView.findViewById(R.id.alertDate);
         }
 
-
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
@@ -100,7 +96,7 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
 
             if(latitude_user.equals("na") && longitude_user.equals("na"))
             {
-                Toast.makeText(ctx,"Could not get the location.Try again",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx,"Could not get the location. Try again",Toast.LENGTH_SHORT).show();
             }
             else
             {
@@ -108,28 +104,21 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
                 // mYIntent.putExtra("createuserobject",addCircle);
                 mYIntent.putExtra("latitude",latitude_user);
                 mYIntent.putExtra("longitude",longitude_user);
-                mYIntent.putExtra("name",addCircle.name);
-                mYIntent.putExtra("userid",addCircle.userid);
-                mYIntent.putExtra("date",addCircle.date);
+                mYIntent.putExtra("Name",addCircle.Name);
+                mYIntent.putExtra("UserId",addCircle.UserId);
+                mYIntent.putExtra("Date",addCircle.Date);
                 mYIntent.putExtra("image",addCircle.profile_image);
                 mYIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ctx.startActivity(mYIntent);
-
             }
-
-
-
         }
-
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-
-
             int position = getAdapterPosition();
             final CreateUser addCircle = this.nameArrayList.get(position);
 
-            myReference.child(addCircle.userid).removeValue()
+            myReference.child(addCircle.UserId).removeValue()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -143,25 +132,15 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
                             }
                         }
                     });
-
-
-
-
             return false;
         }
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            MenuItem myActionItem = menu.add("REMOVE");
+            MenuItem myActionItem = menu.add("Delete");
             myActionItem.setOnMenuItemClickListener(this);
         }
     }
-
-
-
-
-
-
 }
 
 

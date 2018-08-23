@@ -56,12 +56,12 @@ public class InvitationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent!=null)
         {
-            name = intent.getStringExtra("name");
-            email = intent.getStringExtra("email");
-            password = intent.getStringExtra("password");
-            date = intent.getStringExtra("date");
-            issharing = intent.getStringExtra("issharing");
-            code = intent.getStringExtra("code");
+            name = intent.getStringExtra("Name");
+            email = intent.getStringExtra("Email");
+            password = intent.getStringExtra("Password");
+            date = intent.getStringExtra("Date");
+            issharing = intent.getStringExtra("isSharing");
+            code = intent.getStringExtra("Code");
             resultUri = intent.getParcelableExtra("imageUri");
         }
 
@@ -74,7 +74,7 @@ public class InvitationActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     user = auth.getCurrentUser();
-                    String user_code = dataSnapshot.child(user.getUid()).child("circlecode").getValue().toString();
+                    String user_code = dataSnapshot.child(user.getUid()).child("FollowCode").getValue().toString();
                     show_code_textview.setText(user_code);
                 }
 

@@ -124,8 +124,8 @@ public class LocationShareService extends Service implements LocationListener, G
         SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault());
         String myDate = sdf1.format(date);
 
-        reference.child(user.getUid()).child("issharing").setValue("true");
-        reference.child(user.getUid()).child("date").setValue(myDate);
+        reference.child(user.getUid()).child("isSharing").setValue("true");
+        reference.child(user.getUid()).child("Date").setValue(myDate);
         reference.child(user.getUid()).child("lat").setValue(String.valueOf(latLngCurrent.latitude));
         reference.child(user.getUid()).child("lng").setValue(String.valueOf(latLngCurrent.longitude))
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

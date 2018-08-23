@@ -37,7 +37,7 @@ public class SignupPasswordActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent!=null) {
-            email = intent.getStringExtra("email");
+            email = intent.getStringExtra("Email");
         }
         signup_password_next_signup.setEnabled(false);
         signup_password_next_signup.setBackgroundColor(Color.parseColor("#faebd7"));
@@ -72,10 +72,9 @@ public class SignupPasswordActivity extends AppCompatActivity {
     {
         if(signup_password_edittext.getText().toString().length()>=6)
         {
-            // go to Name Activity
             Intent myIntent = new Intent(SignupPasswordActivity.this,SignupProfileActivity.class);
-            myIntent.putExtra("email",email);
-            myIntent.putExtra("password",signup_password_secure);
+            myIntent.putExtra("Email",email);
+            myIntent.putExtra("Password",signup_password_secure);
             startActivity(myIntent);
             finish();
         }

@@ -44,8 +44,8 @@ public class SignupProfileActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent!=null) {
-            email = intent.getStringExtra("email");
-            password = intent.getStringExtra("password");
+            email = intent.getStringExtra("Email");
+            password = intent.getStringExtra("Password");
         }
         signup_profile_edittext.addTextChangedListener(new TextWatcher() {
             @Override
@@ -83,12 +83,12 @@ public class SignupProfileActivity extends AppCompatActivity {
             if(resultUri !=null)
             {
                 Intent myIntent = new Intent(SignupProfileActivity.this, InvitationActivity.class);
-                myIntent.putExtra("name", signup_profile_edittext.getText().toString());
-                myIntent.putExtra("email", email);
-                myIntent.putExtra("password", password);
-                myIntent.putExtra("date", "na");
-                myIntent.putExtra("issharing", "false");
-                myIntent.putExtra("code", code);
+                myIntent.putExtra("Name", signup_profile_edittext.getText().toString());
+                myIntent.putExtra("Email", email);
+                myIntent.putExtra("Password", password);
+                myIntent.putExtra("Date", "na");
+                myIntent.putExtra("isSharing", "false");
+                myIntent.putExtra("Code", code);
 
                 myIntent.putExtra("imageUri",resultUri);
                 startActivity(myIntent);

@@ -100,7 +100,6 @@ public class CurrentLocationActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(CurrentLocationActivity.this,
@@ -109,8 +108,6 @@ public class CurrentLocationActivity extends AppCompatActivity
             }
 
         }
-
-
         //my location data
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
 
@@ -119,10 +116,10 @@ public class CurrentLocationActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 try {
-                    myDate = dataSnapshot.child(user.getUid()).child("date").getValue().toString();
-                    mySharing = dataSnapshot.child(user.getUid()).child("issharing").getValue().toString();
-                    myEmail = dataSnapshot.child(user.getUid()).child("email").getValue().toString();
-                    myName = dataSnapshot.child(user.getUid()).child("name").getValue().toString();
+                    myDate = dataSnapshot.child(user.getUid()).child("Date").getValue().toString();
+                    mySharing = dataSnapshot.child(user.getUid()).child("isSharing").getValue().toString();
+                    myEmail = dataSnapshot.child(user.getUid()).child("Email").getValue().toString();
+                    myName = dataSnapshot.child(user.getUid()).child("Name").getValue().toString();
                     myProfileImage = dataSnapshot.child(user.getUid()).child("profile_image").getValue().toString();
 
                     if(mySharing.equals("false")){
@@ -147,8 +144,6 @@ public class CurrentLocationActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     @Override
@@ -159,10 +154,8 @@ public class CurrentLocationActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
             finish();
-
         }
     }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -182,7 +175,6 @@ public class CurrentLocationActivity extends AppCompatActivity
                 startActivity(i);
             }
         } else if (id == R.id.joinCircle) {
-
             Intent myIntent = new Intent(CurrentLocationActivity.this, FollowActivity.class);
             startActivity(myIntent);
         } else if (id == R.id.myCircle) {
@@ -202,7 +194,6 @@ public class CurrentLocationActivity extends AppCompatActivity
             Intent myIntent = new Intent(CurrentLocationActivity.this, AlertCenterActivity.class);
             startActivity(myIntent);
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -233,12 +224,9 @@ public class CurrentLocationActivity extends AppCompatActivity
         request.setInterval(7000);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(client, request, this);
-
-
     }
 
     @Override
@@ -264,16 +252,11 @@ public class CurrentLocationActivity extends AppCompatActivity
             //marker = mMap.addMarker(new MarkerOptions().position(latLngCurrent).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngCurrent, 15));
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-
         } else {
             marker.setPosition(latLngCurrent);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngCurrent, 15));
         }
-
-
     }
-
 
     public void share_location_switch(View v){
         Boolean switch_state=location_share_switch.isChecked();
@@ -289,7 +272,7 @@ public class CurrentLocationActivity extends AppCompatActivity
         else if(switch_state==false){
             Intent myIntent2 = new Intent(CurrentLocationActivity.this, LocationShareService.class);
             stopService(myIntent2);
-            reference.child(user.getUid()).child("issharing").setValue("false")
+            reference.child(user.getUid()).child("isSharing").setValue("false")
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -305,54 +288,6 @@ public class CurrentLocationActivity extends AppCompatActivity
                     });
         }
     }
-
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_send:
-
-                if (isServiceRunning(getApplicationContext(), LocationShareService.class)) {
-                    Toast.makeText(getApplicationContext(), "You are already sharing your location.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent myIntent = new Intent(CurrentLocationActivity.this, LocationShareService.class);
-                    startService(myIntent);
-                }
-
-
-                break;
-            case R.id.action_stop:
-                Intent myIntent2 = new Intent(CurrentLocationActivity.this, LocationShareService.class);
-                stopService(myIntent2);
-                reference.child(user.getUid()).child("issharing").setValue("false")
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "Location sharing is now stopped", Toast.LENGTH_SHORT).show();
-
-
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Location sharing could not be stopped", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-                        });
-
-
-                break;
-
-
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.current_location, menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -377,7 +312,6 @@ public class CurrentLocationActivity extends AppCompatActivity
     }
 
     public void fetch_location(View v) {
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }

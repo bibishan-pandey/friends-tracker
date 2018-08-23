@@ -37,7 +37,6 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
     {
         this.nameList = nameList;
         this.c=c;
-
     }
 
     @Override
@@ -48,7 +47,6 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
 
     @Override
     public MembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.followers_card_layout,parent,false);
         MembersViewHolder membersViewHolder = new MembersViewHolder(view,c,nameList);
         return membersViewHolder;
@@ -58,19 +56,17 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
     public void onBindViewHolder(MembersViewHolder holder, int position) {
 
         CreateUser addCircle = nameList.get(position);
-        holder.name_txt.setText(addCircle.name);
+        holder.name_txt.setText(addCircle.Name);
         Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.defaultprofile).into(holder.circleImageView);
 
-        if(addCircle.issharing.equals("false"))
+        if(addCircle.isSharing.equals("false"))
         {
             holder.i1.setImageResource(R.drawable.ic_location_off);
         }
-        else if(addCircle.issharing.equals("true"))
+        else if(addCircle.isSharing.equals("true"))
         {
             holder.i1.setImageResource(R.drawable.ic_location_on);
         }
-
-
     }
 
     public static class MembersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -97,7 +93,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
             this.ctx = ctx;
             mAuth = FirebaseAuth.getInstance();
             mUser = mAuth.getCurrentUser();
-            mReference = FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid()).child("CircleMembers");
+            mReference = FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid()).child("FollowerMembers");
             mJoinedRef = FirebaseDatabase.getInstance().getReference().child("Users");
             name_txt = itemView.findViewById(R.id.item_title);
             i1  = itemView.findViewById(R.id.item_image);
@@ -110,15 +106,11 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
             CreateUser addCircle = this.nameArrayList.get(position);
             String latitude_user = addCircle.lat;
             String longitude_user = addCircle.lng;
-            String sharing=addCircle.issharing;
-
+            String sharing=addCircle.isSharing;
 
             if(sharing.equals("false"))
             {
-
-                Toast.makeText(ctx,"This circle member is not sharing location.",Toast.LENGTH_SHORT).show();
-
-
+                Toast.makeText(ctx,"This member is not sharing location.",Toast.LENGTH_SHORT).show();
             }
             else
             {
@@ -126,44 +118,39 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
                 // mYIntent.putExtra("createuserobject",addCircle);
                 mYIntent.putExtra("latitude",latitude_user);
                 mYIntent.putExtra("longitude",longitude_user);
-                mYIntent.putExtra("name",addCircle.name);
-                mYIntent.putExtra("userid",addCircle.userid);
-                mYIntent.putExtra("date",addCircle.date);
+                mYIntent.putExtra("Name",addCircle.Name);
+                mYIntent.putExtra("UserId",addCircle.UserId);
+                mYIntent.putExtra("Date",addCircle.Date);
                 mYIntent.putExtra("image",addCircle.profile_image);
                 mYIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ctx.startActivity(mYIntent);
             }
-
         }
-
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             int position = getAdapterPosition();
             final CreateUser addCircle = this.nameArrayList.get(position);
 
-            mReference.child(addCircle.userid).removeValue()
+            mReference.child(addCircle.UserId).removeValue()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                mJoinedRef.child(addCircle.userid).child("JoinedCircles").child(mUser.getUid()).removeValue()
+                                mJoinedRef.child(addCircle.UserId).child("FollowingMembers").child(mUser.getUid()).removeValue()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful())
                                                 {
-                                                    Toast.makeText(ctx,"User removed from circle.",Toast.LENGTH_SHORT).show();
-
+                                                    Toast.makeText(ctx,"User removed from following list",Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
                             }
                         }
                     });
-
-
             return false;
         }
 
@@ -173,6 +160,4 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
             myActionItem.setOnMenuItemClickListener(this);
         }
     }
-
-
 }

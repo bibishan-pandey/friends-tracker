@@ -56,7 +56,7 @@ public class FollowingActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        joinedReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
+        joinedReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("FollowingMembers");
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
 
@@ -68,7 +68,7 @@ public class FollowingActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot dss : dataSnapshot.getChildren()) {
 
-                        String memberUserid = dss.child("circlememberid").getValue(String.class);
+                        String memberUserid = dss.child("MemberId").getValue(String.class);
 
                         usersReference.child(memberUserid).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -88,14 +88,14 @@ public class FollowingActivity extends AppCompatActivity {
 
                     }
 
-                    Toast.makeText(getApplicationContext(), "Showing joined circles", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Showing the members you are following", Toast.LENGTH_SHORT).show();
                     recycleradapter = new FollowingAdapter(myList, getApplicationContext());
                     recyclerView.setAdapter(recycleradapter);
                     recycleradapter.notifyDataSetChanged();
 
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "You have not joined any circle yet!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Sorry, no following members", Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
 

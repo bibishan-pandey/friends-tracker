@@ -50,7 +50,7 @@ public class FollowersActivity extends AppCompatActivity {
         nameList = new ArrayList<>();
         followersUserIdList = new ArrayList<>();
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
-        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("CircleMembers");
+        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("FollowerMembers");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -59,7 +59,7 @@ public class FollowersActivity extends AppCompatActivity {
                 {
                     for(DataSnapshot dss: dataSnapshot.getChildren())
                     {
-                        memberUserId = dss.child("circlememberid").getValue(String.class);
+                        memberUserId = dss.child("MemberId").getValue(String.class);
                         usersReference.child(memberUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {

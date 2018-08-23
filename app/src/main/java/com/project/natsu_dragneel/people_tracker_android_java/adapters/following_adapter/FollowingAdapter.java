@@ -54,9 +54,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.Join
         final CreateUser addCircle = nameList.get(position);
         // String name = nameList.get(position);
         Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.defaultprofile).into(holder.i1);
-
-        holder.name_txt.setText(addCircle.name);
-
+        holder.name_txt.setText(addCircle.Name);
     }
 
 
@@ -79,7 +77,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.Join
             this.nameArrayList = nameArrayList;
             auth = FirebaseAuth.getInstance();
             user = auth.getCurrentUser();
-            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
+            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("FollowingMembers");
             currentReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
             name_txt = (TextView)itemView.findViewById(R.id.item_title);
@@ -92,25 +90,22 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.Join
             int position = getAdapterPosition();
             final CreateUser addCircle = this.nameArrayList.get(position);
 
-            reference.child(addCircle.userid).removeValue()
+            reference.child(addCircle.UserId).removeValue()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                currentReference.child(addCircle.userid).child("CircleMembers").child(user.getUid()).removeValue()
+                                currentReference.child(addCircle.UserId).child("FollowerMembers").child(user.getUid()).removeValue()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful())
                                                 {
-                                                    Toast.makeText(ctx,"Unjoined successfully",Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(ctx,"Unfollowed successfully",Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
-
-
-
                             }
                         }
                     });
@@ -120,7 +115,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.Join
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            MenuItem myActionItem = menu.add("UNJOIN");
+            MenuItem myActionItem = menu.add("Unfollow");
             myActionItem.setOnMenuItemClickListener(this);
         }
     }

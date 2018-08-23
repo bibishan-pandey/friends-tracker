@@ -88,9 +88,9 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         if (intent != null) {
             latitude = intent.getStringExtra("latitude");
             longitude = intent.getStringExtra("longitude");
-            name = intent.getStringExtra("name");
-            userid = intent.getStringExtra("userid");
-            prevdate = intent.getStringExtra("date");
+            name = intent.getStringExtra("Name");
+            userid = intent.getStringExtra("UserId");
+            prevdate = intent.getStringExtra("Date");
             prevImage = intent.getStringExtra("image");
         }
         user_name_textview.setText(name + "'s location");

@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.CurrentLocationActivity;
@@ -30,7 +31,9 @@ public class SigninPasswordActivity extends AppCompatActivity {
     EditText signin_password_edittext;
     Button signin_password_next_button;
     String signin_password_secure;
+    DatabaseReference reference;
     FirebaseAuth auth;
+    FirebaseUser user;
     String email;
     ProgressDialog dialog;
 
@@ -42,6 +45,7 @@ public class SigninPasswordActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
 
         signin_password_edittext = (EditText)findViewById(R.id.signup_profile_edittext);
+
 
         try {
             signin_password_secure= SHA_Conversion.hashPassword(signin_password_edittext.getText().toString());
@@ -89,7 +93,7 @@ public class SigninPasswordActivity extends AppCompatActivity {
 
     public void Login(View v)
     {
-        dialog.setMessage("Please wait. Logging in.");
+        dialog.setMessage("Please wait. Signing in.");
         dialog.show();
         if(signin_password_edittext.getText().toString().length()>=6)
         {
@@ -97,33 +101,28 @@ public class SigninPasswordActivity extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful())
-                            {
+                            if (task.isSuccessful()) {
                                 FirebaseUser user = auth.getCurrentUser();
-                                if(user.isEmailVerified())
-                                {
+                                if (user.isEmailVerified()) {
                                     dialog.dismiss();
                                     finish();
-                                    Intent myIntent = new Intent(SigninPasswordActivity.this,CurrentLocationActivity.class);
+                                    Intent myIntent = new Intent(SigninPasswordActivity.this, CurrentLocationActivity.class);
                                     startActivity(myIntent);
-                                }
-                                else
-                                {
+                                } else {
                                     dialog.dismiss();
                                     finish();
                                     FirebaseAuth.getInstance().signOut();
-                                    Toast.makeText(getApplicationContext(),"This email is not verified yet. Please check your email",Toast.LENGTH_SHORT).show();
-                                    Intent myIntent = new Intent(SigninPasswordActivity.this,MainActivity.class);
+                                    Toast.makeText(getApplicationContext(), "This email is not verified yet. Please check your email", Toast.LENGTH_SHORT).show();
+                                    Intent myIntent = new Intent(SigninPasswordActivity.this, MainActivity.class);
                                     startActivity(myIntent);
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 dialog.dismiss();
-                                Toast.makeText(getApplicationContext(),"Wrong username/password",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Wrong username/password", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
+
         }
     }
 

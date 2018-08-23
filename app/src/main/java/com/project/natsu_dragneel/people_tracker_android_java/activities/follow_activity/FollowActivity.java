@@ -47,7 +47,7 @@ public class FollowActivity extends AppCompatActivity {
         currentReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                currentUserId = dataSnapshot.child("userid").getValue().toString();
+                currentUserId = dataSnapshot.child("UserId").getValue().toString();
             }
 
             @Override
@@ -60,7 +60,7 @@ public class FollowActivity extends AppCompatActivity {
     public void get_users_code_with_uid(View v)
     {
         currentUserId = user.getUid();
-        Query query = reference.orderByChild("circlecode").equalTo(code_pin_view.getValue());
+        Query query = reference.orderByChild("FollowCode").equalTo(code_pin_view.getValue());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -71,9 +71,9 @@ public class FollowActivity extends AppCompatActivity {
                     {
                         createUser = childDss.getValue(CreateUser.class);
                     }
-                    followUserId = createUser.userid;
-                    followersReference = FirebaseDatabase.getInstance().getReference().child("Users").child(followUserId).child("CircleMembers");
-                    followingReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("JoinedCircles");
+                    followUserId = createUser.UserId;
+                    followersReference = FirebaseDatabase.getInstance().getReference().child("Users").child(followUserId).child("FollowerMembers");
+                    followingReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("FollowingMembers");
                     // get the correct values from the user
                     FollowClass currentFollowUser = new FollowClass(currentUserId);
                     final FollowClass followUser = new FollowClass(followUserId);

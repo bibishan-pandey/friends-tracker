@@ -57,7 +57,7 @@ public class AlertCenterActivity extends AppCompatActivity {
                 {
                     for(DataSnapshot dss: dataSnapshot.getChildren())
                     {
-                        memberUserId = dss.child("circlememberid").getValue().toString();
+                        memberUserId = dss.child("MemberId").getValue().toString();
 
                         userReference.child(memberUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -80,7 +80,7 @@ public class AlertCenterActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"Alert list is empty",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"No alerts",Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
             }
