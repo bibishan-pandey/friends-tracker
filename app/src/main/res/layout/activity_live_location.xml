@@ -44,7 +44,24 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/user_name_textview" />
+        android:layout_below="@+id/user_name_textview"/>
+
+    <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true">
+
+        <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+            android:id="@+id/vertical_seekbar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+
+            android:max="15"
+            android:progress="12"
+            android:splitTrack="false"
+            app:seekBarRotation="CW270" />
+    </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
 
     <Button
         android:id="@+id/geofence_click"
