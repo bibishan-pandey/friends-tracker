@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -47,7 +49,9 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     GoogleMap mMap;
     LatLng friendLatLng;
     GeoFire geoFire;
+    Button geofence_click;
     Double geofence_radius=500.0;
+    Circle mapcircle;
     VerticalSeekBar mVerticalSeekBar;
 
     private GoogleApiClient mGoogleApiClient;
@@ -66,6 +70,9 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_location);
+
+        geofence_click=(Button)findViewById(R.id.geofence_click);
+
         mVerticalSeekBar= (VerticalSeekBar) findViewById(R.id.vertical_seekbar);
         mVerticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -207,15 +214,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(friendLatLng, 15));
 
-        //geofence circle
-        LatLng geofence_circle=new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude));
-        mMap.addCircle(new CircleOptions()
-                .center(geofence_circle)
-                .radius(geofence_radius)
-                .strokeColor(Color.BLACK)
-                .fillColor(Color.TRANSPARENT)
-                .strokeWidth(5f)
-        );
+
         //geo query
         //0.5f==500m
         /*
@@ -275,6 +274,25 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     }
 
     public void start_geofence(View v) {
+        LatLng geofence_circle=new LatLng(Double.parseDouble(String.valueOf(27.7408542)),Double.parseDouble(String.valueOf(85.3166594)));
+        if(geofence_click.getText().toString()=="Start Geofence"){
+            geofence_click.setText("Stop Geofence");
+            //geofence circle
+
+            mapcircle=mMap.addCircle(new CircleOptions()
+                    .center(geofence_circle)
+                    .radius(geofence_radius)
+                    .strokeColor(Color.BLACK)
+                    .fillColor(Color.TRANSPARENT)
+                    .strokeWidth(5f)
+            );
+        }else{
+            geofence_click.setText("Start Geofence");
+            if(mapcircle!=null){
+                mapcircle.remove();
+            }
+        }
+
     }
 
     public void back_image_button(View v) {
