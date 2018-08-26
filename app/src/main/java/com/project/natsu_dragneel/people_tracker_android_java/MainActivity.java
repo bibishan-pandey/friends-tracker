@@ -11,10 +11,11 @@ import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_ac
 import com.project.natsu_dragneel.people_tracker_android_java.activities.signin_activities.SigninEmailActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.signup_activities.SignupEmailActivity;
 
+@SuppressWarnings("unused")
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
-    FirebaseUser user;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,28 +24,23 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         user = auth.getCurrentUser();
-        if(user == null)
-        {
+        if (user == null) {
             setContentView(R.layout.activity_main);
-        }
-        else
-        {
-            Intent intent = new Intent(MainActivity.this,CurrentLocationActivity.class);
+        } else {
+            Intent intent = new Intent(MainActivity.this, CurrentLocationActivity.class);
             startActivity(intent);
             finish();
         }
     }
 
-    public void signup_click(View v)
-    {
-        Intent intent = new Intent(MainActivity.this,SignupEmailActivity.class);
+    public void signup_click(View v) {
+        Intent intent = new Intent(MainActivity.this, SignupEmailActivity.class);
         startActivity(intent);
         finish();
     }
 
-    public void signin_click(View v)
-    {
-        Intent intent = new Intent(MainActivity.this,SigninEmailActivity.class);
+    public void signin_click(View v) {
+        Intent intent = new Intent(MainActivity.this, SigninEmailActivity.class);
         startActivity(intent);
         finish();
     }
