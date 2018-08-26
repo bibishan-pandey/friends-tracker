@@ -24,10 +24,10 @@ import static java.lang.Thread.sleep;
 
 public class SendHelpAlertsActivity extends AppCompatActivity {
 
-    TextView t1_CounterTxt;
+    TextView counterTextView;
     int countValue = 5;
     Thread myThread;
-    DatabaseReference circlereference,usersReference;
+    DatabaseReference circleReference,usersReference;
     FirebaseAuth auth;
     FirebaseUser user;
     String memberUserId;
@@ -36,13 +36,13 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_help_alerts);
-        t1_CounterTxt = findViewById(R.id.count_down_textview);
+        counterTextView = findViewById(R.id.count_down_textview);
         auth = FirebaseAuth.getInstance();
 
         userIDsList = new ArrayList<>();
         user = auth.getCurrentUser();
 
-        circlereference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("FollowerMembers");
+        circleReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("FollowerMembers");
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
         myThread = new Thread(new ServerThread());
         myThread.start();
@@ -53,14 +53,12 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
-                //do some heavy task here on main separate thread like: Saving files in directory, any server operation or any heavy task
-                ///Once this task done and if you want to update UI the you can update UI operation on runOnUiThread method like this:
                 while(countValue!=0) {
                     sleep(1000);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            t1_CounterTxt.setText(String.valueOf(countValue));
+                            counterTextView.setText(String.valueOf(countValue));
                             countValue = countValue - 1;
                         }
                     });
@@ -69,7 +67,7 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        circlereference.addValueEventListener(new ValueEventListener() {
+                        circleReference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 userIDsList.clear();
@@ -116,7 +114,6 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
 
             }
             catch (Exception e) {
-                //error here
             }
         }
     }
