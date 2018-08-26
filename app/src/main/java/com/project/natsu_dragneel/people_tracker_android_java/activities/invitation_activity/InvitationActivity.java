@@ -3,10 +3,10 @@ package com.project.natsu_dragneel.people_tracker_android_java.activities.invita
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -33,6 +33,16 @@ import java.util.Objects;
 
 @SuppressWarnings("unused")
 public class InvitationActivity extends AppCompatActivity {
+
+    private static final String TAG = InvitationActivity.class.getSimpleName();
+
+    private static final String creating = "Creating a new account. Please wait";
+    private static final String create_fail = "Could not create account. Try again later";
+    private static final String share_one = "People Tracker invitation code is '";
+    private static final String share_final = "'. Please follow me to connect.";
+    private static final String share = "Share using:";
+    private static final String profile_error = "Could not upload profile picture";
+    private static final String email_success = "Email sent for verification. Please check email.";
 
     private TextView show_code_textView;
     private String name;
@@ -94,7 +104,7 @@ public class InvitationActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Log.d(TAG, "onCancelled: Cancelled");
                 }
             });
         } else {
@@ -105,13 +115,13 @@ public class InvitationActivity extends AppCompatActivity {
     public void share_code_button(View v) {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("text/plain");
-        i.putExtra(Intent.EXTRA_TEXT, "People Tracker invitation code is '" + show_code_textView.getText().toString() + "'. Please follow me to connect.");
-        startActivity(Intent.createChooser(i, "Share using:"));
+        i.putExtra(Intent.EXTRA_TEXT, share_one + show_code_textView.getText().toString() + share_final);
+        startActivity(Intent.createChooser(i, share));
     }
 
     public void register_done_button(View v) {
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("Creating a new account. Please wait");
+        dialog.setMessage(creating);
         dialog.setCancelable(false);
         dialog.show();
 
@@ -121,45 +131,43 @@ public class InvitationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             user = auth.getCurrentUser();
-                            CreateUser createUser = null;
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                createUser = new CreateUser(name, email, password, date, code, Objects.requireNonNull(user).getUid(), "false", "na", "na", "defaultimage");
-                            }
+                            CreateUser createUser = new CreateUser(name, email, password, date, code, user.getUid(), "false", "na", "na", "defaultimage");
 
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                reference.child(Objects.requireNonNull(user).getUid()).setValue(createUser)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    StorageReference filePath = firebaseStorageReference.child(user.getUid() + ".jpg");
-                                                    filePath.putFile(resultUri)
-                                                            .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        String downloadPath = task.getResult().getStorage().getDownloadUrl().toString();
-                                                                        reference.child(user.getUid()).child("profile_image").setValue(downloadPath)
-                                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                    @Override
-                                                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                                                        if (task.isSuccessful()) {
-                                                                                            dialog.dismiss();
-                                                                                            sendVerificationEmail();
-                                                                                        }
+                            reference.child(user.getUid()).setValue(createUser)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                StorageReference filePath = firebaseStorageReference.child(user.getUid() + ".jpg");
+                                                filePath.putFile(resultUri)
+                                                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    String downloadPath = task.getResult()
+                                                                            .getStorage()
+                                                                            .getDownloadUrl()
+                                                                            .toString();
+                                                                    reference.child(user.getUid()).child("profile_image").setValue(downloadPath)
+                                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                @Override
+                                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                                    if (task.isSuccessful()) {
+                                                                                        dialog.dismiss();
+                                                                                        sendVerificationEmail();
                                                                                     }
-                                                                                });
-                                                                    } else {
-                                                                        Toast.makeText(getApplicationContext(), "Could not upload profile picture", Toast.LENGTH_SHORT).show();
-                                                                    }
+                                                                                }
+                                                                            });
+                                                                } else {
+                                                                    Toast.makeText(getApplicationContext(), profile_error, Toast.LENGTH_SHORT).show();
                                                                 }
-                                                            });
-                                                }
+                                                            }
+                                                        });
                                             }
-                                        });
-                            }
+                                        }
+                                    });
                         } else {
-                            Toast.makeText(getApplicationContext(), "Could not create account. Try again later", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), create_fail, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -171,7 +179,7 @@ public class InvitationActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Email sent for verification. Please check email.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), email_success, Toast.LENGTH_SHORT).show();
                             finish();
                             auth.signOut();
                             Intent myIntent = new Intent(InvitationActivity.this, MainActivity.class);
