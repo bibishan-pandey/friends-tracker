@@ -1,6 +1,8 @@
 package com.project.natsu_dragneel.people_tracker_android_java.activities.following_activity;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,97 +22,87 @@ import com.project.natsu_dragneel.people_tracker_android_java.adapters.following
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+@SuppressWarnings("unused")
 public class FollowingActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+    private static final String show_members = "Showing the members you are following";
+    private static final String no_members = "Sorry, no following members";
 
-    RecyclerView.Adapter recycleradapter;
-    RecyclerView.LayoutManager layoutManager;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerAdapter;
 
-    FirebaseAuth auth;
-    DatabaseReference joinedReference;
-    ArrayList<CreateUser> myList;
-    FirebaseUser user;
-    DatabaseReference usersReference;
-    CreateUser createUser;
+    private ArrayList<CreateUser> usersList;
+    private CreateUser createUser;
 
+    private DatabaseReference usersReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewFollowing);
-        layoutManager = new LinearLayoutManager(this);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        usersList = new ArrayList<>();
 
-
-        myList = new ArrayList<>();
-
-
+        recyclerView = findViewById(R.id.recyclerViewFollowing);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-        joinedReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("FollowingMembers");
-        usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        DatabaseReference followingReference = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Users")
+                .child(user.getUid())
+                .child("FollowingMembers");
+        usersReference = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Users");
 
-        joinedReference.addValueEventListener(new ValueEventListener() {
+        followingReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                myList.clear();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                usersList.clear();
 
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot dss : dataSnapshot.getChildren()) {
 
-                        String memberUserid = dss.child("MemberId").getValue(String.class);
+                        String memberUserId = dss.child("MemberId").getValue(String.class);
 
-                        usersReference.child(memberUserid).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            usersReference.child(Objects.requireNonNull(memberUserId)).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    createUser = dataSnapshot.getValue(CreateUser.class);
+                                    //Toast.makeText(getApplicationContext(),createUser.name,Toast.LENGTH_SHORT).show();
+                                    usersList.add(createUser);
+                                }
 
-                                createUser = dataSnapshot.getValue(CreateUser.class);
-                                //  Toast.makeText(getApplicationContext(),createUser.name,Toast.LENGTH_SHORT).show();
-                                myList.add(createUser);
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                     }
-
-                    Toast.makeText(getApplicationContext(), "Showing the members you are following", Toast.LENGTH_SHORT).show();
-                    recycleradapter = new FollowingAdapter(myList, getApplicationContext());
-                    recyclerView.setAdapter(recycleradapter);
-                    recycleradapter.notifyDataSetChanged();
-
-
+                    Toast.makeText(getApplicationContext(), show_members, Toast.LENGTH_SHORT).show();
+                    recyclerAdapter = new FollowingAdapter(usersList, getApplicationContext());
+                    recyclerView.setAdapter(recyclerAdapter);
+                    recyclerAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Sorry, no following members", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), no_members, Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
-
-
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getApplicationContext(), databaseError.toString(), Toast.LENGTH_LONG).show();
-
             }
         });
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -119,7 +111,7 @@ public class FollowingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void back_image_button(View v){
+    public void back_image_button(View v) {
         finish();
     }
 
