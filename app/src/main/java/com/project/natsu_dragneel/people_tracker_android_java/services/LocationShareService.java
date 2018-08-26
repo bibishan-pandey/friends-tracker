@@ -1,5 +1,6 @@
 package com.project.natsu_dragneel.people_tracker_android_java.services;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -7,6 +8,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -33,20 +35,25 @@ import com.project.natsu_dragneel.people_tracker_android_java.R;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
-public class LocationShareService extends Service implements LocationListener, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener{
+@SuppressWarnings({"deprecation", "AccessStaticViaInstance"})
+public class LocationShareService extends Service implements LocationListener, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
     public LocationShareService() {
     }
 
-    GoogleApiClient client;
-    LocationRequest request;
-    LatLng latLngCurrent;
-    DatabaseReference reference;
-    FirebaseAuth auth;
-    FirebaseUser user;
+    private static final String not_text = "Notification";
+    private static final String app_title = "People Tracker";
+    private static final String sharing = "You are sharing your location!";
 
-    NotificationCompat.Builder notification;
-    public final int uniqueId = 654321;
+    private GoogleApiClient client;
+    private LatLng latLngCurrent;
+    private DatabaseReference reference;
+    private FirebaseUser user;
+
+    private NotificationCompat.Builder notification;
+    private final int uniqueId = 654321;
+
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -56,8 +63,10 @@ public class LocationShareService extends Service implements LocationListener, G
     @Override
     public void onCreate() {
         super.onCreate();
-        reference = FirebaseDatabase.getInstance().getReference().child("Users");
-        auth = FirebaseAuth.getInstance();
+        reference = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Users");
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         notification = new NotificationCompat.Builder(this);
         notification.setAutoCancel(false);
         notification.setOngoing(true);
@@ -73,33 +82,33 @@ public class LocationShareService extends Service implements LocationListener, G
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        request = new LocationRequest().create();
+        LocationRequest request = new LocationRequest().create();
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         request.setInterval(500);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(client, request, this);
 
         notification.setSmallIcon(R.drawable.ic_location_on);
-        notification.setTicker("Notification.");
+        notification.setTicker(not_text);
         notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle("People Tracker");
-        notification.setContentText("You are sharing your location!");
+        notification.setContentTitle(app_title);
+        notification.setContentText(sharing);
         notification.setDefaults(Notification.DEFAULT_SOUND);
 
-        Intent intent = new Intent(getApplicationContext(),CurrentLocationActivity.class);
+        Intent intent = new Intent(getApplicationContext(), CurrentLocationActivity.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0,intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         notification.setContentIntent(pendingIntent);
 
-        // Build the nofification
-        NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(uniqueId,notification.build());
-        // display notification
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(nm).notify(uniqueId, notification.build());
+        }
     }
 
     @Override
@@ -118,8 +127,7 @@ public class LocationShareService extends Service implements LocationListener, G
         shareLocation();
     }
 
-    public void shareLocation()
-    {
+    private void shareLocation() {
         Date date = new Date();
         SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault());
         String myDate = sdf1.format(date);
@@ -131,9 +139,8 @@ public class LocationShareService extends Service implements LocationListener, G
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(!task.isSuccessful())
-                        {
-                            Toast.makeText(getApplicationContext(),"Could not share Location.",Toast.LENGTH_SHORT).show();
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Could not share Location.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -141,10 +148,12 @@ public class LocationShareService extends Service implements LocationListener, G
 
     @Override
     public void onDestroy() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(client,this);
+        LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
         client.disconnect();
-        //  reference.child(user.getUid()).child("issharing").setValue("false");
-        NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        nm.cancel(uniqueId);
+        //reference.child(user.getUid()).child("isSharing").setValue("false");
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(nm).cancel(uniqueId);
+        }
     }
 }
