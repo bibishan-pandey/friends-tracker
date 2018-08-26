@@ -44,7 +44,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class LiveLocationActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class LiveLocationActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     GoogleMap mMap;
     LatLng friendLatLng;
@@ -271,6 +271,18 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        mMap.clear();
+
+        LatLng geoMark=new LatLng(latLng.latitude,latLng.longitude);
+        MarkerOptions marker=new MarkerOptions()
+                .position(geoMark)
+                .title("Geofence marker")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        mMap.addMarker(marker);
     }
 
     public void start_geofence(View v) {
