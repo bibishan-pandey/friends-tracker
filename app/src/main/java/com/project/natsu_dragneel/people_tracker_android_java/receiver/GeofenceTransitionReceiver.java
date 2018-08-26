@@ -1,11 +1,13 @@
 package com.project.natsu_dragneel.people_tracker_android_java.receiver;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
@@ -16,9 +18,12 @@ import com.google.android.gms.location.GeofencingEvent;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.LiveLocationActivity;
 
+import java.util.Objects;
+
+@SuppressWarnings({"ConstantConditions", "deprecation"})
 public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
 
-    public static final String TAG=GeofenceTransitionReceiver.class.getSimpleName();
+    private static final String TAG=GeofenceTransitionReceiver.class.getSimpleName();
 
     private Context context;
 
@@ -51,12 +56,13 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
         }
     }
 
-    protected void onError(int errorCode){
+    @SuppressLint("DefaultLocale")
+    private void onError(int errorCode){
         Toast.makeText(context, String.format("onError:(%1$d)", errorCode), Toast.LENGTH_SHORT).show();
         Log.d(TAG, String.format("onError: (%1$d)", errorCode));
     }
 
-    protected void onEnteredGeofences(String[] geofenceIds){
+    private void onEnteredGeofences(String[] geofenceIds){
         for(String fenceId:geofenceIds){
             Toast.makeText(context, String.format("Entered the geofence: %1$s",fenceId), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onEnteredGeofences: Entered");
@@ -64,7 +70,7 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
         }
     }
 
-    protected void onExitedGeofences(String[] geofenceIds){
+    private void onExitedGeofences(String[] geofenceIds){
         for (String fenceId:geofenceIds){
             Toast.makeText(context, String.format("Exited the geofence: %1$s", fenceId), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onExitedGeofences: Exited");
@@ -90,6 +96,8 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
         NotificationManager notificationManager=(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         PendingIntent pendingIntent=PendingIntent.getActivity(context,0,notificationIntent,0);
         builder.setContentIntent(pendingIntent);
-        notificationManager.notify(R.id.notification,builder.build());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(notificationManager).notify(R.id.notification,builder.build());
+        }
     }
 }
