@@ -26,6 +26,7 @@ import com.project.natsu_dragneel.people_tracker_android_java.security.SHA_Conve
 
 import java.security.NoSuchAlgorithmException;
 
+@SuppressWarnings("unused")
 public class SigninPasswordActivity extends AppCompatActivity {
 
     private static final String TAG = SigninPasswordActivity.class.getSimpleName();
@@ -34,13 +35,13 @@ public class SigninPasswordActivity extends AppCompatActivity {
     private static final String not_verified = "This email is not verified yet. Please check your email";
     private static final String wrong_credentials = "Wrong username/password";
 
-    EditText signin_password_editText;
-    Button signin_password_next_button;
-    String signin_password_secure;
-    FirebaseAuth auth;
-    FirebaseUser user;
-    String email;
-    ProgressDialog dialog;
+    private EditText signin_password_editText;
+    private Button signin_password_next_button;
+    private String signin_password_secure;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
+    private String email;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
