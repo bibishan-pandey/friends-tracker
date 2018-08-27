@@ -2,6 +2,7 @@ package com.project.natsu_dragneel.people_tracker_android_java.adapters.alert_ad
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -24,12 +25,18 @@ import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.HelpAlertViewHolder> {
-    ArrayList<CreateUser> nameList = new ArrayList<>();
-    Context c;
+
+    private static final String alert_remove = "Alert removed.";
+    private static final String alert_remove_error = "Could not remove it";
+    private static final String location_error = "Could not get the location. Try again";
+
+    private final ArrayList<CreateUser> nameList;
+    private final Context c;
 
     public HelpAlertsAdapter(ArrayList<CreateUser> nameList, Context c) {
         this.nameList = nameList;
@@ -42,15 +49,15 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
     }
 
 
+    @NonNull
     @Override
-    public HelpAlertViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alert_card_layout,parent,false);
-        HelpAlertViewHolder alertViewHolder = new HelpAlertViewHolder(view,c,nameList);
-        return alertViewHolder;
+    public HelpAlertViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alert_card_layout, parent, false);
+        return new HelpAlertViewHolder(view, c, nameList);
     }
 
     @Override
-    public void onBindViewHolder(HelpAlertViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HelpAlertViewHolder holder, int position) {
         CreateUser addCircle = nameList.get(position);
 
         holder.alertNameTxt.setText(addCircle.Name);
@@ -58,20 +65,20 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
         Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.defaultprofile).into(holder.alertImageView);
     }
 
+    @SuppressWarnings("unused")
     public static class HelpAlertViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-            ,View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener
-    {
-        View v;
-        Context ctx;
-        ArrayList<CreateUser> nameArrayList;
-        CircleImageView alertImageView;
-        TextView alertNameTxt,alertDateTxt;
+            , View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+        final View v;
+        final Context ctx;
+        final ArrayList<CreateUser> nameArrayList;
+        final CircleImageView alertImageView;
+        final TextView alertNameTxt;
+        final TextView alertDateTxt;
         DatabaseReference myReference;
-        FirebaseAuth auth;
-        FirebaseUser user;
+        final FirebaseAuth auth;
+        final FirebaseUser user;
 
-        public HelpAlertViewHolder(View itemView,Context ctx,ArrayList<CreateUser> nameArrayList)
-        {
+        HelpAlertViewHolder(View itemView, Context ctx, ArrayList<CreateUser> nameArrayList) {
             super(itemView);
             this.v = itemView;
             itemView.setOnClickListener(this);
@@ -80,7 +87,13 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
             this.ctx = ctx;
             auth = FirebaseAuth.getInstance();
             user = auth.getCurrentUser();
-            myReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("HelpAlerts");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                myReference = FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("Users")
+                        .child(Objects.requireNonNull(user).getUid())
+                        .child("HelpAlerts");
+            }
 
             alertImageView = itemView.findViewById(R.id.alertImage);
             alertNameTxt = itemView.findViewById(R.id.alertName);
@@ -94,20 +107,16 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
             String latitude_user = addCircle.lat;
             String longitude_user = addCircle.lng;
 
-            if(latitude_user.equals("na") && longitude_user.equals("na"))
-            {
-                Toast.makeText(ctx,"Could not get the location. Try again",Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                Intent mYIntent = new Intent(ctx,LiveLocationActivity.class);
-                // mYIntent.putExtra("createuserobject",addCircle);
-                mYIntent.putExtra("latitude",latitude_user);
-                mYIntent.putExtra("longitude",longitude_user);
-                mYIntent.putExtra("Name",addCircle.Name);
-                mYIntent.putExtra("UserId",addCircle.UserId);
-                mYIntent.putExtra("Date",addCircle.Date);
-                mYIntent.putExtra("image",addCircle.profile_image);
+            if (latitude_user.equals("na") && longitude_user.equals("na")) {
+                Toast.makeText(ctx, location_error, Toast.LENGTH_SHORT).show();
+            } else {
+                Intent mYIntent = new Intent(ctx, LiveLocationActivity.class);
+                mYIntent.putExtra("latitude", latitude_user);
+                mYIntent.putExtra("longitude", longitude_user);
+                mYIntent.putExtra("Name", addCircle.Name);
+                mYIntent.putExtra("UserId", addCircle.UserId);
+                mYIntent.putExtra("Date", addCircle.Date);
+                mYIntent.putExtra("image", addCircle.profile_image);
                 mYIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ctx.startActivity(mYIntent);
             }
@@ -122,13 +131,10 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful())
-                            {
-                                Toast.makeText(ctx,"Alert removed.",Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
-                                Toast.makeText(ctx,"Could not remove it",Toast.LENGTH_SHORT).show();
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ctx, alert_remove, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ctx, alert_remove_error, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -142,9 +148,3 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
         }
     }
 }
-
-
-
-
-
-
