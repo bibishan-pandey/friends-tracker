@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -42,9 +43,12 @@ public class LocationShareService extends Service implements LocationListener, G
     public LocationShareService() {
     }
 
+    private static final String TAG = LocationShareService.class.getSimpleName();
+
     private static final String not_text = "Notification";
     private static final String app_title = "People Tracker";
     private static final String sharing = "You are sharing your location!";
+    private static final String not_shared = "Could not share Location.";
 
     private GoogleApiClient client;
     private LatLng latLngCurrent;
@@ -113,12 +117,12 @@ public class LocationShareService extends Service implements LocationListener, G
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.d(TAG, "onConnectionFailed: failed");
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.d(TAG, "onConnectionSuspended: suspended");
     }
 
     @Override
@@ -140,7 +144,7 @@ public class LocationShareService extends Service implements LocationListener, G
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Could not share Location.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), not_shared, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
