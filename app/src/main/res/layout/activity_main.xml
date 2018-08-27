@@ -47,7 +47,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/signin_nav_click"
+        android:layout_above="@+id/signup_nav_click"
         android:layout_centerHorizontal="true"
         android:text="People Tracker"
         android:gravity="center"

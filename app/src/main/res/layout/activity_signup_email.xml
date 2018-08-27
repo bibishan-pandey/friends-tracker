@@ -35,7 +35,7 @@
         android:src="@drawable/icon_sign_up" />
 
     <EditText
-        android:id="@+id/signup_profile_edittext"
+        android:id="@+id/signup_email_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -48,7 +48,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/signin_nav_click"
+        android:id="@+id/signup_next_click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -65,9 +65,8 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/signin_nav_click"
+        android:layout_above="@+id/signup_next_click"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="6dp"
         android:text="By signing up you accept our Terms of Service and Privacy Policy." />
 
 

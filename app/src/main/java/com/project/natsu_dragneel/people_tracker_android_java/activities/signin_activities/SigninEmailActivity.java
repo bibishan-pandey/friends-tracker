@@ -31,10 +31,10 @@ public class SigninEmailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_email);
-        signin_email_edittext = (EditText)findViewById(R.id.signup_profile_edittext);
+        signin_email_edittext = (EditText)findViewById(R.id.signin_email_editText);
         dialog = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
-        signin_email_next_button = (Button)findViewById(R.id.signin_nav_click);
+        signin_email_next_button = (Button)findViewById(R.id.signin_next_click);
         signin_email_next_button.setEnabled(false);
         signin_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";

@@ -37,7 +37,7 @@
         app:civ_border_width="2dp" />
 
     <EditText
-        android:id="@+id/signup_profile_edittext"
+        android:id="@+id/signup_profile_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -50,7 +50,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/signin_nav_click"
+        android:id="@+id/signup_next_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -70,7 +70,7 @@
         android:text="This is how you'll appear on your map"
         android:textSize="16sp"
         android:layout_marginTop="7dp"
-        android:layout_below="@+id/signup_profile_edittext"
+        android:layout_below="@+id/signup_profile_editText"
         android:layout_centerHorizontal="true" />
 
     <TextView

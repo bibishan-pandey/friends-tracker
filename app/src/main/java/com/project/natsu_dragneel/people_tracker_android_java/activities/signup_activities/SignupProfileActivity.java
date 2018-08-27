@@ -24,7 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignupProfileActivity extends AppCompatActivity {
 
-    EditText signup_profile_edittext;
+    EditText signup_profile_editText;
     CircleImageView circleImageView;
     Button signup_profile_next_button;
     String email,password;
@@ -35,8 +35,8 @@ public class SignupProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_profile);
-        signup_profile_edittext = (EditText)findViewById(R.id.signup_profile_edittext);
-        signup_profile_next_button = (Button)findViewById(R.id.signin_nav_click);
+        signup_profile_editText = (EditText)findViewById(R.id.signup_profile_editText);
+        signup_profile_next_button = (Button)findViewById(R.id.signup_next_click);
 
         signup_profile_next_button.setEnabled(false);
         signup_profile_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
@@ -47,7 +47,7 @@ public class SignupProfileActivity extends AppCompatActivity {
             email = intent.getStringExtra("Email");
             password = intent.getStringExtra("Password");
         }
-        signup_profile_edittext.addTextChangedListener(new TextWatcher() {
+        signup_profile_editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -75,7 +75,7 @@ public class SignupProfileActivity extends AppCompatActivity {
     }
 
     public void generate_code_profile(View v) {
-        if (signup_profile_edittext.getText().toString().length() > 0) {
+        if (signup_profile_editText.getText().toString().length() > 0) {
             Date curDate = new Date();
             Random rnd = new Random();
             int n = 100000 + rnd.nextInt(900000);
@@ -83,7 +83,7 @@ public class SignupProfileActivity extends AppCompatActivity {
             if(resultUri !=null)
             {
                 Intent myIntent = new Intent(SignupProfileActivity.this, InvitationActivity.class);
-                myIntent.putExtra("Name", signup_profile_edittext.getText().toString());
+                myIntent.putExtra("Name", signup_profile_editText.getText().toString());
                 myIntent.putExtra("Email", email);
                 myIntent.putExtra("Password", password);
                 myIntent.putExtra("Date", "na");

@@ -3,6 +3,7 @@ package com.project.natsu_dragneel.people_tracker_android_java.activities.signin
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,12 +20,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.CurrentLocationActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.security.SHA_Conversion;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 
 @SuppressWarnings("unused")
 public class SigninPasswordActivity extends AppCompatActivity {
@@ -38,7 +45,9 @@ public class SigninPasswordActivity extends AppCompatActivity {
     private EditText signin_password_editText;
     private Button signin_password_next_button;
     private String signin_password_secure;
+    private String server_password;
     private FirebaseAuth auth;
+    private DatabaseReference reference;
     private FirebaseUser user;
     private String email;
     private ProgressDialog dialog;
@@ -50,15 +59,15 @@ public class SigninPasswordActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(this);
 
-        signin_password_editText = findViewById(R.id.signup_profile_edittext);
-
+        signin_password_editText = findViewById(R.id.signin_password_editText);
         try {
             signin_password_secure = SHA_Conversion.hashPassword(signin_password_editText.getText().toString());
+            Toast.makeText(SigninPasswordActivity.this, signin_password_secure, Toast.LENGTH_SHORT).show();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 
-        signin_password_next_button = findViewById(R.id.signin_nav_click);
+        signin_password_next_button = findViewById(R.id.signin_next_click);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -90,6 +99,27 @@ public class SigninPasswordActivity extends AppCompatActivity {
                 }
             }
         });
+
+        reference = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                try {
+                    server_password = dataSnapshot.child(user.getUid()).child("Password").getValue().toString();
+
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Could not connect to the network. Please try again later", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void Login(View v) {
@@ -100,20 +130,23 @@ public class SigninPasswordActivity extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+                            if (task.isSuccessful() && signin_password_secure.equals(server_password)) {
                                 user = auth.getCurrentUser();
-                                if (user.isEmailVerified()) {
-                                    dialog.dismiss();
-                                    finish();
-                                    Intent myIntent = new Intent(SigninPasswordActivity.this, CurrentLocationActivity.class);
-                                    startActivity(myIntent);
-                                } else {
-                                    dialog.dismiss();
-                                    finish();
-                                    FirebaseAuth.getInstance().signOut();
-                                    Toast.makeText(getApplicationContext(), not_verified, Toast.LENGTH_SHORT).show();
-                                    Intent myIntent = new Intent(SigninPasswordActivity.this, MainActivity.class);
-                                    startActivity(myIntent);
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                    if (Objects.requireNonNull(user).isEmailVerified()) {
+                                        dialog.dismiss();
+                                        finish();
+                                        Intent myIntent = new Intent(SigninPasswordActivity.this, CurrentLocationActivity.class);
+                                        startActivity(myIntent);
+                                    } else {
+                                        dialog.dismiss();
+                                        finish();
+                                        FirebaseAuth.getInstance().signOut();
+                                        Toast.makeText(getApplicationContext(), not_verified, Toast.LENGTH_SHORT).show();
+                                        Intent myIntent = new Intent(SigninPasswordActivity.this, MainActivity.class);
+                                        startActivity(myIntent);
+                                    }
                                 }
                             } else {
                                 dialog.dismiss();
