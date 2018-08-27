@@ -1,6 +1,8 @@
 package com.project.natsu_dragneel.people_tracker_android_java.activities.alert_activities;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,29 +22,39 @@ import com.project.natsu_dragneel.people_tracker_android_java.adapters.alert_ada
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+@SuppressWarnings("unused")
 public class AlertCenterActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    RecyclerView.Adapter recyclerAdapter;
-    RecyclerView.LayoutManager layoutManager;
-    ArrayList<CreateUser> myList;
-    FirebaseAuth auth;
-    FirebaseUser user;
-    String memberUserId;
 
-    CreateUser createUser;
-    DatabaseReference reference,userReference;
+    private static final String show_alerts="Showing alerts";
+    private static final String no_alerts="No alerts";
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerAdapter;
+    private ArrayList<CreateUser> myList;
+    private String memberUserId;
+
+    private CreateUser createUser;
+    private DatabaseReference userReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert_center);
-        recyclerView = (RecyclerView)findViewById(R.id.alertRecyclerView);
-        layoutManager = new LinearLayoutManager(this);
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        recyclerView = findViewById(R.id.alertRecyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
 
-        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("HelpAlerts");
-        userReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Users")
+                .child(user.getUid())
+                .child("HelpAlerts");
+        userReference = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Users");
         myList = new ArrayList<>();
 
         recyclerView.setLayoutManager(layoutManager);
@@ -50,28 +62,30 @@ public class AlertCenterActivity extends AppCompatActivity {
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myList.clear();
                 if(dataSnapshot.exists())
                 {
                     for(DataSnapshot dss: dataSnapshot.getChildren())
                     {
-                        memberUserId = dss.child("MemberId").getValue().toString();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            memberUserId = Objects.requireNonNull(dss.child("MemberId").getValue()).toString();
+                        }
 
                         userReference.child(memberUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 createUser = dataSnapshot.getValue(CreateUser.class);
                                 myList.add(createUser);
                             }
 
                             @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
                                 Toast.makeText(getApplicationContext(),databaseError.getCode(),Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
-                    Toast.makeText(getApplicationContext(),"Showing alerts",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),show_alerts,Toast.LENGTH_SHORT).show();
                     recyclerAdapter = new HelpAlertsAdapter(myList,getApplicationContext());
 
                     recyclerView.setAdapter(recyclerAdapter);
@@ -79,13 +93,13 @@ public class AlertCenterActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"No alerts",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),no_alerts,Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
