@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
@@ -24,6 +25,7 @@ public class SignupPasswordActivity extends AppCompatActivity {
 
     private EditText signup_password_editText;
     private String signup_password_secure;
+    private TextView hashed_textView;
     private Button signup_password_next_signup;
     private String email;
 
@@ -32,13 +34,7 @@ public class SignupPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_password);
         signup_password_editText = findViewById(R.id.signup_password_edittext);
-
-        try {
-            signup_password_secure = SHA_Conversion.hashPassword(signup_password_editText.getText().toString());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
+        hashed_textView=findViewById(R.id.hashed_text);
         signup_password_next_signup = findViewById(R.id.signup_password_next_signup);
 
         Intent intent = getIntent();
@@ -67,6 +63,12 @@ public class SignupPasswordActivity extends AppCompatActivity {
                     signup_password_next_signup.setEnabled(false);
                     signup_password_next_signup.setBackgroundColor(Color.parseColor("#faebd7"));
                 }
+                try {
+                    signup_password_secure = SHA_Conversion.hashPassword(signup_password_editText.getText().toString());
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+                hashed_textView.setText(signup_password_secure);
             }
         });
     }
@@ -75,7 +77,7 @@ public class SignupPasswordActivity extends AppCompatActivity {
         if (signup_password_editText.getText().toString().length() >= 6) {
             Intent myIntent = new Intent(SignupPasswordActivity.this, SignupProfileActivity.class);
             myIntent.putExtra("Email", email);
-            myIntent.putExtra("Password", signup_password_secure);
+            myIntent.putExtra("Password", hashed_textView.getText().toString());
             startActivity(myIntent);
             finish();
         }

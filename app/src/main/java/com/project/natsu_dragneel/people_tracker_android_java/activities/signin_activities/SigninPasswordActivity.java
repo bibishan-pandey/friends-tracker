@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,6 +46,7 @@ public class SigninPasswordActivity extends AppCompatActivity {
     private EditText signin_password_editText;
     private Button signin_password_next_button;
     private String signin_password_secure;
+    private TextView hashed_textView;
     private String server_password;
     private FirebaseAuth auth;
     private DatabaseReference reference;
@@ -60,13 +62,7 @@ public class SigninPasswordActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
 
         signin_password_editText = findViewById(R.id.signin_password_editText);
-        try {
-            signin_password_secure = SHA_Conversion.hashPassword(signin_password_editText.getText().toString());
-            Toast.makeText(SigninPasswordActivity.this, signin_password_secure, Toast.LENGTH_SHORT).show();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
+        hashed_textView=findViewById(R.id.hashed_text);
         signin_password_next_button = findViewById(R.id.signin_next_click);
 
         Intent intent = getIntent();
@@ -97,6 +93,12 @@ public class SigninPasswordActivity extends AppCompatActivity {
                     signin_password_next_button.setEnabled(false);
                     signin_password_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
                 }
+                try {
+                    signin_password_secure = SHA_Conversion.hashPassword(signin_password_editText.getText().toString());
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+                hashed_textView.setText(signin_password_secure);
             }
         });
 
@@ -108,10 +110,9 @@ public class SigninPasswordActivity extends AppCompatActivity {
 
                 try {
                     server_password = dataSnapshot.child(user.getUid()).child("Password").getValue().toString();
-
                 } catch (NullPointerException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Could not connect to the network. Please try again later", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Could not connect to the network. Please try again later", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -126,35 +127,39 @@ public class SigninPasswordActivity extends AppCompatActivity {
         dialog.setMessage(wait);
         dialog.show();
         if (signin_password_editText.getText().toString().length() >= 6) {
-            auth.signInWithEmailAndPassword(email, signin_password_secure)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful() && signin_password_secure.equals(server_password)) {
-                                user = auth.getCurrentUser();
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                    if (Objects.requireNonNull(user).isEmailVerified()) {
-                                        dialog.dismiss();
-                                        finish();
-                                        Intent myIntent = new Intent(SigninPasswordActivity.this, CurrentLocationActivity.class);
-                                        startActivity(myIntent);
-                                    } else {
-                                        dialog.dismiss();
-                                        finish();
-                                        FirebaseAuth.getInstance().signOut();
-                                        Toast.makeText(getApplicationContext(), not_verified, Toast.LENGTH_SHORT).show();
-                                        Intent myIntent = new Intent(SigninPasswordActivity.this, MainActivity.class);
-                                        startActivity(myIntent);
-                                    }
-                                }
-                            } else {
-                                dialog.dismiss();
-                                Toast.makeText(getApplicationContext(), wrong_credentials, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            signin_process();
         }
+    }
+
+    private void signin_process() {
+        auth.signInWithEmailAndPassword(email, signin_password_secure)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            user = auth.getCurrentUser();
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                if (Objects.requireNonNull(user).isEmailVerified()) {
+                                    dialog.dismiss();
+                                    finish();
+                                    Intent myIntent = new Intent(SigninPasswordActivity.this, CurrentLocationActivity.class);
+                                    startActivity(myIntent);
+                                } else {
+                                    dialog.dismiss();
+                                    finish();
+                                    FirebaseAuth.getInstance().signOut();
+                                    Toast.makeText(getApplicationContext(), not_verified, Toast.LENGTH_SHORT).show();
+                                    Intent myIntent = new Intent(SigninPasswordActivity.this, MainActivity.class);
+                                    startActivity(myIntent);
+                                }
+                            }
+                        } else {
+                            dialog.dismiss();
+                            Toast.makeText(getApplicationContext(), wrong_credentials, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     @Override
