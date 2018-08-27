@@ -27,8 +27,8 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public class AlertCenterActivity extends AppCompatActivity {
 
-    private static final String show_alerts="Showing alerts";
-    private static final String no_alerts="No alerts";
+    private static final String show_alerts = "Showing alerts";
+    private static final String no_alerts = "No alerts";
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerAdapter;
@@ -64,10 +64,8 @@ public class AlertCenterActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myList.clear();
-                if(dataSnapshot.exists())
-                {
-                    for(DataSnapshot dss: dataSnapshot.getChildren())
-                    {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot dss : dataSnapshot.getChildren()) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             memberUserId = Objects.requireNonNull(dss.child("MemberId").getValue()).toString();
                         }
@@ -81,38 +79,36 @@ public class AlertCenterActivity extends AppCompatActivity {
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Toast.makeText(getApplicationContext(),databaseError.getCode(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), databaseError.getCode(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
-                    Toast.makeText(getApplicationContext(),show_alerts,Toast.LENGTH_SHORT).show();
-                    recyclerAdapter = new HelpAlertsAdapter(myList,getApplicationContext());
+                    Toast.makeText(getApplicationContext(), show_alerts, Toast.LENGTH_SHORT).show();
+                    recyclerAdapter = new HelpAlertsAdapter(myList, getApplicationContext());
 
                     recyclerView.setAdapter(recyclerAdapter);
                     recyclerAdapter.notifyDataSetChanged();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),no_alerts,Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), no_alerts, Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(null);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
     }
 
-    public void back_image_button(View v){
+    public void back_image_button(View v) {
         finish();
     }
 
