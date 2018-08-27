@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,51 +23,53 @@ import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@SuppressWarnings({"unused", "ThrowableNotThrown"})
 public class SignupProfileActivity extends AppCompatActivity {
 
-    EditText signup_profile_editText;
-    CircleImageView circleImageView;
-    Button signup_profile_next_button;
-    String email,password;
+    private static final String TAG = SignupProfileActivity.class.getSimpleName();
+    private static final String choose_pic = "You must choose your profile picture.";
 
-    Uri resultUri;
+    private EditText signup_profile_editText;
+    private CircleImageView circleImageView;
+    private Button signup_profile_next_button;
+    private String email;
+    private String password;
+
+    private Uri resultUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_profile);
-        signup_profile_editText = (EditText)findViewById(R.id.signup_profile_editText);
-        signup_profile_next_button = (Button)findViewById(R.id.signup_next_click);
+        signup_profile_editText = findViewById(R.id.signup_profile_editText);
+        signup_profile_next_button = findViewById(R.id.signup_next_click);
 
         signup_profile_next_button.setEnabled(false);
         signup_profile_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
-        circleImageView = (CircleImageView)findViewById(R.id.profile_image);
+        circleImageView = findViewById(R.id.profile_image);
 
         Intent intent = getIntent();
-        if (intent!=null) {
+        if (intent != null) {
             email = intent.getStringExtra("Email");
             password = intent.getStringExtra("Password");
         }
         signup_profile_editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                Log.d(TAG, "beforeTextChanged: beforeTextChanged");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                Log.d(TAG, "onTextChanged: onTextChanged");
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length()>0)
-                {
+                if (s.length() > 0) {
                     signup_profile_next_button.setEnabled(true);
                     signup_profile_next_button.setBackgroundColor(Color.parseColor("#f05545"));
-                }
-                else
-                {
+                } else {
                     signup_profile_next_button.setEnabled(false);
                     signup_profile_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
                 }
@@ -80,8 +83,7 @@ public class SignupProfileActivity extends AppCompatActivity {
             Random rnd = new Random();
             int n = 100000 + rnd.nextInt(900000);
             final String code = String.valueOf(n);
-            if(resultUri !=null)
-            {
+            if (resultUri != null) {
                 Intent myIntent = new Intent(SignupProfileActivity.this, InvitationActivity.class);
                 myIntent.putExtra("Name", signup_profile_editText.getText().toString());
                 myIntent.putExtra("Email", email);
@@ -90,20 +92,17 @@ public class SignupProfileActivity extends AppCompatActivity {
                 myIntent.putExtra("isSharing", "false");
                 myIntent.putExtra("Code", code);
 
-                myIntent.putExtra("imageUri",resultUri);
+                myIntent.putExtra("imageUri", resultUri);
                 startActivity(myIntent);
-                Toast.makeText(getApplicationContext(),resultUri.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), resultUri.toString(), Toast.LENGTH_SHORT).show();
                 finish();
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),"You must choose your profile picture.",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), choose_pic, Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public void open_gallery(View v)
-    {
+    public void open_gallery(View v) {
         Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(pickPhotoIntent, 12);
     }
@@ -111,8 +110,7 @@ public class SignupProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 12 && resultCode==RESULT_OK && data!=null)
-        {
+        if (requestCode == 12 && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
             CropImage.activity(uri)
                     .start(this);
@@ -132,13 +130,13 @@ public class SignupProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        Intent intent=new Intent(SignupProfileActivity.this, MainActivity.class);
+        Intent intent = new Intent(SignupProfileActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
-    public void back_image_button(View v){
+    public void back_image_button(View v) {
         finish();
-        Intent intent=new Intent(SignupProfileActivity.this, MainActivity.class);
+        Intent intent = new Intent(SignupProfileActivity.this, MainActivity.class);
         startActivity(intent);
     }
 }
