@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,8 @@ import java.util.Objects;
 
 @SuppressWarnings({"deprecation", "unused"})
 public class SigninEmailActivity extends AppCompatActivity {
+
+    private static final String TAG = SigninEmailActivity.class.getSimpleName();
 
     private static final String wait = "Please wait!";
     private static final String email_not_exists = "This email does not exist. Please create an account first";
@@ -47,12 +50,12 @@ public class SigninEmailActivity extends AppCompatActivity {
         signin_email_editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                Log.d(TAG, "beforeTextChanged: beforeTextChanged");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                Log.d(TAG, "onTextChanged: onTextChanged");
             }
 
             @Override

@@ -2,6 +2,7 @@ package com.project.natsu_dragneel.people_tracker_android_java.activities.alert_
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,32 +23,47 @@ import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 
+@SuppressWarnings("unused")
 public class SendHelpAlertsActivity extends AppCompatActivity {
 
-    TextView counterTextView;
-    int countValue = 5;
-    Thread myThread;
-    DatabaseReference circleReference,usersReference;
-    FirebaseAuth auth;
-    FirebaseUser user;
-    String memberUserId;
-    ArrayList<String> userIDsList;
+    private static final String TAG=SendHelpAlertsActivity.class.getSimpleName();
+
+    private static final String no_followers="No follower members.";
+    private static final String alert_sent="Alerts sent successfully.";
+    private static final String alert_not_sent="Could not send alerts. Please try again later.";
+    private static final String alert_cancel="Alert cancelled.";
+
+    private TextView counterTextView;
+    private int countValue = 5;
+    private Thread myThread;
+    private DatabaseReference circleReference;
+    private DatabaseReference usersReference;
+    private FirebaseUser user;
+    private String memberUserId;
+    private ArrayList<String> userIDsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_help_alerts);
         counterTextView = findViewById(R.id.count_down_textview);
-        auth = FirebaseAuth.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
         userIDsList = new ArrayList<>();
         user = auth.getCurrentUser();
 
-        circleReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("FollowerMembers");
-        usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        circleReference = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Users")
+                .child(user.getUid())
+                .child("FollowerMembers");
+        usersReference = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Users");
         myThread = new Thread(new ServerThread());
         myThread.start();
     }
 
+    @SuppressWarnings("RedundantStringToString")
     private class ServerThread implements Runnable
     {
         @Override
@@ -69,7 +85,7 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                     public void run() {
                         circleReference.addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 userIDsList.clear();
                                 for (DataSnapshot dss: dataSnapshot.getChildren())
                                 {
@@ -78,7 +94,7 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                                 }
                                 if(userIDsList.isEmpty())
                                 {
-                                    Toast.makeText(getApplicationContext(),"No follower members.",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(),no_followers,Toast.LENGTH_SHORT).show();
                                 }
                                 else
                                 {
@@ -92,11 +108,11 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                                                         if(task.isSuccessful())
                                                         {
                                                             finish();
-                                                            Toast.makeText(getApplicationContext(),"Alerts sent successfully.",Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getApplicationContext(),alert_sent,Toast.LENGTH_SHORT).show();
                                                         }
                                                         else
                                                         {
-                                                            Toast.makeText(getApplicationContext(),"Could not send alerts. Please try again later.",Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getApplicationContext(),alert_not_sent,Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 });
@@ -105,23 +121,22 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
                                 Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 });
-
             }
             catch (Exception e) {
+                Log.d(TAG, "run: catch");
             }
         }
     }
 
-
     public void setCancel(View v)
     {
-        Toast.makeText(getApplicationContext(),"Alert cancelled.",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),alert_cancel,Toast.LENGTH_SHORT).show();
         myThread.interrupt();
         finish();
     }
@@ -136,5 +151,4 @@ public class SendHelpAlertsActivity extends AppCompatActivity {
         myThread.interrupt();
         finish();
     }
-
 }
