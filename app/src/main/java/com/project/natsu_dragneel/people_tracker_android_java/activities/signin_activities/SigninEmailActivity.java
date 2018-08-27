@@ -20,25 +20,31 @@ import com.google.firebase.auth.ProviderQueryResult;
 import com.project.natsu_dragneel.people_tracker_android_java.MainActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 
+import java.util.Objects;
+
+@SuppressWarnings({"deprecation", "unused"})
 public class SigninEmailActivity extends AppCompatActivity {
 
-    EditText signin_email_edittext;
-    Button signin_email_next_button;
-    ProgressDialog dialog;
-    FirebaseAuth auth;
+    private static final String wait = "Please wait!";
+    private static final String email_not_exists = "This email does not exist. Please create an account first";
+
+    private EditText signin_email_editText;
+    private Button signin_email_next_button;
+    private ProgressDialog dialog;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_email);
-        signin_email_edittext = (EditText)findViewById(R.id.signin_email_editText);
+        signin_email_editText = findViewById(R.id.signin_email_editText);
         dialog = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
-        signin_email_next_button = (Button)findViewById(R.id.signin_next_click);
+        signin_email_next_button = findViewById(R.id.signin_next_click);
         signin_email_next_button.setEnabled(false);
         signin_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        signin_email_edittext.addTextChangedListener(new TextWatcher() {
+        signin_email_editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -51,13 +57,10 @@ public class SigninEmailActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(signin_email_edittext.getText().toString().matches(emailPattern) && s.length() > 0)
-                {
+                if (signin_email_editText.getText().toString().matches(emailPattern) && s.length() > 0) {
                     signin_email_next_button.setEnabled(true);
                     signin_email_next_button.setBackgroundColor(Color.parseColor("#f05545"));
-                }
-                else
-                {
+                } else {
                     signin_email_next_button.setEnabled(false);
                     signin_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
                 }
@@ -65,26 +68,24 @@ public class SigninEmailActivity extends AppCompatActivity {
         });
     }
 
-    public void email_exists_or_not(View v)
-    {
-        dialog.setMessage("Please wait!");
+    public void email_exists_or_not(View v) {
+        dialog.setMessage(wait);
         dialog.show();
-        auth.fetchProvidersForEmail(signin_email_edittext.getText().toString())
+        auth.fetchProvidersForEmail(signin_email_editText.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
                     @Override
                     public void onComplete(@NonNull Task<ProviderQueryResult> task) {
-                        boolean check = !task.getResult().getProviders().isEmpty();
-                        if(!check)
-                        {
-                            dialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"This email does not exist. Please create an account first",Toast.LENGTH_SHORT).show();
+                        boolean check = false;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                            check = !Objects.requireNonNull(task.getResult().getProviders()).isEmpty();
                         }
-                        else
-                        {
-                            // go to password login
+                        if (!check) {
                             dialog.dismiss();
-                            Intent myIntent = new Intent(SigninEmailActivity.this,SigninPasswordActivity.class);
-                            myIntent.putExtra("email_login",signin_email_edittext.getText().toString());
+                            Toast.makeText(getApplicationContext(), email_not_exists, Toast.LENGTH_SHORT).show();
+                        } else {
+                            dialog.dismiss();
+                            Intent myIntent = new Intent(SigninEmailActivity.this, SigninPasswordActivity.class);
+                            myIntent.putExtra("email_login", signin_email_editText.getText().toString());
                             startActivity(myIntent);
                             finish();
                         }
@@ -95,13 +96,13 @@ public class SigninEmailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        Intent intent=new Intent(SigninEmailActivity.this, MainActivity.class);
+        Intent intent = new Intent(SigninEmailActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
-    public void back_image_button(View v){
+    public void back_image_button(View v) {
         finish();
-        Intent intent=new Intent(SigninEmailActivity.this, MainActivity.class);
+        Intent intent = new Intent(SigninEmailActivity.this, MainActivity.class);
         startActivity(intent);
     }
 }
