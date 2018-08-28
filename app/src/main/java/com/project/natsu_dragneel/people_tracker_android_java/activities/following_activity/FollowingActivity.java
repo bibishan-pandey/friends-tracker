@@ -72,7 +72,8 @@ public class FollowingActivity extends AppCompatActivity {
                         String memberUserId = dss.child("MemberId").getValue(String.class);
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            usersReference.child(Objects.requireNonNull(memberUserId)).addListenerForSingleValueEvent(new ValueEventListener() {
+                            usersReference.child(Objects.requireNonNull(memberUserId))
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     createUser = dataSnapshot.getValue(CreateUser.class);

@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
@@ -58,8 +59,18 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CurrentLocationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks
-        , GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
+
+    private static final String TAG = CurrentLocationActivity.class.getSimpleName();
+    private static final String sharing_stopped="Location sharing is now stopped";
+    private static final String sharing_started="Location sharing is now started";
+    private static final String sharing_stop_fail="Location sharing could not be stopped";
+    private static final String already_sharing="You are already sharing your location.";
+    private static final String network_error="Could not connect to the network. Please try again later";
 
     GoogleMap mMap;
     GoogleApiClient client;
@@ -81,17 +92,14 @@ public class CurrentLocationActivity extends AppCompatActivity
         setContentView(R.layout.activity_current_location);
 
         location_share_switch=(Switch)findViewById(R.id.location_share_switch);
-
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View header = navigationView.getHeaderView(0);
-
         textName = (TextView) header.findViewById(R.id.nameTxt);
         textEmail = (TextView) header.findViewById(R.id.emailTxt);
         circleImageView = (CircleImageView) header.findViewById(R.id.imageView2);
@@ -99,7 +107,6 @@ public class CurrentLocationActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(CurrentLocationActivity.this,
@@ -109,19 +116,23 @@ public class CurrentLocationActivity extends AppCompatActivity
 
         }
         //my location data
-        reference = FirebaseDatabase.getInstance().getReference().child("Users");
-
+        reference = FirebaseDatabase.getInstance()
+                .getReference().child("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 try {
-                    myDate = dataSnapshot.child(user.getUid()).child("Date").getValue().toString();
-                    mySharing = dataSnapshot.child(user.getUid()).child("isSharing").getValue().toString();
-                    myEmail = dataSnapshot.child(user.getUid()).child("Email").getValue().toString();
-                    myName = dataSnapshot.child(user.getUid()).child("Name").getValue().toString();
-                    myProfileImage = dataSnapshot.child(user.getUid()).child("profile_image").getValue().toString();
-
+                    myDate = dataSnapshot.child(user.getUid())
+                            .child("Date").getValue().toString();
+                    mySharing = dataSnapshot.child(user.getUid())
+                            .child("isSharing").getValue().toString();
+                    myEmail = dataSnapshot.child(user.getUid())
+                            .child("Email").getValue().toString();
+                    myName = dataSnapshot.child(user.getUid())
+                            .child("Name").getValue().toString();
+                    myProfileImage = dataSnapshot.child(user.getUid())
+                            .child("profile_image").getValue().toString();
                     if(mySharing.equals("false")){
                         location_share_switch.setChecked(false);
                     }
@@ -134,8 +145,7 @@ public class CurrentLocationActivity extends AppCompatActivity
                 }
                 catch (NullPointerException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Could not connect to the network. Please try again later", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(getApplicationContext(), network_error, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -162,15 +172,12 @@ public class CurrentLocationActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.signout) {
             if (user != null) {
                 auth.signOut();
                 finish();
-
                 Intent myIntent2 = new Intent(CurrentLocationActivity.this, LocationShareService.class);
                 stopService(myIntent2);
-
                 Intent i = new Intent(CurrentLocationActivity.this, MainActivity.class);
                 startActivity(i);
             }
@@ -203,10 +210,9 @@ public class CurrentLocationActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         LatLng kathmandu = new LatLng(27.7172, 85.3240);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu, 12));
-
+        mMap.moveCamera(CameraUpdateFactory
+                .newLatLngZoom(kathmandu, 12));
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         client = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -230,12 +236,12 @@ public class CurrentLocationActivity extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.d(TAG, "onConnectionFailed: connectionfailed");
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.d(TAG, "onConnectionSuspended: connectionsuspended");
     }
 
     @Override
@@ -248,7 +254,10 @@ public class CurrentLocationActivity extends AppCompatActivity
                 return;
             }
             mMap.setMyLocationEnabled(true);
-            //marker = mMap.addMarker(new MarkerOptions().position(latLngCurrent).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            //marker = mMap.addMarker(new MarkerOptions()
+            // .position(latLngCurrent)
+            // .title("Current Location")
+            // .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngCurrent, 15));
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         } else {
@@ -261,10 +270,10 @@ public class CurrentLocationActivity extends AppCompatActivity
         Boolean switch_state=location_share_switch.isChecked();
         if(switch_state==true){
             if (isServiceRunning(getApplicationContext(), LocationShareService.class)) {
-                Toast.makeText(getApplicationContext(), "You are already sharing your location.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), already_sharing, Toast.LENGTH_SHORT).show();
             } else {
                 Intent myIntent = new Intent(CurrentLocationActivity.this, LocationShareService.class);
-                Toast.makeText(getApplicationContext(), "Location sharing is now started", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), sharing_started, Toast.LENGTH_SHORT).show();
                 startService(myIntent);
             }
         }
@@ -276,13 +285,10 @@ public class CurrentLocationActivity extends AppCompatActivity
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Location sharing is now stopped", Toast.LENGTH_SHORT).show();
-
-
+                                Toast.makeText(getApplicationContext(), sharing_stopped, Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Location sharing could not be stopped", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), sharing_stop_fail, Toast.LENGTH_SHORT).show();
                             }
-
                         }
                     });
         }

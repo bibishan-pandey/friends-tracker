@@ -39,7 +39,9 @@ import java.util.Locale;
 import java.util.Objects;
 
 @SuppressWarnings({"deprecation", "AccessStaticViaInstance"})
-public class LocationShareService extends Service implements LocationListener, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
+public class LocationShareService extends Service implements LocationListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
     public LocationShareService() {
     }
 

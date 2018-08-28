@@ -138,36 +138,40 @@ public class InvitationActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                StorageReference filePath = firebaseStorageReference.child(user.getUid() + ".jpg");
-                                                filePath.putFile(resultUri)
-                                                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                                                if (task.isSuccessful()) {
-                                                                    String downloadPath = task.getResult()
-                                                                            .getStorage()
-                                                                            .getDownloadUrl()
-                                                                            .toString();
-                                                                    reference.child(user.getUid()).child("profile_image").setValue(downloadPath)
-                                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                @Override
-                                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                                    if (task.isSuccessful()) {
-                                                                                        dialog.dismiss();
-                                                                                        sendVerificationEmail();
-                                                                                    }
-                                                                                }
-                                                                            });
-                                                                } else {
-                                                                    Toast.makeText(getApplicationContext(), profile_error, Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            }
-                                                        });
+                                                get_user_detail();
                                             }
                                         }
                                     });
                         } else {
                             Toast.makeText(getApplicationContext(), create_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void get_user_detail() {
+        StorageReference filePath = firebaseStorageReference.child(user.getUid() + ".jpg");
+        filePath.putFile(resultUri)
+                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            String downloadPath = task.getResult()
+                                    .getStorage()
+                                    .getDownloadUrl()
+                                    .toString();
+                            reference.child(user.getUid()).child("profile_image").setValue(downloadPath)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                dialog.dismiss();
+                                                sendVerificationEmail();
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(getApplicationContext(), profile_error, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -340,7 +340,6 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onResult(@NonNull Status status) {
-
     }
 
     public void fetch_location(View v) {

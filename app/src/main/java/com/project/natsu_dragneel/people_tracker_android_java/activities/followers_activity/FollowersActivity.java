@@ -74,7 +74,8 @@ public class FollowersActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot dss : dataSnapshot.getChildren()) {
                         memberUserId = dss.child("MemberId").getValue(String.class);
-                        usersReference.child(memberUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        usersReference.child(memberUserId)
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 createUser = dataSnapshot.getValue(CreateUser.class);
