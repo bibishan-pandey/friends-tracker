@@ -16,41 +16,82 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true" />
 
-    <!--<Button-->
-        <!--android:id="@+id/current_location_click"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:onClick="fetch_location"-->
-        <!--android:background="@drawable/button_shape"-->
-        <!--android:text="Show Location"-->
-        <!--android:textAllCaps="false"-->
-        <!--android:textColor="@android:color/background_light"-->
-        <!--android:textSize="16sp"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentLeft="true" />-->
-
-    <Switch
-        android:id="@+id/location_share_switch"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/lr_view2"
+        android:layout_above="@id/lrView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        android:onClick="share_location_switch"
-        android:text="Location Share"
-        android:textColor="@android:color/background_dark" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@android:color/background_light">
+        <Switch
+            android:id="@+id/location_share_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_alignBottom="@+id/current_location_click"
+            android:layout_alignParentEnd="true"
+            android:onClick="share_location_switch"
+            android:padding="10dp"
+            android:text="Location Share"
+            android:textColor="@android:color/background_dark" />
 
-    <ImageView
-        android:id="@+id/current_location_click"
-        android:layout_width="200dp"
+        <ImageView
+            android:id="@+id/current_location_click"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/lrView"
+            android:onClick="fetch_location"
+            android:padding="10dp"
+            android:src="@drawable/ic_location_on" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lrView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:gravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        android:onClick="fetch_location"
         android:layout_alignParentStart="true"
-        android:src="@drawable/ic_location_on" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/background_dark"
+            android:onClick="normal_click"
+            android:text="Normal"/>
+
+        <Button
+            android:id="@+id/satellite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/background_dark"
+            android:onClick="satellite_click"
+            android:text="Satellite"/>
+
+        <Button
+            android:id="@+id/hybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/background_dark"
+            android:onClick="hybrid_click"
+            android:text="Hybrid"/>
+
+        <Button
+            android:id="@+id/terrain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/background_dark"
+            android:onClick="terrain_click"
+            android:text="Terrain"/>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.project.natsu_dragneel.people_tracker_android_java.activities.maps_a
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -45,29 +47,35 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
+import com.project.natsu_dragneel.people_tracker_android_java.receiver.GeofenceTransitionReceiver;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 @SuppressWarnings("unused")
 public class LiveLocationActivity extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleMap.OnMapClickListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, ResultCallback<Status> {
+        LocationListener,
+        ResultCallback<Status> {
 
     private static final String TAG=LiveLocationActivity.class.getSimpleName();
 
     private GoogleMap mMap;
-    private GoogleMap geoMap;
     private LatLng friendLatLng;
     private LatLng geoMark;
+    private PendingIntent geofencePendingIntent;
+
+    private List<Geofence> fences=new ArrayList<>();
+    private Location location;
+
     GeoFire geoFire;
     private Button geofence_click;
-    private final Double geofence_radius=500.0;
+    private Double geofence_radius=500.0;
     private Circle mapcircle;
     private VerticalSeekBar mVerticalSeekBar;
 
@@ -104,7 +112,16 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         mVerticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(i), 1500, null);
+                //mMap.animateCamera(CameraUpdateFactory.zoomTo(i), 1500, null);
+                /*)
+                if(seekBar.getProgress()>6){
+                    geofence_radius+=50;
+                }
+                else{
+                    geofence_radius-=50;
+                }*/
+                remove_circle();
+                draw_circle();
             }
 
             @Override
@@ -195,7 +212,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        geoMap=googleMap;
+        //geoMap=googleMap;
 
         LatLng kathmandu = new LatLng(27.7172, 85.3240);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu, 12));
@@ -246,12 +263,12 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(friendLatLng, 15));
 
-        geoMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 //geoMap.clear();
                 geoMark=new LatLng(latLng.latitude,latLng.longitude);
-                geoMap.addMarker(new MarkerOptions().position(geoMark).title("Geofence").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                mMap.addMarker(new MarkerOptions().position(geoMark).title("Geofence").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                 remove_circle();
                 draw_circle();
             }
@@ -271,8 +288,8 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         mapcircle=mMap.addCircle(new CircleOptions()
                 .center(geoMark)
                 .radius(geofence_radius)
-                .strokeColor(Color.BLACK)
-                .fillColor(Color.TRANSPARENT)
+                .strokeColor(Color.argb(0xaa, 0x00, 0x00, 0xff))
+                .fillColor(Color.argb(0x55, 0x00, 0x00, 0xff))
                 .strokeWidth(5f));
     }
 
@@ -310,6 +327,11 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        geofencePendingIntent = getRequestPendingIntent();
+    }
+
+    public PendingIntent getRequestPendingIntent() {
+        return createRequestPendingIntent();
     }
 
     @Override
@@ -329,8 +351,13 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
     }
 
-    @Override
-    public void onMapClick(LatLng latLng) {
-
+    private PendingIntent createRequestPendingIntent() {
+        if (geofencePendingIntent != null) {
+            return geofencePendingIntent;
+        } else {
+            Intent intent = new Intent(this, GeofenceTransitionReceiver.class);
+            intent.setAction("geofence_transition_action");
+            return PendingIntent.getBroadcast(this, R.id.geofence_transition_intent, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
     }
 }

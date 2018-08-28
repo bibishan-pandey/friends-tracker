@@ -214,7 +214,6 @@ public class CurrentLocationActivity extends AppCompatActivity
                 .addOnConnectionFailedListener(this)
                 .build();
         client.connect();
-
     }
 
     @Override
@@ -318,5 +317,21 @@ public class CurrentLocationActivity extends AppCompatActivity
         mMap.setMyLocationEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngCurrent, 15));
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
+    }
+
+    public void normal_click(View v){
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+    }
+
+    public void satellite_click(View v){
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+    }
+
+    public void hybrid_click(View v){
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+    }
+
+    public void terrain_click(View v){
+        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
     }
 }
