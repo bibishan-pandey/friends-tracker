@@ -1,24 +1,31 @@
 package com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,31 +48,51 @@ import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class LiveLocationActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+@SuppressWarnings("unused")
+public class LiveLocationActivity extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleMap.OnMapClickListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener, ResultCallback<Status> {
 
-    GoogleMap mMap;
-    LatLng friendLatLng;
+    private static final String TAG=LiveLocationActivity.class.getSimpleName();
+
+    private GoogleMap mMap;
+    private GoogleMap geoMap;
+    private LatLng friendLatLng;
+    private LatLng geoMark;
     GeoFire geoFire;
-    Button geofence_click;
-    Double geofence_radius=500.0;
-    Circle mapcircle;
-    VerticalSeekBar mVerticalSeekBar;
+    private Button geofence_click;
+    private final Double geofence_radius=500.0;
+    private Circle mapcircle;
+    private VerticalSeekBar mVerticalSeekBar;
 
     private GoogleApiClient mGoogleApiClient;
 
-    String latitude, longitude, name, userid, prevdate, prevImage;
-    TextView user_name_textview;
-    Marker marker;
-    DatabaseReference reference;
-    String myImage;
+    private String latitude;
+    private String longitude;
+    private String name;
+    private String userid;
+    private String prevdate;
+    private String prevImage;
+    private TextView user_name_textview;
+    private Marker marker;
+    private DatabaseReference reference;
+    private String myImage;
 
-    String myName, myLat, myLng, myDate;
-    ArrayList<String> mKeys;
-    MarkerOptions myOptions;
+    private String myName;
+    private String myLat;
+    private String myLng;
+    private String myDate;
+    private ArrayList<String> mKeys;
+    private MarkerOptions myOptions;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +108,15 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG, "onStartTrackingTouch: seekbar touching");
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG, "onStopTrackingTouch: stopped");
+            }
         });
-
 
         user_name_textview = (TextView) findViewById(R.id.user_name_textview);
         myOptions = new MarkerOptions();
@@ -105,20 +135,19 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        Objects.requireNonNull(mapFragment).getMapAsync(this);
+
         reference.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                //  Toast.makeText(getApplicationContext(),"onAdded",Toast.LENGTH_SHORT).show();
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "onChildAdded: added");
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                //   CreateUser user = dataSnapshot.getValue(CreateUser.class);
-                //  Toast.makeText(getApplicationContext(),dataSnapshot.getKey(),Toast.LENGTH_LONG).show();
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         myName = dataSnapshot.child("name").getValue(String.class);
                         myLat = dataSnapshot.child("lat").getValue(String.class);
                         myLng = dataSnapshot.child("lng").getValue(String.class);
@@ -140,24 +169,24 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        Log.d(TAG, "onCancelled: cancelled");
                     }
                 });
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                Log.d(TAG, "onChildRemoved: removed");
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                Log.d(TAG, "onChildMoved: moved");
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.d(TAG, "onCancelled: cancelled");
             }
         });
     }
@@ -165,6 +194,8 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        geoMap=googleMap;
 
         LatLng kathmandu = new LatLng(27.7172, 85.3240);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu, 12));
@@ -181,9 +212,10 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                 return null;
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public View getInfoContents(Marker marker) {
-                View row = getLayoutInflater().inflate(R.layout.custom_snippet, null);
+                @SuppressLint("InflateParams") View row = getLayoutInflater().inflate(R.layout.custom_snippet, null);
                 TextView nameTxt = row.findViewById(R.id.snippetName);
                 TextView dateTxt = row.findViewById(R.id.snippetDate);
                 CircleImageView imageTxt = row.findViewById(R.id.snippetImage);
@@ -201,12 +233,12 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         });
 
         friendLatLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-        MarkerOptions optionsnew = new MarkerOptions();
 
+        MarkerOptions optionsnew = new MarkerOptions();
         optionsnew.position(friendLatLng);
         optionsnew.title(name);
         optionsnew.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        //  optionsnew.snippet("Last seen:"+prevdate);
+
         if (marker == null) {
             marker = mMap.addMarker(optionsnew);
         } else {
@@ -214,57 +246,17 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(friendLatLng, 15));
 
-
-        //geo query
-        //0.5f==500m
-        /*
-        GeoQuery geoQuery= geoFire.queryAtLocation(new GeoLocation(geofence_circle.latitude,geofence_circle.longitude),0.5f);
-        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+        geoMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onKeyEntered(String key, GeoLocation location) {
-                sendNotification("People Tracker",String.format("%s entered the geofence area",key));
+            public void onMapClick(LatLng latLng) {
+                //geoMap.clear();
+                geoMark=new LatLng(latLng.latitude,latLng.longitude);
+                geoMap.addMarker(new MarkerOptions().position(geoMark).title("Geofence").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                remove_circle();
+                draw_circle();
             }
-
-            @Override
-            public void onKeyExited(String key) {
-                sendNotification("People Tracker",String.format("%s is no longer in the geofence area",key));
-            }
-
-            @Override
-            public void onKeyMoved(String key, GeoLocation location) {
-                Log.d("Move", "onKeyMoved: %s moved inside the geofence area");
-            }
-
-            @Override
-            public void onGeoQueryReady() {
-
-            }
-
-            @Override
-            public void onGeoQueryError(DatabaseError error) {
-                Log.d("ERROR", "onGeoQueryError: Error"+error);
-            }
-        });*/
+        });
     }
-
-    /*
-    private void sendNotification(String title, String content) {
-        Notification.Builder builder=new Notification.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(title)
-                .setContentText(content);
-        NotificationManager manager=(NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent=new Intent(this,LiveLocationActivity.class);
-        PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_IMMUTABLE);
-        builder.setContentIntent(pendingIntent);
-
-        Notification notification=builder.build();
-        notification.flags|=Notification.FLAG_AUTO_CANCEL;
-        notification.defaults |=Notification.DEFAULT_SOUND;
-
-        manager.notify(new Random().nextInt(),notification);
-
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -273,36 +265,36 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onMapClick(LatLng latLng) {
-        mMap.clear();
+    @SuppressLint("SetTextI18n")
+    private void draw_circle(){
+        geofence_click.setText("Stop Geofence");
+        mapcircle=mMap.addCircle(new CircleOptions()
+                .center(geoMark)
+                .radius(geofence_radius)
+                .strokeColor(Color.BLACK)
+                .fillColor(Color.TRANSPARENT)
+                .strokeWidth(5f));
+    }
 
-        LatLng geoMark=new LatLng(latLng.latitude,latLng.longitude);
-        MarkerOptions marker=new MarkerOptions()
-                .position(geoMark)
-                .title("Geofence marker")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        mMap.addMarker(marker);
+    @SuppressLint("SetTextI18n")
+    private void remove_circle(){
+        geofence_click.setText("Start Geofence");
+        if(mapcircle!=null){
+            mapcircle.remove();
+        }
     }
 
     public void start_geofence(View v) {
-        LatLng geofence_circle=new LatLng(Double.parseDouble(String.valueOf(27.7408542)),Double.parseDouble(String.valueOf(85.3166594)));
         if(geofence_click.getText().toString()=="Start Geofence"){
-            geofence_click.setText("Stop Geofence");
-            //geofence circle
-
-            mapcircle=mMap.addCircle(new CircleOptions()
-                    .center(geofence_circle)
-                    .radius(geofence_radius)
-                    .strokeColor(Color.BLACK)
-                    .fillColor(Color.TRANSPARENT)
-                    .strokeWidth(5f)
-            );
-        }else{
-            geofence_click.setText("Start Geofence");
-            if(mapcircle!=null){
-                mapcircle.remove();
+            if(geoMark!=null){
+                draw_circle();
             }
+            else{
+                Toast.makeText(this, "Please click somewhere on the map", Toast.LENGTH_SHORT).show();
+            }
+
+        }else{
+            remove_circle();
         }
 
     }
@@ -330,5 +322,15 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onLocationChanged(Location location){
+    }
+
+    @Override
+    public void onResult(@NonNull Status status) {
+
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+
     }
 }

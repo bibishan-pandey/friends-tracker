@@ -52,7 +52,7 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
     @NonNull
     @Override
     public HelpAlertViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alert_card_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alert_card, parent, false);
         return new HelpAlertViewHolder(view, c, nameList);
     }
 
@@ -65,7 +65,6 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
         Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.defaultprofile).into(holder.alertImageView);
     }
 
-    @SuppressWarnings("unused")
     public static class HelpAlertViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
             , View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         final View v;
