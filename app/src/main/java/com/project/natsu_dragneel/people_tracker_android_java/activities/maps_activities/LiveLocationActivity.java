@@ -210,12 +210,9 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         //geoMap=googleMap;
-
         LatLng kathmandu = new LatLng(27.7172, 85.3240);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu, 12));
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
