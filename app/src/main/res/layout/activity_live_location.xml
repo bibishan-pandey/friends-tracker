@@ -63,6 +63,15 @@
             app:seekBarRotation="CW270" />
     </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
 
+    <at.markushi.ui.CircleButton
+        android:id="@id/current_location_click"
+        android:layout_above="@id/geofence_click"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:onClick="fetch_location"
+        app:cb_color="@android:color/background_light"
+        android:src="@drawable/ic_my_location" />
+
     <Button
         android:id="@+id/geofence_click"
         android:layout_width="wrap_content"

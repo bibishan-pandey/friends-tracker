@@ -28,7 +28,6 @@
             android:id="@+id/location_share_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_alignBottom="@+id/current_location_click"
             android:layout_alignParentEnd="true"
             android:onClick="share_location_switch"
@@ -36,14 +35,14 @@
             android:text="Location Share"
             android:textColor="@android:color/background_dark" />
 
-        <ImageView
-            android:id="@+id/current_location_click"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/lrView"
+        <at.markushi.ui.CircleButton
+            android:id="@id/current_location_click"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:onClick="fetch_location"
-            android:padding="10dp"
-            android:src="@drawable/ic_location_on" />
+            app:cb_color="@android:color/background_light"
+            android:src="@drawable/ic_my_location" />
+
     </LinearLayout>
 
 

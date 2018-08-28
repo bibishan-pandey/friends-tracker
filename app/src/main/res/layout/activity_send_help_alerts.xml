@@ -30,7 +30,8 @@
         android:layout_height="128dip"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/imageView"
-        app:cb_color="@android:color/holo_red_light" />
+        app:cb_color="@android:color/holo_red_light"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:id="@+id/count_down_textview"

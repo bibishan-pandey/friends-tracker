@@ -104,7 +104,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_lock_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_my_location_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -114,8 +114,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_password" />
+                            <entry key="outputName" value="ic_my_location" />
                             <entry key="sourceFile" value="C:\Users\Natsu-Dragneel" />
                           </map>
                         </option>

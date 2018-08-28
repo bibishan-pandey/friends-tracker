@@ -15,7 +15,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -275,13 +274,6 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            finish();
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressLint("SetTextI18n")
     private void draw_circle(){
         geofence_click.setText("Stop Geofence");
@@ -349,6 +341,16 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     @Override
     public void onResult(@NonNull Status status) {
 
+    }
+
+    public void fetch_location(View v) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LatLng kathmandu = new LatLng(27.7172, 85.3240);
+        mMap.setMyLocationEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu, 12));
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
 
     private PendingIntent createRequestPendingIntent() {
