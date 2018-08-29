@@ -2,7 +2,10 @@ package com.project.natsu_dragneel.people_tracker_android_java.activities.maps_a
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -13,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -182,6 +186,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                             Log.d(TAG, "Distance: (%1$s)"+distance);
                             if(distance>geofence_radius){
                                 Toast.makeText(LiveLocationActivity.this, "Outside geofence", Toast.LENGTH_SHORT).show();
+                                createNotification(myName,"Exited");
                                 Log.d(TAG, "onDataChange: outside geofence");
                             }
                             else if(distance<=geofence_radius){
@@ -223,6 +228,30 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                 Log.d(TAG, "onCancelled: cancelled");
             }
         });
+    }
+
+
+
+    private void createNotification(String fenceId, String exited) {
+        NotificationCompat.Builder builder=new NotificationCompat.Builder(getApplicationContext());
+        builder.setAutoCancel(true).setDefaults(Notification.DEFAULT_ALL);
+        builder
+                .setContentText(fenceId)
+                .setContentTitle(String.format("Fence:%1$s",exited))
+                .setSmallIcon(R.drawable.icon_geofence)
+                .setColor(Color.argb(0x55,0x00,0x00,0xff))
+                .setTicker(String.format("%1$s Fence: %2$s",exited,fenceId));
+
+        Intent notificationIntent=new Intent(getApplicationContext(), LiveLocationActivity.class);
+        notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        notificationIntent.setAction(Intent.ACTION_DEFAULT);
+
+        NotificationManager notificationManager=(NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        PendingIntent pendingIntent=PendingIntent.getActivity(getApplicationContext(),0,notificationIntent,0);
+        builder.setContentIntent(pendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(notificationManager).notify(R.id.notification,builder.build());
+        }
     }
 
     @Override
