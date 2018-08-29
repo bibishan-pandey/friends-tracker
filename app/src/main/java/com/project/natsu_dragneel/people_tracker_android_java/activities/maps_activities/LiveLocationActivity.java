@@ -172,15 +172,20 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                         myImage = dataSnapshot.child("profile_image").getValue(String.class);
                         friendLatLng = new LatLng(Double.parseDouble(myLat), Double.parseDouble(myLng));
 
+                        //double lastLat=Double.parseDouble(myLat);
+                        //double lastLng=Double.parseDouble(myLng);
+
                         Log.d(TAG, "friend lat lng value: (%1$s"+String.valueOf(myLat)+" "+String.valueOf(myLng));
                         if(geoMark!=null) {
                             Log.d(TAG, "geofence circle values: (%1$s" + String.valueOf(geofence_lat) + " " + String.valueOf(geofence_lng));
                             double distance = distanceBetweenGeoCoordinates(Double.parseDouble(myLat),Double.parseDouble(myLng),geofence_lat,geofence_lng)*1000;//multiply to convert to km
                             Log.d(TAG, "onDataChange: (%1$s)"+distance);
                             if(distance>geofence_radius){
+                                Toast.makeText(LiveLocationActivity.this, "Outside geofence", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onDataChange: outside geofence");
                             }
-                            else{
+                            else if(distance<=geofence_radius){
+                                Toast.makeText(LiveLocationActivity.this, "Inside geofence", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onDataChange: inside geofence");
                             }
                         }
@@ -384,7 +389,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         double dLat=degreesToRadian(lat2-lat1);
         double dLng=degreesToRadian(lng2-lng1);
         lat1=degreesToRadian(lat1);
-        lng1=degreesToRadian(lng1);
+        lat2=degreesToRadian(lat2);
         double a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.sin(dLng/2)*Math.sin(dLng/2)*Math.cos(lat1)*Math.cos(lat2);
         double c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 

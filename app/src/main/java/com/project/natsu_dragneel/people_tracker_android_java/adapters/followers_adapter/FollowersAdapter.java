@@ -115,7 +115,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Memb
             else
             {
                 Intent mYIntent = new Intent(ctx,LiveLocationActivity.class);
-                // mYIntent.putExtra("createuserobject",addCircle);
+                //mYIntent.putExtra("createuserobject",addCircle);
                 mYIntent.putExtra("latitude",latitude_user);
                 mYIntent.putExtra("longitude",longitude_user);
                 mYIntent.putExtra("Name",addCircle.Name);
