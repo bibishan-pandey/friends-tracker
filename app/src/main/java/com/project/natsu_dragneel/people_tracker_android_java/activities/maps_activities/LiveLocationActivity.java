@@ -179,7 +179,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                         if(geoMark!=null) {
                             Log.d(TAG, "geofence circle values: (%1$s" + String.valueOf(geofence_lat) + " " + String.valueOf(geofence_lng));
                             double distance = distanceBetweenGeoCoordinates(Double.parseDouble(myLat),Double.parseDouble(myLng),geofence_lat,geofence_lng)*1000;//multiply to convert to km
-                            Log.d(TAG, "onDataChange: (%1$s)"+distance);
+                            Log.d(TAG, "Distance: (%1$s)"+distance);
                             if(distance>geofence_radius){
                                 Toast.makeText(LiveLocationActivity.this, "Outside geofence", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onDataChange: outside geofence");
