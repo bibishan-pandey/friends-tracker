@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -98,6 +99,7 @@ public class LocationShareService extends Service implements LocationListener,
         LocationServices.FusedLocationApi.requestLocationUpdates(client, request, this);
 
         notification.setSmallIcon(R.drawable.ic_location_on);
+        notification.setColor(Color.WHITE);
         notification.setTicker(not_text);
         notification.setWhen(System.currentTimeMillis());
         notification.setContentTitle(app_title);

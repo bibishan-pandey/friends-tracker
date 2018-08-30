@@ -217,10 +217,10 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
         builder.setAutoCancel(true).setDefaults(Notification.DEFAULT_ALL);
         builder
-                .setContentText(fenceId)
                 .setContentTitle(String.format("Geofence:%1$s", exited))
                 .setSmallIcon(R.drawable.icon_geofence)
-                .setColor(Color.argb(0x55, 0x00, 0x00, 0xff))
+                .setColor(Color.WHITE)
+                .setContentText("User is outside geofence area")
                 .setTicker(String.format("%1$s Geofence: %2$s", exited, fenceId));
 
         Intent notificationIntent = new Intent(getApplicationContext(), LiveLocationActivity.class);
