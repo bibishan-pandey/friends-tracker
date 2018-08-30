@@ -13,7 +13,6 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
@@ -25,12 +24,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -57,11 +52,7 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 @SuppressWarnings("unused")
-public class LiveLocationActivity extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener,
-        ResultCallback<Status> {
+public class LiveLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = LiveLocationActivity.class.getSimpleName();
 
@@ -108,7 +99,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         setContentView(R.layout.activity_live_location);
 
         geofence_click = findViewById(R.id.geofence_click);
-        seekBar=findViewById(R.id.seekBar);
+        seekBar = findViewById(R.id.seekBar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             seekBar.setMin(50);
             seekBar.setMax(5000);
@@ -116,8 +107,12 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                geofence_radius=50.0*i;
-                mapcircle.setRadius(geofence_radius);
+                if (geoMark != null) {
+                    geofence_radius = 50.0 * i;
+                    mapcircle.setRadius(geofence_radius);
+                } else {
+                    Toast.makeText(LiveLocationActivity.this, "Place a marker at first", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -295,7 +290,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onMapClick(LatLng latLng) {
                 remove_circle();
-                geoMark=null;
+                geoMark = null;
                 geoMark = new LatLng(latLng.latitude, latLng.longitude);
                 geofence_lat = geoMark.latitude;
                 geofence_lng = geoMark.longitude;
@@ -335,30 +330,6 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         Toast.makeText(this, "Geofence stopped", Toast.LENGTH_SHORT).show();
         remove_circle();
         finish();
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.d(TAG, "onConnectionSuspended: suspended");
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed: failed");
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.d(TAG, "onLocationChanged: changed");
-    }
-
-    @Override
-    public void onResult(@NonNull Status status) {
-        Log.d(TAG, "onResult: result");
     }
 
     public void fetch_location(View v) {
