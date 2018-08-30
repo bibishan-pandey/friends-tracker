@@ -49,7 +49,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
-import com.project.natsu_dragneel.people_tracker_android_java.receiver.GeofenceTransitionReceiver;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -65,20 +64,20 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         LocationListener,
         ResultCallback<Status> {
 
-    private static final String TAG=LiveLocationActivity.class.getSimpleName();
+    private static final String TAG = LiveLocationActivity.class.getSimpleName();
 
     private GoogleMap mMap;
     private LatLng friendLatLng;
-    double geofence_lat,geofence_lng;
+    double geofence_lat, geofence_lng;
     private LatLng geoMark;
     private PendingIntent geofencePendingIntent;
 
-    private List<Geofence> fences=new ArrayList<>();
+    private List<Geofence> fences = new ArrayList<>();
     private Location location;
 
     GeoFire geoFire;
     private Button geofence_click;
-    private Double geofence_radius=500.0;
+    private Double geofence_radius = 50.0;
     private Circle mapcircle;
     private VerticalSeekBar mVerticalSeekBar;
 
@@ -109,9 +108,10 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_location);
 
-        geofence_click=(Button)findViewById(R.id.geofence_click);
+        geofence_click = findViewById(R.id.geofence_click);
 
-        mVerticalSeekBar= (VerticalSeekBar) findViewById(R.id.vertical_seekbar);
+        mVerticalSeekBar = findViewById(R.id.vertical_seekbar);
+
         /*
         mVerticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -175,25 +175,21 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                         myDate = dataSnapshot.child("date").getValue(String.class);
                         myImage = dataSnapshot.child("profile_image").getValue(String.class);
                         friendLatLng = new LatLng(Double.parseDouble(myLat), Double.parseDouble(myLng));
-
-                        //double lastLat=Double.parseDouble(myLat);
-                        //double lastLng=Double.parseDouble(myLng);
-
-                        Log.d(TAG, "friend lat lng value: (%1$s"+String.valueOf(myLat)+" "+String.valueOf(myLng));
-                        if(geoMark!=null) {
+                        Log.d(TAG, "friend lat lng value: (%1$s" + String.valueOf(myLat) + " " + String.valueOf(myLng));
+                        if (geoMark != null) {
                             Log.d(TAG, "geofence circle values: (%1$s" + String.valueOf(geofence_lat) + " " + String.valueOf(geofence_lng));
-                            double distance = distanceBetweenGeoCoordinates(Double.parseDouble(myLat),Double.parseDouble(myLng),geofence_lat,geofence_lng)*1000;//multiply to convert to km
-                            Log.d(TAG, "Distance: (%1$s)"+distance);
-                            if(distance>geofence_radius){
+                            double distance = distanceBetweenGeoCoordinates(Double.parseDouble(myLat), Double.parseDouble(myLng), geofence_lat, geofence_lng) * 1000;//multiply to convert to km
+                            Log.d(TAG, "Distance: (%1$s)" + distance);
+                            if (distance > geofence_radius) {
                                 Toast.makeText(LiveLocationActivity.this, "Outside geofence", Toast.LENGTH_SHORT).show();
-                                createNotification(myName,"Exited");
+                                createNotification(myName, "Exited");
                                 Log.d(TAG, "onDataChange: outside geofence");
-                            }
-                            else if(distance<=geofence_radius){
+                            } else if (distance <= geofence_radius) {
                                 Toast.makeText(LiveLocationActivity.this, "Inside geofence", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onDataChange: inside geofence");
                             }
                         }
+
                         myOptions.position(friendLatLng);
                         myOptions.snippet("Last seen: " + myDate);
                         myOptions.title(myName);
@@ -230,27 +226,25 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         });
     }
 
-
-
     private void createNotification(String fenceId, String exited) {
-        NotificationCompat.Builder builder=new NotificationCompat.Builder(getApplicationContext());
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
         builder.setAutoCancel(true).setDefaults(Notification.DEFAULT_ALL);
         builder
                 .setContentText(fenceId)
-                .setContentTitle(String.format("Fence:%1$s",exited))
+                .setContentTitle(String.format("Geofence:%1$s", exited))
                 .setSmallIcon(R.drawable.icon_geofence)
-                .setColor(Color.argb(0x55,0x00,0x00,0xff))
-                .setTicker(String.format("%1$s Fence: %2$s",exited,fenceId));
+                .setColor(Color.argb(0x55, 0x00, 0x00, 0xff))
+                .setTicker(String.format("%1$s Geofence: %2$s", exited, fenceId));
 
-        Intent notificationIntent=new Intent(getApplicationContext(), LiveLocationActivity.class);
+        Intent notificationIntent = new Intent(getApplicationContext(), LiveLocationActivity.class);
         notificationIntent.addCategory(Intent.CATEGORY_DEFAULT);
         notificationIntent.setAction(Intent.ACTION_DEFAULT);
 
-        NotificationManager notificationManager=(NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        PendingIntent pendingIntent=PendingIntent.getActivity(getApplicationContext(),0,notificationIntent,0);
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
         builder.setContentIntent(pendingIntent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Objects.requireNonNull(notificationManager).notify(R.id.notification,builder.build());
+            Objects.requireNonNull(notificationManager).notify(R.id.notification, builder.build());
         }
     }
 
@@ -309,50 +303,52 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                //geoMap.clear();
-                geoMark=new LatLng(latLng.latitude,latLng.longitude);
-                geofence_lat=geoMark.latitude;
-                geofence_lng=geoMark.longitude;
+                geoMark = new LatLng(latLng.latitude, latLng.longitude);
+                geofence_lat = geoMark.latitude;
+                geofence_lng = geoMark.longitude;
                 mMap.addMarker(new MarkerOptions().position(geoMark).title("Geofence").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                 remove_circle();
-                draw_circle(geofence_lat,geofence_lng);
+                draw_circle(geofence_lat, geofence_lng);
             }
         });
     }
 
     @SuppressLint("SetTextI18n")
-    private void draw_circle(double geofence_lat, double geofence_lng){
-        geofence_click.setText("Stop Geofence");
-        mapcircle=mMap.addCircle(new CircleOptions()
+    private void draw_circle(double geofence_lat, double geofence_lng) {
+        geofence_click.setText("Geofence Started");
+        mapcircle = mMap.addCircle(new CircleOptions()
                 .center(geoMark)
                 .radius(geofence_radius)
                 .strokeColor(Color.argb(0xaa, 0x00, 0x00, 0xff))
                 .fillColor(Color.argb(0x55, 0x00, 0x00, 0xff))
                 .strokeWidth(5f));
-//        Log.d(TAG, "draw_circle: (%1$s"+String.valueOf(geofence_lat)+" "+String.valueOf(geofence_lng));
+        //Log.d(TAG, "draw_circle: (%1$s"+String.valueOf(geofence_lat)+" "+String.valueOf(geofence_lng));
     }
 
     @SuppressLint("SetTextI18n")
-    private void remove_circle(){
-        geofence_click.setText("Start Geofence");
-        if(mapcircle!=null){
+    private void remove_circle() {
+        if (mapcircle != null) {
+            geofence_click.setText("Click on map to start geofence");
             mapcircle.remove();
+            geoMark=null;
         }
     }
 
+
     public void start_geofence(View v) {
-        if(geofence_click.getText().toString()=="Start Geofence"){
-            if(geoMark!=null){
-                draw_circle(geofence_lat,geofence_lng);
-            }
-            else{
+        if (geofence_click.getText().toString() == "Click on map to start geofence") {
+            if (geoMark != null) {
+                draw_circle(geofence_lat, geofence_lng);
+                Toast.makeText(this, "Geofence started", Toast.LENGTH_SHORT).show();
+            } else {
                 Toast.makeText(this, "Please click somewhere on the map", Toast.LENGTH_SHORT).show();
             }
 
-        }else{
+        } else {
             remove_circle();
+            Toast.makeText(this, "Geofence stopped", Toast.LENGTH_SHORT).show();
+            finish();
         }
-
     }
 
     public void back_image_button(View v) {
@@ -361,32 +357,39 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onBackPressed() {
+        Toast.makeText(this, "Geofence stopped", Toast.LENGTH_SHORT).show();
+        remove_circle();
         finish();
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        geofencePendingIntent = getRequestPendingIntent();
+        //geofencePendingIntent = getRequestPendingIntent();
     }
 
+    /*
     public PendingIntent getRequestPendingIntent() {
         return createRequestPendingIntent();
-    }
+    }*/
 
     @Override
     public void onConnectionSuspended(int i) {
+        Log.d(TAG, "onConnectionSuspended: suspended");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(TAG, "onConnectionFailed: failed");
     }
 
     @Override
-    public void onLocationChanged(Location location){
+    public void onLocationChanged(Location location) {
+        Log.d(TAG, "onLocationChanged: changed");
     }
 
     @Override
     public void onResult(@NonNull Status status) {
+        Log.d(TAG, "onResult: result");
     }
 
     public void fetch_location(View v) {
@@ -399,6 +402,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
 
+    /*
     private PendingIntent createRequestPendingIntent() {
         if (geofencePendingIntent != null) {
             return geofencePendingIntent;
@@ -407,21 +411,21 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
             intent.setAction("geofence_transition_action");
             return PendingIntent.getBroadcast(this, R.id.geofence_transition_intent, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
+    }*/
+
+    private double degreesToRadian(double degrees) {
+        return degrees * Math.PI / 180;
     }
 
-    private double degreesToRadian(double degrees){
-        return degrees*Math.PI/180;
-    }
+    private double distanceBetweenGeoCoordinates(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadiusKM = 6371.0;
+        double dLat = degreesToRadian(lat2 - lat1);
+        double dLng = degreesToRadian(lng2 - lng1);
+        lat1 = degreesToRadian(lat1);
+        lat2 = degreesToRadian(lat2);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    private double distanceBetweenGeoCoordinates(double lat1,double lng1,double lat2,double lng2){
-        double earthRadiusKM=6371.0;
-        double dLat=degreesToRadian(lat2-lat1);
-        double dLng=degreesToRadian(lng2-lng1);
-        lat1=degreesToRadian(lat1);
-        lat2=degreesToRadian(lat2);
-        double a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.sin(dLng/2)*Math.sin(dLng/2)*Math.cos(lat1)*Math.cos(lat2);
-        double c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-
-        return earthRadiusKM*c;
+        return earthRadiusKM * c;
     }
 }

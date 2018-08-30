@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.LiveLocationActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
+import com.project.natsu_dragneel.people_tracker_android_java.activities.maps_activities.LiveLocationActivity;
 import com.project.natsu_dragneel.people_tracker_android_java.classes.CreateUser;
 import com.squareup.picasso.Picasso;
 
@@ -59,7 +60,6 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
     @Override
     public void onBindViewHolder(@NonNull HelpAlertViewHolder holder, int position) {
         CreateUser addCircle = nameList.get(position);
-
         holder.alertNameTxt.setText(addCircle.Name);
         holder.alertDateTxt.setText(addCircle.Date);
         Picasso.get().load(addCircle.profile_image).placeholder(R.drawable.defaultprofile).into(holder.alertImageView);
@@ -118,6 +118,7 @@ public class HelpAlertsAdapter extends RecyclerView.Adapter<HelpAlertsAdapter.He
                 mYIntent.putExtra("image", addCircle.profile_image);
                 mYIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ctx.startActivity(mYIntent);
+
             }
         }
 
