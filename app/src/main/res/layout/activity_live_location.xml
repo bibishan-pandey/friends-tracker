@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusedByDefault="true"
+    android:focusableInTouchMode="true"
     tools:context=".LiveMapActivity">
 
     <ImageView
@@ -30,38 +32,12 @@
         android:text="Username"
         android:textStyle="italic" />
 
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/toolbar"-->
-        <!--android:minHeight="?attr/actionBarSize"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:titleTextColor="@android:color/white"-->
-        <!--android:background="?attr/colorPrimary">-->
-    <!--</android.support.v7.widget.Toolbar>-->
-
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/user_name_textview"/>
-
-    <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true">
-
-        <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-            android:id="@+id/vertical_seekbar"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-
-            android:max="15"
-            android:progress="12"
-            android:splitTrack="false"
-            app:seekBarRotation="CW270" />
-    </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
 
     <at.markushi.ui.CircleButton
         android:id="@id/current_location_click"
@@ -79,11 +55,18 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:onClick="start_geofence"
         android:background="@drawable/button_shape"
         android:text="Click on map to start geofence"
         android:textAllCaps="false"
         android:textColor="@android:color/background_light"
         android:textSize="16sp" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="57dp" />
 
 </RelativeLayout>

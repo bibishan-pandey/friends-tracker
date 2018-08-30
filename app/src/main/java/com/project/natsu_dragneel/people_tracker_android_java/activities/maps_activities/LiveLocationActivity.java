@@ -21,10 +21,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.geofire.GeoFire;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -47,7 +47,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar;
 import com.project.natsu_dragneel.people_tracker_android_java.R;
 import com.squareup.picasso.Picasso;
 
@@ -75,11 +74,9 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     private List<Geofence> fences = new ArrayList<>();
     private Location location;
 
-    GeoFire geoFire;
     private Button geofence_click;
     private Double geofence_radius = 50.0;
     private Circle mapcircle;
-    private VerticalSeekBar mVerticalSeekBar;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -101,6 +98,8 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     private ArrayList<String> mKeys;
     private MarkerOptions myOptions;
 
+    private SeekBar seekBar;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("SetTextI18n")
     @Override
@@ -109,37 +108,30 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         setContentView(R.layout.activity_live_location);
 
         geofence_click = findViewById(R.id.geofence_click);
-
-        mVerticalSeekBar = findViewById(R.id.vertical_seekbar);
-
-        /*
-        mVerticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar=findViewById(R.id.seekBar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            seekBar.setMin(50);
+            seekBar.setMax(5000);
+        }
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                //mMap.animateCamera(CameraUpdateFactory.zoomTo(i), 1500, null);
-                /*)
-                if(seekBar.getProgress()>6){
-                    geofence_radius+=50;
-                }
-                else{
-                    geofence_radius-=50;
-                }
-                //remove_circle();
-                //draw_circle();
+                geofence_radius=50.0*i;
+                mapcircle.setRadius(geofence_radius);
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                Log.d(TAG, "onStartTrackingTouch: seekbar touching");
+                Log.d(TAG, "onStartTrackingTouch: onStartTrackingTouch");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Log.d(TAG, "onStopTrackingTouch: stopped");
+                Log.d(TAG, "onStopTrackingTouch: onStopTrackingTouch");
             }
-        });*/
+        });
 
-        user_name_textview = (TextView) findViewById(R.id.user_name_textview);
+        user_name_textview = findViewById(R.id.user_name_textview);
         myOptions = new MarkerOptions();
         Intent intent = getIntent();
         mKeys = new ArrayList<>();
@@ -251,7 +243,6 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //geoMap=googleMap;
         LatLng kathmandu = new LatLng(27.7172, 85.3240);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu, 12));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -303,11 +294,12 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
+                remove_circle();
+                geoMark=null;
                 geoMark = new LatLng(latLng.latitude, latLng.longitude);
                 geofence_lat = geoMark.latitude;
                 geofence_lng = geoMark.longitude;
                 mMap.addMarker(new MarkerOptions().position(geoMark).title("Geofence").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                remove_circle();
                 draw_circle(geofence_lat, geofence_lng);
             }
         });
@@ -319,10 +311,9 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         mapcircle = mMap.addCircle(new CircleOptions()
                 .center(geoMark)
                 .radius(geofence_radius)
-                .strokeColor(Color.argb(0xaa, 0x00, 0x00, 0xff))
-                .fillColor(Color.argb(0x55, 0x00, 0x00, 0xff))
+                .strokeColor(Color.RED)
+                .fillColor(Color.parseColor("#66FF0000"))
                 .strokeWidth(5f));
-        //Log.d(TAG, "draw_circle: (%1$s"+String.valueOf(geofence_lat)+" "+String.valueOf(geofence_lng));
     }
 
     @SuppressLint("SetTextI18n")
@@ -330,28 +321,12 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         if (mapcircle != null) {
             geofence_click.setText("Click on map to start geofence");
             mapcircle.remove();
-            geoMark=null;
-        }
-    }
-
-
-    public void start_geofence(View v) {
-        if (geofence_click.getText().toString() == "Click on map to start geofence") {
-            if (geoMark != null) {
-                draw_circle(geofence_lat, geofence_lng);
-                Toast.makeText(this, "Geofence started", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Please click somewhere on the map", Toast.LENGTH_SHORT).show();
-            }
-
-        } else {
-            remove_circle();
-            Toast.makeText(this, "Geofence stopped", Toast.LENGTH_SHORT).show();
-            finish();
         }
     }
 
     public void back_image_button(View v) {
+        Toast.makeText(this, "Geofence stopped", Toast.LENGTH_SHORT).show();
+        remove_circle();
         finish();
     }
 
@@ -364,13 +339,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        //geofencePendingIntent = getRequestPendingIntent();
     }
-
-    /*
-    public PendingIntent getRequestPendingIntent() {
-        return createRequestPendingIntent();
-    }*/
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -398,20 +367,9 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         }
         LatLng kathmandu = new LatLng(27.7172, 85.3240);
         mMap.setMyLocationEnabled(true);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu, 12));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kathmandu, 13));
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
-
-    /*
-    private PendingIntent createRequestPendingIntent() {
-        if (geofencePendingIntent != null) {
-            return geofencePendingIntent;
-        } else {
-            Intent intent = new Intent(this, GeofenceTransitionReceiver.class);
-            intent.setAction("geofence_transition_action");
-            return PendingIntent.getBroadcast(this, R.id.geofence_transition_intent, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-    }*/
 
     private double degreesToRadian(double degrees) {
         return degrees * Math.PI / 180;
@@ -425,7 +383,6 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
         lat2 = degreesToRadian(lat2);
         double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
         return earthRadiusKM * c;
     }
 }
