@@ -165,7 +165,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                         friendLatLng = new LatLng(Double.parseDouble(myLat), Double.parseDouble(myLng));
                         Log.d(TAG, "friend lat lng value: (%1$s)" + String.valueOf(myLat) + " " + String.valueOf(myLng));
                         if (geoMark != null) {
-                            Log.d(TAG, "geofence circle lat lng values: (%1$s" + String.valueOf(geofence_lat) + " " + String.valueOf(geofence_lng));
+                            Log.d(TAG, "geofence circle lat lng values: (%1$s)" + String.valueOf(geofence_lat) + " " + String.valueOf(geofence_lng));
                             double distance = distanceBetweenGeoCoordinates(Double.parseDouble(myLat), Double.parseDouble(myLng), geofence_lat, geofence_lng) * 1000;//multiply to convert to km
                             Log.d(TAG, "Distance: (%1$s)" + distance);
                             if (distance > geofence_radius) {
