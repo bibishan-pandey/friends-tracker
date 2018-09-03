@@ -82,6 +82,9 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
     private DatabaseReference reference;
     private String myImage;
 
+    boolean notify=false;
+    int countInside=1,countOutside=1;
+
     private String myName;
     private String myLat;
     private String myLng;
@@ -164,16 +167,28 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                         myImage = dataSnapshot.child("profile_image").getValue(String.class);
                         friendLatLng = new LatLng(Double.parseDouble(myLat), Double.parseDouble(myLng));
                         Log.d(TAG, "friend lat lng value: (%1$s)" + String.valueOf(myLat) + " " + String.valueOf(myLng));
+
                         if (geoMark != null) {
                             Log.d(TAG, "geofence circle lat lng values: (%1$s)" + String.valueOf(geofence_lat) + " " + String.valueOf(geofence_lng));
                             double distance = distanceBetweenGeoCoordinates(Double.parseDouble(myLat), Double.parseDouble(myLng), geofence_lat, geofence_lng) * 1000;//multiply to convert to km
                             Log.d(TAG, "Distance: (%1$s)" + distance);
                             if (distance > geofence_radius) {
                                 Toast.makeText(LiveLocationActivity.this, "Outside geofence", Toast.LENGTH_SHORT).show();
-                                createNotification(myName, "Exited");
+                                if(countInside==1){
+                                    createNotification(myName, "Exited");
+                                    countInside--;
+                                    countOutside=1;
+                                }
+
                                 Log.d(TAG, "onDataChange: outside geofence");
                             } else if (distance <= geofence_radius) {
                                 Toast.makeText(LiveLocationActivity.this, "Inside geofence", Toast.LENGTH_SHORT).show();
+                                if(countOutside==1){
+                                    createNotification(myName,"Inside");
+                                    countOutside--;
+                                    countInside=1;
+                                }
+
                                 Log.d(TAG, "onDataChange: inside geofence");
                             }
                         }
@@ -221,7 +236,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                 .setContentTitle(String.format("Geofence:%1$s", exited))
                 .setSmallIcon(R.drawable.icon_geofence)
                 .setColor(Color.WHITE)
-                .setContentText("User is outside geofence area")
+                .setContentText("User "+exited+" Geofence Area")
                 .setTicker(String.format("%1$s Geofence: %2$s", exited, fenceId));
 
         Intent notificationIntent = new Intent(getApplicationContext(), LiveLocationActivity.class);
