@@ -173,18 +173,20 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                             double distance = distanceBetweenGeoCoordinates(Double.parseDouble(myLat), Double.parseDouble(myLng), geofence_lat, geofence_lng) * 1000;//multiply to convert to km
                             Log.d(TAG, "Distance: (%1$s)" + distance);
                             if (distance > geofence_radius) {
-                                Toast.makeText(LiveLocationActivity.this, "Outside geofence", Toast.LENGTH_SHORT).show();
+
                                 if(countInside==1){
                                     createNotification(myName, "Exited");
+                                    Toast.makeText(LiveLocationActivity.this, "Outside geofence", Toast.LENGTH_SHORT).show();
                                     countInside--;
                                     countOutside=1;
                                 }
 
                                 Log.d(TAG, "onDataChange: outside geofence");
                             } else if (distance <= geofence_radius) {
-                                Toast.makeText(LiveLocationActivity.this, "Inside geofence", Toast.LENGTH_SHORT).show();
+
                                 if(countOutside==1){
-                                    createNotification(myName,"Inside");
+                                    //createNotification(myName,"Inside");
+                                    Toast.makeText(LiveLocationActivity.this, "Inside geofence", Toast.LENGTH_SHORT).show();
                                     countOutside--;
                                     countInside=1;
                                 }
