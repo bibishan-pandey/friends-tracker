@@ -94,7 +94,7 @@ public class SignupProfileActivity extends AppCompatActivity {
 
                 myIntent.putExtra("imageUri", resultUri);
                 startActivity(myIntent);
-                Toast.makeText(getApplicationContext(), resultUri.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), resultUri.toString(), Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 Toast.makeText(getApplicationContext(), choose_pic, Toast.LENGTH_SHORT).show();

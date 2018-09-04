@@ -50,6 +50,7 @@ public class SignupEmailActivity extends AppCompatActivity {
         signup_email_next_button.setBackgroundColor(Color.parseColor("#faebd7"));
 
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        final String clzEmailPattern="[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+\\.+[a-z]+\\.+[a-z]+";
         signup_email_editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -63,7 +64,9 @@ public class SignupEmailActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (signup_email_editText.getText().toString().matches(emailPattern) && s.length() > 0) {
+                if ((signup_email_editText.getText().toString().matches(emailPattern)
+                        || signup_email_editText.getText().toString().matches(clzEmailPattern))
+                        && s.length() > 0) {
                     signup_email_next_button.setEnabled(true);
                     signup_email_next_button.setBackgroundColor(Color.parseColor("#f05545"));
                 } else {
