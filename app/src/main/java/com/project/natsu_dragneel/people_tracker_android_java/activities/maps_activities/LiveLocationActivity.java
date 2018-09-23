@@ -170,7 +170,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
 
                         if (geoMark != null) {
                             Log.d(TAG, "geofence circle lat lng values: (%1$s)" + String.valueOf(geofence_lat) + " " + String.valueOf(geofence_lng));
-                            double distance = distanceBetweenGeoCoordinates(Double.parseDouble(myLat), Double.parseDouble(myLng), geofence_lat, geofence_lng) * 1000;//multiply to convert to km
+                            double distance = distanceBetweenGeoCoordinates(Double.parseDouble(myLat), Double.parseDouble(myLng), geofence_lat, geofence_lng) * 1000;//multiply to convert to m
                             Log.d(TAG, "Distance: (%1$s)" + distance);
                             if (distance > geofence_radius) {
 
@@ -185,7 +185,7 @@ public class LiveLocationActivity extends AppCompatActivity implements OnMapRead
                             } else if (distance <= geofence_radius) {
 
                                 if(countOutside==1){
-                                    //createNotification(myName,"Inside");
+                                    createNotification(myName,"Inside");
                                     Toast.makeText(LiveLocationActivity.this, "Inside geofence", Toast.LENGTH_SHORT).show();
                                     countOutside--;
                                     countInside=1;
