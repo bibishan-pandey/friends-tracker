@@ -1,4 +1,4 @@
-# friends-tracker
+# Trackify: Real-Time Location
 This project was submitted as a Bachelor's final year project with the title of:
 #### “Android Application for Real Time People Tracking with Location Based Services and Geo-fencing”
 This project was created to develop an android application which helps user to locate
